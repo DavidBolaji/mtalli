@@ -1,0 +1,52 @@
+/* Center align toolbar */
+.ql-toolbar {
+    display: flex;
+    justify-content: center;
+    background-color: #F7FCFF;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    overflow: hidden;
+    /* background-color: red; Match the light background */
+    border: none !important; /* Remove border if necessary */
+    /* margin-bottom: 10px; */
+    height: 64px;
+    align-items: center;
+  }
+  
+  /* Add padding and rounded border for the editor */
+  .ql-container {
+    min-height: 150px; 
+    /* Adjust height */
+    border: none !important;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #F7FCFF;
+    overflow: hidden;
+  }
+  
+  /* Style for the editor label */
+  .editor-label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  
+  /* Remove focus border */
+  .ql-container.ql-snow {
+    outline: none;
+  }
+  
+  /* Style buttons to match the screenshot */
+  .ql-toolbar button {
+    border: none;
+    background-color: transparent;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .ql-toolbar button:hover {
+    background-color: #e6e6e6;
+    border-radius: 4px;
+  }
+  

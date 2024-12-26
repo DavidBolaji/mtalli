@@ -1,0 +1,157 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+enum OrderStatus {
+  PENDING
+  CANCELED
+  DELIVERED
+}
+
+enum PromotionType {
+  ITEM
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum USERSTATUS {
+  ACTIVE
+  DEACTIVATED
+}
+
+enum EVENTSTATUS {
+  ACTIVE
+  INACTIVE
+}
+
+model Booking {
+  id           String  @id @default(uuid())
+  userId       String?
+  User         User?   @relation(fields: [userId], references: [id])
+  eventId      String?
+  events       Event?  @relation(fields: [eventId], references: [id])
+  orderNo      String
+  bookingCount Int
+  totalPrice   Int
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Promotion    Promotion?     @relation(fields: [promotionId], references: [id])
+  promotionId  String?
+  EventBooking EventBooking[]
+
+  @@index([userId])
+  @@index([eventId])
+  @@index([promotionId])
+}
+
+model Event {
+  id          String      @id @default(uuid())
+  title        String
+  description String
+  price       Float
+  serviceFee  Float
+  totalSlots  Int
+  leftSlot    Int
+  location    String
+  startDate   DateTime
+  endDate     DateTime
+  promotion   Promotion[]
+  images      Image[]
+  info        String      @db.LongText()
+  rules       String      @db.LongText()
+  policy      String      @db.LongText()
+  status      EVENTSTATUS
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Booking      Booking[]
+  EventBooking EventBooking[]
+}
+
+model EventBooking {
+  id        String @id @default(uuid())
+  bookingId String
+  eventId   String
+
+  discount    Int
+  promotionId String?
+  code        String?
+  promotion   Promotion? @relation(fields: [promotionId], references: [id])
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([bookingId])
+  @@index([eventId])
+  @@index([code])
+  @@index([promotionId])
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eventId])
+}
+
+model Promotion {
+  id            String        @id @default(uuid())
+  name          String
+  promotionType PromotionType @default(ITEM)
+  code          String
+  eventId       String?
+  event         Event?        @relation(fields: [eventId], references: [id]) // Relation to Product
+  bookings      Booking[]
+
+  discount  Int
+  startDate DateTime
+  endDate   DateTime
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  status       Boolean
+  EventBooking EventBooking[]
+
+  @@index([eventId])
+}
+
+model User {
+  id       String     @id @default(uuid())
+  fname    String?
+  lname    String?
+  email    String     @unique
+  password String?
+  phone    String?
+  pic      String?
+  bookings Booking[]
+  status   USERSTATUS @default(ACTIVE)
+  role     Role       @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}

@@ -1,0 +1,1 @@
+export type Icategories = { name: string; description: string };
