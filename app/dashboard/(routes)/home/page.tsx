@@ -12,6 +12,7 @@ import { Empty } from "antd";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/button/button";
+import EventCard from "@/components/card/event-card";
 
 
 interface DashboardSearchParams {
@@ -53,8 +54,7 @@ export default async function Dashboard({
     take: 5,
   });
 
-  const completed = db.booking.count({
-  });
+  const completed = db.booking.count({});
 
   const [amount, popularEvents, completedOrders] = await Promise.all([
     total,
@@ -62,6 +62,37 @@ export default async function Dashboard({
     completed,
   ]);
 
+  console.log(popularEvents)
+  const idList = popularEvents.map(el => el.eventId)
+   // Fetch detailed event data for popular events
+   const popularEventz = await db.event.findMany({
+    where: {
+      id: {
+        in: idList,
+      },
+    },
+    include: {
+      images: true,
+      Booking: {
+        select: {
+          bookingCount: true,
+        },
+      },
+    },
+  });
+  
+  // Map the popular events to include their total booking count
+  const popularEventDetails = popularEventz.map((event) => {
+    const totalBookingCount = event.Booking.reduce(
+      (sum, booking) => sum + booking.bookingCount,
+      0
+    );
+    return {
+      ...event,
+      totalBookingCount,
+    };
+  });
+  
   const data = {
     amount: amount?._sum?.totalPrice ?? 0,
     completedOrders,
@@ -97,12 +128,15 @@ export default async function Dashboard({
               </div>
             ) : (
               <div className="space-y-3">
-                {popularEvents?.map((data) => (
-                  <MeatCard
+                {popularEventDetails?.map((data) => (
+                  <EventCard
                     key={data.id}
-                    title={data.name as string}
-                    img={data?.images ? data?.images[0]?.url : ""}
-                    order={data.orderCount}
+                    thumbnailUrl={data.images[0].url}
+                    tripName={data.title}
+                    startDate={data.startDate}
+                    endDate={data.endDate}
+                    basePrice={data.price}
+                    guestCount={data.totalBookingCount}
                   />
                 ))}
               </div>

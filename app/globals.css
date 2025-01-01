@@ -16,6 +16,9 @@
   }
 }
 
+body {
+  overflow-x: hidden !important;
+}
 
 /* styles.css or a similar global stylesheet */
 .custom-calendar-width {
@@ -29,17 +32,17 @@
 
 /* Custom styles for NProgress */
 #nprogress .bar {
-  background: #7DBA00 !important;
+  background: #4D7890 !important;
   /* Blue color */
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px #7DBA00, 0 0 5px #7DBA00 !important;
+  box-shadow: 0 0 10px #4D7890, 0 0 5px #4D7890 !important;
 }
 
 #nprogress .spinner-icon {
-  border-top-color: #7DBA00 !important;
-  border-left-color: #7DBA00 !important;
+  border-top-color: #4D7890 !important;
+  border-left-color: #4D7890 !important;
 }
 
 /* Black color classes */

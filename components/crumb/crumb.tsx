@@ -11,7 +11,7 @@ export const Crumb: React.FC<{
       {crumbData.map((crumb, index) => {
         const isLast = index < crumbData.length - 1;
         const crumbStyle = classNames(
-          "font-bold font-satoshi  text-sm leading-6 gap-2 flex items-center mr-2",
+          "font-bold font-onest  text-sm leading-6 gap-2 flex items-center mr-2",
           {
             "black-300": !isLast,
             "black-100": isLast,

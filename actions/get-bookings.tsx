@@ -1,6 +1,6 @@
 "use server";
 import db from "@/db/db";
-import { Prisma } from "@prisma/client";
+import { Event, Image, Prisma } from "@prisma/client";
 import { startOfYear, endOfYear, format } from "date-fns";
 import { redirect } from "next/navigation";
 
@@ -14,6 +14,31 @@ interface GetBookingsParams {
     endDate?: string;
     searchQuery?: string;
 }
+
+
+export interface IBook {
+    id: string,
+    events: (Pick<Event, "id" | "title" | "startDate" | "endDate"> & { images: Pick<Image, "url">[] }) | null,
+    bookingCount: number,
+    totalPrice: number,
+}
+
+
+export type ISingleBooking = {
+    id: string;
+    orderNo: string;
+    totalPrice: number;
+    createdAt: Date;
+    bookingCount: number;
+    User: {
+        fname: string | null;
+        lname: string | null;
+        email: string;
+        phone: string | null;
+    } | null;
+    events: (Pick<Event, "id" | "title" | "startDate" | "endDate" | "serviceFee" | "price"> & { images: Pick<Image, "url">[] }) | null;
+} | null | undefined ;
+
 
 export async function getMonthlyRevenue() {
     // Get the start and end of the current year
@@ -51,28 +76,6 @@ export async function getMonthlyRevenue() {
     return months;
 }
 
-export const filterPendingBookings = (
-    formData: FormData,
-    currentParams: URLSearchParams
-) => {
-    const params = new URLSearchParams(currentParams);
-    console.log("[PAZAMS]", params);
-
-    const sort =
-        (formData.get("sort") as string) || params.get("sort") || "createdAt"; // Default to "name"
-    const sortbooking =
-        (formData.get("sortbooking") as string) || params.get("sortbooking") || "desc";
-
-    // Set the sorting fields in the URL parameters
-    if (sort) params.set("sort", sort);
-    if (sortbooking) params.set("sortbooking", sortbooking);
-
-    if (params.toString()) {
-        redirect(`/dashboard?${params.toString()}`);
-    } else {
-        console.log("No filters applied");
-    }
-};
 
 export const filterBooking = (
     formData: FormData,
@@ -82,32 +85,13 @@ export const filterBooking = (
     const params = new URLSearchParams(currentParams);
 
     // Extract filter values from the form data
-    const categories = formData
-        .getAll("Categories[]")
-        .filter((item) => typeof item === "string") as string[];
-    const page = (formData.get("page") as string) || params.get("page") || "1"; // Default to page 1
-    const sort = (formData.get("sort") as string) || params.get("sort") || "name"; // Default to "name"
+    // const page = (formData.get("page") as string) || params.get("page") || "1"; // Default to page 1
+    const sort = (formData.get("sort") as string) || params.get("sort") || "title"; // Default to "name"
     const sortbooking =
         (formData.get("sortbooking") as string) || params.get("sortbooking") || "asc";
     const startDate = formData.get("dateFrom") as string;
     const endDate = formData.get("dateTo") as string;
     const searchQuery = params.get("searchQuery") as string;
-    const status = formData
-        .getAll("Status[]")
-        .filter((item) => typeof item === "string") as string[];
-
-    // Handle categories - Add or remove based on selection
-    params.delete("category");
-    if (categories.length > 0) {
-        categories.forEach((category) => params.append("category", category));
-        params.set("page", "1"); // Reset to page 1 if categories change
-    }
-
-    params.delete("status");
-    if (status.length > 0) {
-        status.forEach((status) => params.append("status", status));
-        params.set("page", "1"); // Reset to page 1 if categories change
-    }
 
     // Set sorting fields in the URL parameters
     params.set("sort", sort);
@@ -134,7 +118,7 @@ export const filterBooking = (
 
     // Generate the final query string
     const queryString = params.toString();
-    const destinationPath = path ? path : "/dashboard/Bookings";
+    const destinationPath = path ? path : "/dashboard/bookings";
 
     // Redirect to the new URL with updated parameters
     redirect(queryString ? `${destinationPath}?${queryString}` : destinationPath);
@@ -168,7 +152,8 @@ export const getDashboardBooking = async ({
         ...(searchQuery && {
             OR: [
                 { orderNo: { contains: searchQuery } },
-                { User: { fname: { contains: searchQuery } } },
+                { events: { title: { contains: searchQuery } } },
+                // { User: { fname: { contains: searchQuery } } },
             ],
         }),
     };
@@ -179,7 +164,17 @@ export const getDashboardBooking = async ({
             :
             sort === "fname"
                 ? { User: { fname: sortOrder as Prisma.SortOrder } }
-                    : { [sort]: sortOrder as Prisma.SortOrder };
+                : sort === "title"
+                    ? { events: { title: sortOrder as Prisma.SortOrder } } :
+                    sort === "totalSlots"
+                        ? { events: { totalSlots: sortOrder as Prisma.SortOrder } }
+                        : sort === "date" // Handle sorting by date range
+                            ? {
+                                events: {
+                                    startDate: sortOrder as Prisma.SortOrder,
+                                },
+                            }
+                            : { [sort]: sortOrder as Prisma.SortOrder };
 
     try {
         const totalItems = await db.booking.count({ where: whereClause });
@@ -188,6 +183,7 @@ export const getDashboardBooking = async ({
             select: {
                 id: true,
                 orderNo: true,
+                bookingCount: true,
                 events: {
                     select: {
                         id: true,
@@ -220,7 +216,7 @@ export const getDashboardBooking = async ({
     }
 };
 
-export const getSinglebooking = async (id: string) => {
+export const getSinglebooking = async (id: string) : Promise<ISingleBooking> => {
     try {
         const booking = await db.booking.findUnique({
             where: {
@@ -233,18 +229,15 @@ export const getSinglebooking = async (id: string) => {
                     select: {
                         id: true,
                         title: true,
-                        images: true,
-                        price: true,
-                        EventBooking: {
-                            where: { bookingId: id },
+                        startDate: true,
+                        endDate: true,
+                        serviceFee: true,
+                        images: {
                             select: {
-                                bookingId: true,
-                                eventId: true,
-                                discount: true,
-                                promotionId: true,
-                                code: true
-                            },
+                                url: true
+                            }
                         },
+                        price: true,
                     },
                 },
                 totalPrice: true,
@@ -257,11 +250,47 @@ export const getSinglebooking = async (id: string) => {
                     },
                 },
                 createdAt: true,
+                bookingCount: true,
             },
         });
         return booking
     } catch (error) {
         console.log((error as Error).message);
+    }
+};
+
+export const getBooking = async (bookingId: string): Promise<IBook | null> => {
+
+    try {
+        const booking = await db.booking.findUnique({
+            where: {
+                id: bookingId,
+            },
+            select: {
+                id: true,
+                events: {
+                    select: {
+                        id: true,
+                        title: true,
+                        startDate: true,
+                        endDate: true,
+                        images: {
+                            select: {
+                                url: true
+                            }
+                        }
+                    }
+                },
+                bookingCount: true,
+                totalPrice: true,
+            },
+        });
+
+        if (!booking) return null;
+
+        return booking
+    } catch (error) {
+        throw new Error((error as Error).message);
     }
 };
 

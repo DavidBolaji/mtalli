@@ -131,7 +131,7 @@ export const DashboardHeader = () => {
               return true;
             })}
           />
-          <div className="absolute bottom-3  px-4 translate-x-0 cursor-pointer gap-3 font-bold font-satoshi pl-12 flex items-center red-100"
+          <div className="absolute bottom-3  px-4 translate-x-0 cursor-pointer gap-3 font-bold font-onest pl-12 flex items-center red-100"
             onClick={() => logout(true)}
           >
             <LogOut size={16} />

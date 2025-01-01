@@ -16,7 +16,7 @@ export type UserType = Omit<
   User,
   "password" | "createdAt" | "updatedAt" | "status"
 > & {
-  orders: ({ events: Pick<Event, "name" | "price"> } & {
+  bookings: ({ events: Pick<Event, "title" | "price"> } & {
     images: Image[];
   })[];
 };
@@ -108,7 +108,7 @@ export const useUser = () => {
         message: error.response?.data?.message || "Something went wrong",
       });
     },
-    onSettled: () => {},
+    onSettled: () => { },
   });
 
 
@@ -120,7 +120,7 @@ export const useUser = () => {
       return response.data.user;
     },
     onSuccess: async () => {
-     
+
       toggleNotification({
         show: true,
         type: "success",
@@ -129,7 +129,7 @@ export const useUser = () => {
       });
       // await new Promise(resolve => setTimeout(resolve, 1000))
       await debouncedRefetch(); // Use debounced version
-      
+
     },
     onError: (error: AxiosError<{ message: string }>) => {
       toggleNotification({
@@ -144,11 +144,23 @@ export const useUser = () => {
   // Handle registration
   const register = useMutation({
     mutationKey: ["REGISTER"],
-    mutationFn: async (data: unknown) => {
+    mutationFn: async ({ data, redirect }: { data: unknown; redirect?: boolean }) => {
       const response = await Axios.post("/user", data);
       return response.data.user;
     },
-    onSuccess: () => debouncedRefetch(), // Use debounced version
+    onSuccess: (_, variables) => {
+      const goTo = variables?.redirect ? variables?.redirect : true;
+      debouncedRefetch()
+      if (goTo) {
+        route.push('/')
+      }
+      toggleNotification({
+        show: true,
+        type: "success",
+        title: "Registration Succesfull",
+        message: "User registered successfully",
+      });
+    }, // Use debounced version
     onError: (error: AxiosError<{ message: string }>) => {
       toggleNotification({
         show: true,
@@ -157,7 +169,7 @@ export const useUser = () => {
         message: error?.response?.data?.message || "Something went wrong",
       });
     },
-    onSettled: () => {},
+    onSettled: () => { },
   });
 
   // Handle Google login or signup

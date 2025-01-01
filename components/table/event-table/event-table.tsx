@@ -65,6 +65,8 @@ export default function EventTable({
         filter
         search
         more
+        calender
+        calenderTxt="Event date range"
       />
       <div className="rounded-b-2xl border-t-0 bg-white scrollbar-hide  border border-[#DDEEE5]">
         <Table className=''>

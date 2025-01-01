@@ -65,7 +65,7 @@ export default async function OrdersPage({
 
   return (
     <div className="p-4">
-      <RenderDashboardcards data={data} />
+      <RenderDashboardcards data={data} dash={false} />
       <div className="mt-10" />
       <PromotionsTable
         initialPromotions={(promotion?.promotions as unknown as Promotion[]) ?? []}

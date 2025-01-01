@@ -27,6 +27,7 @@ export const SelectedCustomerButtons: React.FC<Props> = ({
     customer: Customer
   ) => {
     e.preventDefault();
+    console.log(customer.name)
     setSelectedCategory(customer.name);
 
     // Submit the form to trigger server-side action

@@ -152,19 +152,46 @@ export const UploadImageForm = <T extends Record<string, any>>({
                   </p>
                 </div>
               ) : loading ? (
-                <div className="grid grid-cols-5">
-                  {/* Add loading UI */}
+                <div className="flex">
+                {values.urls.map((url: string, idx: number) => (
+                  <div
+                    key={idx}
+                    className="relative aspect-square w-20 h-20 flex items-center justify-center"
+                  >
+                    <div className="bg-black/20 absolute w-full h-full rounded-2xl" />
+                    <Image
+                      src={url}
+                      alt={`Upload ${idx + 1}`}
+                      className="rounded-lg object-cover p-2"
+                      width={64}
+                      height={64}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(idx, values, setFieldValue)}
+                      className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 text-destructive-foreground rounded-full p-1 "
+                    >
+                      <Trash2 className="h-4 w-4" color="white" />
+                    </button>
+                  </div>
+                ))}
+
+                <div className="relative aspect-square border-dashed w-20 h-20 rounded-2xl border-[#6E8C7B] bg-grey-200 border-2 flex items-center justify-center">
+                  {/* <div className="rounded-2xl object-cover p-2 w-16 h-16" /> */}
+                  <div className="animate-spin rounded-full w-4 h-4 border-b-2 border-[#4D7890]" />
+                  {/* <div className="flex items-center justify-center h-full w-full">
+                  </div> */}
                 </div>
+              </div>
               ) : (
-                <div className="grid grid-cols-5">
+                <div className="flex">
                   {values.urls.map((url: string, idx: number) => (
-                    <div key={idx} className="relative aspect-square w-16 h-16 flex items-center justify-center">
+                    <div key={idx} className="relative aspect-video w-20 h-20 flex items-center justify-center">
                       <Image
                         src={url}
                         alt={`Upload ${idx + 1}`}
-                        className="rounded-lg object-cover p-2"
-                        width={64}
-                        height={64}
+                        className="rounded-lg object-cover p-2 w-full h-full"
+                        fill
                       />
                       <button
                         type="button"
@@ -187,11 +214,18 @@ export const UploadImageForm = <T extends Record<string, any>>({
               onChange={(e) => handleChange(e, values, setFieldValue)}
             />
             <div className="mt-4 flex flex-col items-center gap-2 pb-2">
-              <Button color="light" size="lg" className="font-orent font-bold text-sm bg-black-400"  onClick={open} disabled={values.urls.length >= count}>
+              <Button color="light" size="lg" className="font-onest font-bold text-sm bg-black-400"  onClick={open} disabled={values.urls.length >= count}>
                 Upload Images
               </Button>
             </div>
           </div>
+          <button type="button" onClick={() => {
+            resetForm({
+              values: {
+                urls: [],
+              }
+            })
+          }} ref={btnRef} className="hidden"></button>
         </Form>
       )}
     </Formik>

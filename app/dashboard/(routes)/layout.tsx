@@ -1,11 +1,10 @@
 import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
-
 import { CategoryDrawer } from "@/components/drawer/category-drawer/category-drawer";
-// import Loading from "@/components/loading";
 import { Sidebar } from "../components/sidebar";
 import { DashboardHeader } from "../components/dashboard-header";
-// import { IsAuth } from "@/app/(home)/(routes)/orders/components/is-auth";
+import { IsAuthAdmin } from "@/app/(home)/components/is-auth-admin";
+
 
 export default function DashboardLayout({
   children,
@@ -14,7 +13,7 @@ export default function DashboardLayout({
 }>) {
   return (
     <Layout>
-      {/* <IsAuth admin /> */}
+      <IsAuthAdmin admin />
       <Sidebar />
       <Layout>
         <DashboardHeader />

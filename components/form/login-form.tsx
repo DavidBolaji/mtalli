@@ -1,15 +1,14 @@
 "use client";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import React, { useState } from "react";
-import FormikNormalInput from "../input/formik-normal-input";
-import { ICON } from "@/constants/icon";
+import React from "react";
+
 import { Button } from "../button/button";
 import { useUser } from "@/hooks/use-user";
 import * as Yup from "yup";
 import { useNotification } from "@/hooks/use-notification";
 
-import { useLoginModal } from "@/hooks/use-login-modal";
 import { Spinner } from "../spinner";
+import FormikNormalInput2 from "../input/formik-normal-input2";
 
 const LoginValidation = Yup.object().shape({
   email: Yup.string()
@@ -21,15 +20,9 @@ const LoginValidation = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
-export const LoginForm = () => {
-  const [type, setType] = useState<"password" | "text">("password");
+export const LoginForm:React.FC<{btnTxt?: string}> = ({btnTxt}) => {
   const { login } = useUser();
   const { toggleNotification } = useNotification();
-  const { toggleModal } = useLoginModal();
-  const togglePassword = () => {
-    if (type === "password") return setType("text");
-    setType("password");
-  };
 
   const onSubmit = async (
     values: { email: string; password: string },
@@ -38,20 +31,21 @@ export const LoginForm = () => {
     setSubmitting(true);
     await new Promise(resolve => setTimeout(resolve, 1000))
     LoginValidation.validate(values)
-      .then(() => {
-        login({ email: values.email, password: values.password });
-      })
-      .catch((reason) => {
-        toggleNotification({
-          type: "error",
-          title: "Validation Error",
-          message: reason.message,
-          show: true,
-        });
-        toggleModal(false, "LOGIN_MODAL");
-      }).finally(() => {
-        setSubmitting(false);
-      });;
+    .then(() => {
+      login({ email: values.email, password: values.password });
+    })
+    .catch((reason) => {
+      toggleNotification({
+        type: "error",
+        title: "Validation Error",
+        message: reason.message,
+        show: true,
+      });
+
+    }).finally(() => {
+      setSubmitting(false);
+    });
+    
   };
 
   return (
@@ -65,42 +59,31 @@ export const LoginForm = () => {
       enableReinitialize
     >
       {({ isSubmitting }) => (
-        <Form className="space-y-6 lg:w-[328px] w-full mx-auto pb-6">
+        <Form className="space-y-6 w-full">
           <Field
-            as={FormikNormalInput}
+            as={FormikNormalInput2}
             name="email"
             placeholder="Your Email"
-            leftIcon={<ICON.MailIcon size="14" />}
-            className="w-full bg-red"
-            align={-3}
-            y={-14}
+            label={'Email'}
+            className="w-full"
           />
           <Field
-            as={FormikNormalInput}
+            as={FormikNormalInput2}
             name="password"
             placeholder="Password"
-            type={type}
-            leftIcon={<ICON.KeyIcon size="14" />}
-            rightIcon={
-              <div onClick={togglePassword}>
-                {type === "password" ? (
-                  <ICON.EyeOffIcon size="14" />
-                ) : (
-                  <ICON.EyeIcon />
-                )}
-              </div>
-            }
-            align={-2}
-            y={-14}
+            type={'password'}
+            label={'Password'}
+
           />
-          <Button
-            size="lg"
-            color={isSubmitting ? "light" : "dark"}
-            type="submit"
-            className="w-full"
-          >
-            {isSubmitting ? <Spinner /> : "Login To Your Account"}
-          </Button>
+            <Button
+              size="lg"
+              color={isSubmitting ? "light" : "dark"}
+              type="submit"
+              className="w-full translate-y-5"
+            >
+              {isSubmitting ? <Spinner /> : btnTxt ? btnTxt : "Log in"}
+            </Button>
+         
         </Form>
       )}
     </Formik>

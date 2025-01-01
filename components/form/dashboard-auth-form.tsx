@@ -82,7 +82,7 @@ export const DashboardAuthForm = () => {
             <div className="mt-4">|</div>
             <div className="mt-4">Admin Portal</div>
           </div>
-          <div className="flex justify-center items-center">Login</div>
+          {/* <div className="flex justify-center items-center">Login</div> */}
           <Field
             as={FormikNormalInput}
             name="email"

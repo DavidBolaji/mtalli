@@ -40,7 +40,7 @@ export default async function CustomerEditPage({
               href: "/dashboard/customers",
             },
             {
-              text: detail,
+              text: detail || "",
               href: "",
             },
           ]}
@@ -51,7 +51,7 @@ export default async function CustomerEditPage({
         <div className="lg:col-span-6 col-span-10 w-full">
           <EditCustomerForm
             user={customer?.customer}
-            address={customer.customer?.orderAddress ?? []}
+           
             disabled
             customer={false}
           />

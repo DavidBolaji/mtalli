@@ -40,10 +40,11 @@ export default async function CustomerPage({
     customerRequest,
   ]);
 
+
   return (
     <div className="p-4">
       <CustomerTable
-        // initialCustomers={data?.customers ?? []}
+        initialCustomers={data?.customers ?? []}
         totalPages={data?.totalPages}
         page={page}
         itemsPerPage={limit}

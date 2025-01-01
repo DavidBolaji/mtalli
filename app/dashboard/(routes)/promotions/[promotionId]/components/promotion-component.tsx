@@ -1,14 +1,14 @@
 "use client"
 import React, { useEffect } from "react";
-import { Promotion } from "@prisma/client";
 import { PromotionDetail } from "./promotion-detail";
 import { Typography } from "@/components/typography/typography";
 import { Button } from "@/components/button/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { IPromotion } from "./types";
 import { SelectPromotionType } from "@/app/dashboard/components/select-promotion-type";
-import { PromotionProduct } from "./promotion-product";
+
 import { format } from "date-fns";
+import { PromotionProduct } from "./promotion-product";
 
 export const PromotionComponent =  ({
   promotion,
@@ -23,32 +23,13 @@ export const PromotionComponent =  ({
     if (edit) {
       queryClient.setQueryData(["CREATE_PROMOTION"], { ...promotion, startTime: format(promotion?.startDate ?? "", "H:mm"), endTime: format(promotion?.endDate ?? "", "H:mm"), type: promotion?.promotionType })
       console.log('[SELECT_CAT]');
-      
-      if (promotion?.promotionType === "CATEGORY") {
-        const category = promotion?.category && promotion?.category.map((el) => ({
-          label: el.name,
-          value: el.id,
-          key: el.id,
-        }))
-        queryClient.setQueryData(["SELECT_CATEGORY"], () => category)
-      } else {
-        queryClient.setQueryData(["SELECT_ITEM"], () => promotion?.product)
-      }
+      console.log(promotion?.event)
+      queryClient.setQueryData(["SELECT_ITEM"], () => promotion?.event)
     }
   }, [])
 
-  const getPath = () =>
-    queryClient.getQueryData(["CREATE_PROMOTION"]) as Promotion & {
-      type: string;
-    };
-
   const open = () => {
-    const path = getPath();
-    if (path?.type?.toLocaleLowerCase() === "category") {
-      return queryClient.setQueryData(["PROMOTION_CATEGORY_DRAWER"], true);
-    } else {
-      return queryClient.setQueryData(["PROMOTION_ITEM_DRAWER"], true);
-    }
+    return queryClient.setQueryData(["PROMOTION_ITEM_DRAWER"], true);
   };
 
   return (
@@ -61,15 +42,15 @@ export const PromotionComponent =  ({
           {edit ? (<>
             <div className="flex justify-between items-center">
               <Typography size="s1" as="p" align="left" className="">
-                Select promotion products
+                Select promotion events
               </Typography>
               <Button
                 size="lg"
                 color="light"
-                className="border-0 h-9 bg-black-600 text-white"
+                className="border-0 h-9 flex items-center text-sm bg-black-400 text-white"
                 onClick={() => open()}
               >
-                Select Products
+                Select Events
               </Button>
             </div>
             <SelectPromotionType />

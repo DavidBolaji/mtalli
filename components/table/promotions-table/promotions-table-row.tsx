@@ -31,17 +31,17 @@ export default function PromotionTableRow({
       <TableCell className="pl-6 py-3">
         <span className="font-bold text-sm  black-100">{promotion.name}</span>
       </TableCell>
-      <TableCell className="pl-6 py-3 font-satoshi font-bold font-sm black-100">
+      <TableCell className="pl-6 py-3 font-onest font-bold font-sm black-100">
         {promotion.promotionType}
       </TableCell>
-      <TableCell className="pl-6 py-3 font-satoshi font-bold font-sm black-100">
+      <TableCell className="pl-6 py-3 font-onest font-bold font-sm black-100">
         {promotion.code}
       </TableCell>
 
-      <TableCell className="pl-6 py-3 font-satoshi font-bold font-sm black-100">
+      <TableCell className="pl-6 py-3 font-onest font-bold font-sm black-100">
         {format(promotion.startDate, "MMM dd, h:maa")}
       </TableCell>
-      <TableCell className="pl-6 py-3 font-satoshi font-bold font-sm black-100">
+      <TableCell className="pl-6 py-3 font-onest font-bold font-sm black-100">
         {format(promotion.endDate, "MMM dd, h:maa")}
       </TableCell>
       <TableCell className="pl-6 py-3 font-bold text-sm black-100">

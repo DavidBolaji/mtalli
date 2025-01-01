@@ -62,15 +62,14 @@ export const CustomerTitleHeader: React.FC<{
     <div className="flex lg:flex-row flex-col lg:items-center justify-between mb-8 bg-white px-4 py-[19px] rounded-2xl border border-[#DDEEE5]">
       <h1 className="text-2xl font-semibold text-left lg:mb-0 mb-4">{title}</h1>
       <div className="flex gap-3">
-        <Button disabled={loading || load} size="lg" color="light" className="h-9" onClick={discard}>
+        <Button disabled={loading || load} size="lg" color="light" className="text-sm font-medium flex items-center justify-center border border-[#011D2E] black-100" onClick={discard}>
           { loading ? <Spinner /> : screen.lg ? "Deactivate Customer Account" : "Deactivate"}
         </Button>
         <Button
           size="lg"
           color={!save ? "light" : "dark"}
-          className="h-9"
+          className=" font-onest text-sm font-medium flex items-center text-white justify-center border border-[#011D2E]"
           onClick={add}
-          // disabled={loading || load}
         >
           {!save
             ? screen.lg

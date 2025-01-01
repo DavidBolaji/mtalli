@@ -69,8 +69,6 @@ export default function PromotionsTable({
         action={deleteMultiple}
         search
         more
-        pType
-        pStatus
       />
 
       <div className="rounded-b-2xl border-t-0 bg-white scrollbar-hide  border border-[#DDEEE5]">

@@ -62,7 +62,7 @@ export default function ViewCustomer({
     <div className="container mx-auto mt-6 overflow-hidden">
       {/* Header */}
       <CustomerTitleHeader
-        title={detail}
+        title={detail || ""}
         discardKey="ADD_PRODUCT"
         addItem={action}
         save={save}

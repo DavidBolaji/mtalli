@@ -5,38 +5,17 @@ import { IPromotion } from "../types"
 
 const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion }) => {
     return <div className="bg-white px-4 py-6 rounded-2xl border-[#DDEEE5]">
-        <Typography as="p" size="s1" align="left" className="mb-[14px] black-100">
+        <Typography as="p" size="s1" align="left" className="mb-[14px] black-100 font-onest text-2xl">
             Promotion Details
         </Typography>
 
-        <div className="grid grid-cols-12 mb-2 space-y-4">
-            <div className="col-span-6">
-                <Typography
-                    as="p"
-                    size="s2"
-                    align="left"
-                    className="black-300"
-                >
-                    Promotion type
-                </Typography>
-                <Typography
-                    as="p"
-                    size="s2"
-                    align="left"
-                    className="black-100 capitalize"
-                >
-                    {`On ` + promotion?.promotionType.toLowerCase()}
-                </Typography>
-            </div>
-
-        </div>
         <div className="grid lg:grid-cols-12 mb-2 grid-cols-6 lg:space-y-0 space-y-4">
             <div className="col-span-6">
                 <Typography
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-300"
+                    className="black-300 text-sm font-bold"
                 >
                     Promotion name
                 </Typography>
@@ -44,7 +23,7 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-100 capitalize"
+                    className="black-100 capitalize font-onest text-sm font-medium"
                 >
                     {promotion?.name ?? "-"}
                 </Typography>
@@ -54,7 +33,7 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-300"
+                    className="black-300 text-sm font-bold"
                 >
                     Promotion code
                 </Typography>
@@ -62,39 +41,20 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-100"
+                    className="black-100 capitalize font-onest text-sm font-medium"
                 >
                     {promotion?.code ?? "-"}
                 </Typography>
             </div>
         </div>
-        <div className="grid grid-cols-12 mb-2 space-y-4">
-            <div className="col-span-6">
-                <Typography
-                    as="p"
-                    size="s2"
-                    align="left"
-                    className=" black-300"
-                >
-                    Percentage discount
-                </Typography>
-                <Typography
-                    as="p"
-                    size="s2"
-                    align="left"
-                    className="black-100 capitalize"
-                >
-                    {String(promotion?.discount) + `%`}
-                </Typography>
-            </div>
-        </div>
+
         <div className="grid lg:grid-cols-12 grid-cols-6 lg:space-y-0 mb-2 space-y-4">
             <div className="col-span-6">
                 <Typography
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-300"
+                    className="black-300 text-sm font-bold"
                 >
                     Start date
                 </Typography>
@@ -102,9 +62,9 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-100"
+                    className="black-100 capitalize font-onest text-sm font-medium"
                 >
-                    {format(promotion?.startDate ?? "", "dd MMMM yyyy") ?? "-"}
+                    {format(promotion?.startDate ?? "", "dd MMM yyyy") ?? "-"}
                 </Typography>
             </div>
             <div className="col-span-6 lg:mb-5">
@@ -112,7 +72,7 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-300"
+                    className="black-300 text-sm font-bold"
                 >
                     End date
                 </Typography>
@@ -120,9 +80,9 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-100"
+                   className="black-100 capitalize font-onest text-sm font-medium"
                 >
-                    {format(promotion?.endDate ?? "", "dd mmm yyyy") ?? "-"}
+                    {format(promotion?.endDate ?? "", "dd MMM yyyy") ?? "-"}
                 </Typography>
             </div>
         </div>
@@ -132,7 +92,7 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className=" black-300"
+                    className="black-300 text-sm font-bold"
                 >
                     Start time
                 </Typography>
@@ -140,7 +100,7 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-100"
+                    className="black-100 capitalize font-onest text-sm font-medium"
                 >
                     {format(promotion?.startDate ?? "", "hh:mma") ?? "-"}
                 </Typography>
@@ -150,7 +110,7 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-300"
+                    className="black-300 text-sm font-bold"
                 >
                     End time
                 </Typography>
@@ -158,12 +118,33 @@ const PromotionDetailView: React.FC<{ promotion: IPromotion }> = ({ promotion })
                     as="p"
                     size="s2"
                     align="left"
-                    className="black-100"
+                   className="black-100 capitalize font-onest text-sm font-medium"
                 >
                     {format(promotion?.endDate ?? "", "hh:mma") ?? "-"}
                 </Typography>
             </div>
+           
         </div>
+        <div className="grid grid-cols-12 mt-2 space-y-4">
+                <div className="col-span-6">
+                    <Typography
+                        as="p"
+                        size="s2"
+                        align="left"
+                        className="black-300 text-sm font-bold text-nowrap"
+                    >
+                        Percentage discount
+                    </Typography>
+                    <Typography
+                        as="p"
+                        size="s2"
+                        align="left"
+                        className="black-100 capitalize font-onest text-sm font-medium"
+                    >
+                        {String(promotion?.discount) + `%`}
+                    </Typography>
+                </div>
+            </div>
     </div>
 }
 

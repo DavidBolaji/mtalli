@@ -18,7 +18,6 @@ export default function CustomerTable({
   totalPages,
   page,
   itemsPerPage,
-  categories
 }: CustomerTableProps) {
   const {
     items,
@@ -36,7 +35,6 @@ export default function CustomerTable({
     loading,
   } = useTable<Customer>({
     initialItems: initialCustomers,
-
     onSort,
     onSearch: (form, params) => {
       filterCustomer(form, params)
@@ -54,11 +52,11 @@ export default function CustomerTable({
         onFilter={filterCustomer}
         showFilters={showFilters}
         placeholder="Search customer by name and email"
-        categories={categories}
         handleSearch={handleSearch}
         filter
         calender
         search
+        calenderTxt="Last booking date"
       />
       <div className="rounded-b-2xl border-t-0 bg-white overflow-hidden border border-[#DDEEE5]">
         <Table>

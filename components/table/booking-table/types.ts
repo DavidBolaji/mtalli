@@ -4,6 +4,7 @@ import { Event, Image, User } from "@prisma/client";
 export interface IBooking {
   id: string;
   orderNo: string;
+  bookingCount: number;
   events: (Pick<Event, "id" | "title" | "totalSlots"| "startDate" | "endDate"> & {images: Image[]}) | null
   User: Pick<User, "fname" | "lname" | "phone"> | null
   createdAt: Date

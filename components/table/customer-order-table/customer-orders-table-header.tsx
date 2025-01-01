@@ -1,14 +1,15 @@
 // PendingOrdersTableHeader.tsx
 import React from 'react'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { CustomerOrders } from './types'
+
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { CustomerBooking } from '@/actions/get-customers';
 
 
 interface PendingOrdersTableHeaderProps {
-  handleSort: (column: keyof CustomerOrders, path?: string) => void;
+  handleSort: (column: keyof CustomerBooking, path?: string) => void;
   sortDirection: "asc" | "desc";
-  sortColumn: keyof CustomerOrders | null;
+  sortColumn: keyof CustomerBooking | null;
 }
 
 const headerList = [
@@ -36,7 +37,7 @@ export default function CustomerOrdersTableHeader({
               key={header.title}
             >
               <button
-                onClick={() => handleSort(header.key as keyof CustomerOrders)}
+                onClick={() => handleSort(header.key as keyof CustomerBooking)}
                 className="flex items-center gap-1"
               >
                 {header.title}

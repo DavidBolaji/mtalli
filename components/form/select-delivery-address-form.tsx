@@ -15,10 +15,10 @@ export const SelectDeliveryAddressForm = () => {
     name: "Select delivery address",
     label: (
       <div className="flex flex-col space-y-1 pb-4 capitalize">
-        <span className="font-medium black-100 font-satoshi">{address.address},</span>
-        <span className="font-medium black-100 font-satoshi">{address.city},</span>
-        <span className="font-medium black-100 font-satoshi">{address.state},</span>
-        <span className="font-medium black-100 font-satoshi">{address.country}.</span>
+        <span className="font-medium black-100 font-onest">{address.address},</span>
+        <span className="font-medium black-100 font-onest">{address.city},</span>
+        <span className="font-medium black-100 font-onest">{address.state},</span>
+        <span className="font-medium black-100 font-onest">{address.country}.</span>
       </div>
     ),
     value: address.id,

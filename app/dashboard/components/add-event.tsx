@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { EventDetailsForm } from "@/components/form/add-event/event-details-form";
 import { UploadImageForm } from "@/components/form/add-event/upload-image-form";
 import { WYSIWYGForm } from "./wysisyg-editor";
+import { EventInventoryForm } from "@/components/form/add-event/event-inventory-form";
 
 
 export default function AddEvent({ event }: { event?: IEvent | null }) {
@@ -29,6 +30,7 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
   const btnRef3 = useRef<HTMLButtonElement>(null);
   const btnRef4 = useRef<HTMLButtonElement>(null);
   const btnRef5 = useRef<HTMLButtonElement>(null);
+  const btnRef6 = useRef<HTMLButtonElement>(null);
   const key = !isEdit ? "CREATE_EVENT" : "EDIT_EVENT"
 
 
@@ -43,7 +45,9 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
         startDate: event?.startDate,
         endDate: event?.endDate,
         price: event?.price,
-        serviceFee: event?.serviceFee
+        serviceFee: event?.serviceFee,
+        status: event?.status === "ACTIVE" ?? false,
+        images: urls
       }));
     }
   }, [event])
@@ -52,17 +56,22 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
   const { mutate } = useMutation({
     mutationKey: [key],
     mutationFn: async () => {
+      setLoading(true)
       const event = queryClient.getQueryData([key]);
       allEventSchema.validate(event).then(async () => {
-        await Axios.post('/event', event)
+        if (isEdit) {
+          await Axios.put(`/event`, event);
+        } else {
+          await Axios.post('/event', event)
+        }
         toggleNotification({
           show: true,
-          title: "Event Created",
+          title: isEdit ? "Updated Event" : "Event Created",
           type: "success",
           message:
-            "Event has been created succesfully",
+            `Event has been ${isEdit ? "updated" : "created"} succesfully`,
         });
-
+          reset()
       }).catch((reason) => {
         console.log(reason?.message);
         const errorList = String(reason)?.split(":");
@@ -76,7 +85,7 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
       })
     },
     onSuccess: () => {
-
+      setLoading(false)
     },
   });
 
@@ -88,8 +97,9 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
     btnRef3.current?.click()
     btnRef4.current?.click()
     btnRef5.current?.click()
+    btnRef6.current?.click()
     if (isEdit) {
-      router.push('/dashboard/products')
+      router.push('/dashboard/events')
     }
   }
 
@@ -107,9 +117,16 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
       <div className="grid gap-6 grid-cols-2">
         {/* Event Details */}
         <Card className="px-4 pt-6 pb-10 col-span-2">
+          <div className="flex justify-between">
           <Typography size="s1" as="p" align="left" className="mb-4 font-bold text-md ">
             Event Details
           </Typography>
+            <EventInventoryForm<IcreateEvent>  
+              keyz={key}
+              event={event}
+              btnRef={btnRef6}
+              />
+          </div>
           <EventDetailsForm keyz={key} btnRef={btnRef} event={event} />
         </Card>
         {/* Event Image */}
@@ -122,6 +139,7 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
           <UploadImageForm<IcreateEvent>
             keyz={key}
             count={5}
+            urls={urls}
           />
         </Card>
 

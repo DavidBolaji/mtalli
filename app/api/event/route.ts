@@ -15,26 +15,67 @@ export async function OPTIONS() {
 
 async function handler(req: Request, userId: string) {
 
+
     try {
-        const {  } = await req.json();
+        const { info, rules, policy, title, description, location, price, totalSlots, startDate, endDate, promotion, serviceFee, images } = await req.json();
 
-        // if (!title || !status || !img || !text || !description || !categoryId) {
-        //     return NextResponse.json({ message: "Bad request" }, { status: 400 });
-        // }
 
-        // const blog = await db.event.create({
-        //     data: {
-               
-        //     },
-        // });
+        if (!title || !info || !images || !description || !totalSlots || !policy || !rules || !info || !startDate || !endDate || !images || !serviceFee || !location) {
+            return NextResponse.json({ message: "Bad request" }, { status: 400 });
+        }
+
+        const event = await db.event.create({
+            data: {
+                title,
+                description,
+                price: +price,
+                location,
+                totalSlots: +totalSlots,
+                leftSlot: +totalSlots,
+                startDate: new Date(startDate),
+                endDate: new Date(endDate),
+                serviceFee: +serviceFee,
+                policy,
+                rules,
+                info,
+                status: status ? "ACTIVE" : "INACTIVE",
+                images: {
+                    create: images.map((url: string) => ({ url })), // Creating related Image records
+                },
+            },
+        });
+
+        if (promotion) {
+            const promo = await db.promotion.findUnique({
+                where: {
+                    id: promotion ?? undefined
+                }
+            })
+
+            if (promo && promo.promotionType === "ITEM") {
+                await db.promotion.create({
+                    data: {
+                        name: promo.name,
+                        code: promo.code,
+                        status: promo.status,
+                        promotionType: promo.promotionType,
+                        discount: parseInt(String(promo.discount), 10),
+                        startDate: promo.startDate,
+                        endDate: promo.endDate,
+                        eventId: event.id
+                    }
+                })
+            }
+        }
+
 
         return NextResponse.json({
-            message: `Blog created succesfully`,
-            // data: blog,
+            message: `Event created succesfully`,
         });
     } catch (error) {
-        console.log("[PRODUCT_GET_SINGLE]", error);
-        return new NextResponse("Internal error", { status: 500 });
+        console.log(error);
+
+        return new NextResponse(`Internal error: ${(error as Error).message}`, { status: 500 });
     }
 }
 
@@ -54,8 +95,128 @@ export async function POST(req: NextRequest) {
             }
         })
         if (!exist) {
-            return NextResponse.json({ message: "Only admin can create blog category" }, { status: 401 });
+            return NextResponse.json({ message: "Only admin can create event" }, { status: 401 });
         }
         return handler(req, userId);
+    });
+}
+
+
+async function updateHandler(req: Request) {
+    const { info, rules, policy, title, description, location, price, totalSlots, startDate, endDate, promotion, serviceFee, images, status, id } = await req.json();
+
+    console.log({ info, rules, policy, title, description, location, price, totalSlots, startDate, endDate, promotion, serviceFee, images, status, id });
+
+
+    if (!title || !info || !images || !description || !totalSlots || !policy || !rules || !info || !startDate || !endDate || !images || !serviceFee || !location) {
+        return NextResponse.json({ message: "Bad request" }, { status: 400 });
+    }
+    try {
+
+        db.$transaction(async (tx) => {
+            // Delete existing images first
+            await tx.image.deleteMany({
+                where: {
+                    eventId: id
+                }
+            });
+
+            console.log('[DELETE IMAGES]');
+
+
+            // Update product with new data
+            const event = await tx.event.update({
+                where: {
+                    id
+                },
+                data: {
+                    title,
+                    description,
+                    price: +price,
+                    location,
+                    totalSlots: +totalSlots,
+                    leftSlot: +totalSlots,
+                    startDate: new Date(startDate),
+                    endDate: new Date(endDate),
+                    serviceFee: +serviceFee,
+                    policy,
+                    rules,
+                    info,
+                    status: status ? "ACTIVE" : "INACTIVE",
+                    images: {
+                        create: images.map((url: string) => ({ url })), // Creating related Image records
+                    },
+                },
+            });
+
+            console.log('[ADDED_EVENT]');
+
+
+            // 3. Update Promotion Logic
+            if (promotion) {
+                const promo = await tx.promotion.findFirst({ where: { id: promotion } });
+
+                if (promo) {
+                    // If the promotion is an ITEM promotion (product-specific promotion)
+                    if (promo.promotionType === "ITEM") {
+                        // Check if the product already has a promotion
+                        const existingPromo = await tx.promotion.findFirst({
+                            where: { eventId: event.id }
+                        });
+
+                        // If there is an existing product promotion, update or replace it
+                        if (existingPromo) {
+                            // Optionally delete or update the existing promotion
+                            await tx.promotion.update({
+                                where: { id: existingPromo.id },
+                                data: {
+                                    // Update promotion details if needed
+                                    eventId: event.id, // Ensure it's linked to the correct product
+                                },
+                            });
+                        } else {
+                            // Create a new product promotion if no promotion exists
+                            await tx.promotion.create({
+                                data: {
+                                    ...promo,
+                                    eventId: event.id, // Link the promotion to the specific product
+                                }
+                            });
+                        }
+                    }
+
+                }
+            }
+
+
+        })
+
+        return NextResponse.json({
+            message: `Event updated successfully`,
+        });
+    } catch (error) {
+        console.error("Error updating product:", error);
+        return new NextResponse("Internal error", { status: 500 });
+    }
+}
+
+export async function PUT(req: NextRequest) {
+    return authMiddleware(req, async (userId: string) => {
+        const exist = await db.user.findMany({
+            where: {
+                AND: [
+                    {
+                        id: userId
+                    },
+                    {
+                        role: "ADMIN"
+                    }
+                ]
+            }
+        })
+        if (!exist) {
+            return NextResponse.json({ message: "Only admin can update event" }, { status: 401 });
+        }
+        return updateHandler(req);
     });
 }

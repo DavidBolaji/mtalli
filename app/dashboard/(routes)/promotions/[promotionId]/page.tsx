@@ -5,7 +5,8 @@ import { endOfToday, isAfter, isBefore, startOfToday } from "date-fns";
 import React from "react";
 import ViewPromotion from "./components/view-promotion";
 import { PromotionComponent } from "./components/promotion-component";
-import { Category, Image, Product, Promotion } from "@prisma/client";
+import { Event, Image, Promotion } from "@prisma/client";
+
 
 
 export const revalidate = 0;
@@ -20,7 +21,7 @@ export default async function PromotionPage({
 }: CustomerPageSearchParams) {
   const promotionId = params.promotionId;
 
-  const promotion = await getSinglePromotion(promotionId) as Promotion & { product: (Product & { images: Image[] })[] | null } & { category: Category[] | null } | null;
+  const promotion = await getSinglePromotion(promotionId) as Promotion & { event: (Event & { images: Image[] })[] | null } | null;
   const isActive = promotion &&
     isBefore(new Date(promotion?.startDate), endOfToday()) &&
     isAfter(new Date(promotion?.endDate), startOfToday())

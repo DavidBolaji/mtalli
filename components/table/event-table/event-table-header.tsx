@@ -17,10 +17,10 @@ interface ProductTableHeaderProps {
 
 const headerList = [
   { key: "title", title: "Event name", hasSort: true },
-  { key: "totalPrice", title: "Price per person", hasSort: true },
+  { key: "price", title: "Price per person", hasSort: true },
   { key: "totalSlots", title: "Total Slots", hasSort: true },
   { key: "leftSlot", title: "Slots left", hasSort: true },
-  { key: "date", title: "Date", hasSort: true },
+  { key: "startDate", title: "Date", hasSort: true },
   { key: "status", title: "Status", hasSort: true },
   { key: "actions", title: "", hasSort: false },
 ];

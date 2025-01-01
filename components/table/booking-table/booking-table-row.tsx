@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 
 import { IBooking } from "./types";
 import { formatDateRange } from "@/utils/helper";
+import Link from "next/link";
 
 interface BookingTableRowProps {
   booking: IBooking;
@@ -50,7 +51,7 @@ export default function BookingTableRow({
       {booking?.User?.fname} {booking?.User?.lname}
       </TableCell>
       <TableCell className="pl-6 py-3 font-bold text-sm black-100">
-        {item?.totalSlots}
+        {booking?.bookingCount}
       </TableCell>
       <TableCell className="pl-6 py-3 font-bold text-sm black-100">
         {booking.orderNo}
@@ -58,15 +59,12 @@ export default function BookingTableRow({
       <TableCell className="pl-6 py-3 font-bold text-sm black-100">
         {formatDateRange(item?.startDate, item?.endDate)}
       </TableCell>
-      {/* <TableCell className="pl-6 py-3 font-bold text-sm black-100">
-        <Badge variant="outline" className={cn("capitalize rounded-full")}>
-          {booking?.createdAt}
-        </Badge>
-      </TableCell> */}
       <TableCell className="py-3">
         <div className="flex">
-          <Button variant={'ghost'} className="bg-black-500">
+          <Button variant={'ghost'} className="bg-black-400 rounded-full font-onest">
+            <Link href={`/dashboard/bookings/${booking.id}`}>
             View
+            </Link>
           </Button>
         </div>
       </TableCell>

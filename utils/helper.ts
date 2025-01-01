@@ -34,6 +34,14 @@ export function formatDate(dateString: string) {
   return format(parsedDate, "do MMM, yyyy");
 }
 
+export const formatDateDShort = (date: Date) => {
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  }).format(date)
+}
+
 export const errorMessage = {
   "Description is required":
     "You must fill the category description field in order to create a category",

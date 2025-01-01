@@ -7,5 +7,5 @@ export default function SafeHTML({ content }: {content: string}) {
     __html: DOMPurify.sanitize(content)
   }), [content]);
 
-  return <div dangerouslySetInnerHTML={sanitizedContent} />;
+  return <div className='font-onest text-sm leading-6' dangerouslySetInnerHTML={sanitizedContent} />;
 }

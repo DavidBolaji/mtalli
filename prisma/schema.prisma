@@ -14,10 +14,9 @@ datasource db {
   relationMode = "prisma"
 }
 
-enum OrderStatus {
-  PENDING
-  CANCELED
-  DELIVERED
+enum BookingStatus {
+  CANCELLED
+  ACTIVE
 }
 
 enum PromotionType {
@@ -48,6 +47,7 @@ model Booking {
   orderNo      String
   bookingCount Int
   totalPrice   Int
+  status       BookingStatus   @default(ACTIVE)
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt

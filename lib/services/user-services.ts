@@ -52,18 +52,17 @@ export const getUserByEmail = async (email: string) => {
         pic: true,
         email: true,
         phone: true,
-        orders: {
+        bookings: {
           select: {
-            products: {
+            events: {
               select: {
-                name: true,
+                title: true,
                 price: true,
                 images: true,
               }
             }
           },
         },
-        orderAddress: true,
       },
     });
     return user;

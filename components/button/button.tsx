@@ -32,6 +32,9 @@ export const Button: React.FC<ButtonProps> = ({
       "rounded-2xl": !round,
     },
     {
+      "opacity-70 cursor-not-allowed": props.disabled
+    },
+    {
       "bg-black-100 text-white": color === "dark",
       "bg-white black-100 border border-black-100": color === "light",
     },

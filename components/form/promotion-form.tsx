@@ -4,7 +4,6 @@ import FormikNormalInput from "../input/formik-normal-input";
 import { Field, Form, Formik } from "formik";
 
 import { IUser } from "@/actions/get-customers";
-import { Address } from "@prisma/client";
 
 import * as Yup from "yup";
 import { Typography } from "../typography/typography";
@@ -13,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { Toggle } from "../input/toggle";
 import { Promotion } from "../table/promotions-table/types";
-import FormikRadioInput from "../input/formik-radio-input";
+
 export const promotionSchema = Yup.object().shape({
   name: Yup.string().required("First name is required"),
   code: Yup.string().required("Last name is required"),
@@ -26,7 +25,7 @@ export const promotionSchema = Yup.object().shape({
 
 const initialValues = {
   name: "",
-  type: "Category",
+  type: "Item",
   code: "",
   discount: "",
   startDate: "",
@@ -38,7 +37,6 @@ const initialValues = {
 
 export const PromotionForm: React.FC<{
   user: IUser | null;
-  address: Address[] | null;
 }> = ({ user }) => {
   const queryClient = useQueryClient();
 
@@ -50,7 +48,7 @@ export const PromotionForm: React.FC<{
 
     queryClient.setQueryData(["CREATE_PROMOTION"], {
       status: true,
-      type: "Category",
+      type: "Item",
     });
   }, [user, queryClient]);
 
@@ -97,26 +95,6 @@ export const PromotionForm: React.FC<{
             </div>
           </div>
           <div className=" w-full space-y-4">
-            <Typography as="p" size="s1" align="left" className="black-300">
-              Promotion Type
-            </Typography>
-            <Field
-              name="type"
-              as={FormikRadioInput}
-              value={values.type}
-              options={[
-                {
-                  id: "category",
-                  name: "On category",
-                  value: "Category",
-                },
-                {
-                  id: "item",
-                  name: "item",
-                  value: "Item",
-                },
-              ]}
-            />
             <Field
               as={FormikNormalInput}
               name="name"

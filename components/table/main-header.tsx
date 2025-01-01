@@ -128,13 +128,16 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
                 {screen.lg ? "Filter" : null}
                 <Badge
                   variant="secondary"
-                  className="ml-1 text-white bg-black-100 hover:bg-lemon rounded-full"
+                  className="ml-1 text-white font-onest bg-black-100 hover:bg-lemon rounded-full"
                 >
                   {(searchParams.getAll("category")?.length || 0) +
                     (searchParams.getAll("status")?.length || 0) +
                     (searchParams.getAll("pStat")?.length || 0) +
                     (searchParams.getAll("promoT")?.length || 0) +
-                    (searchParams.getAll("payment")?.length || 0)}
+                    (searchParams.getAll("payment")?.length || 0) +
+                    (searchParams.getAll("dateFrom")?.length || searchParams.getAll("dateTo")?.length)
+                    
+                    } 
                 </Badge>
               </ShadButton>
               <div
@@ -164,7 +167,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
                 {/* <SelectValue placeholder="More Actions" defaultValue={"More Actions"} /> */}
               </SelectTrigger>
               <SelectContent>
-                <span className="p-2 hover:bg-green-500/10 cursor-pointer text-sm font-satoshi inline-block" onClick={handleDelete}>Delete Selected</span>
+                <span className="p-2 hover:bg-blue-500/10 cursor-pointer text-sm font-onest inline-block" onClick={handleDelete}>Delete Selected</span>
               </SelectContent>
             </Select>
           )}

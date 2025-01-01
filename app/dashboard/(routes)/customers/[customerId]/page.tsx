@@ -1,10 +1,12 @@
-import { getCategories } from "@/actions/get-categories";
+
 import { getDashboardCustomer } from "@/actions/get-customers";
 import { Crumb } from "@/components/crumb/crumb";
 
 import React from "react";
 import ViewCustomer from "../components/view-customer";
 import { CustomerComponent } from "../components/customer-component";
+import db from "@/db/db";
+
 
 export const revalidate = 0;
 
@@ -27,8 +29,6 @@ export default async function CustomerPage({
       : Array.isArray(searchParams.payment)
       ? searchParams.payment
       : [];
-
-
   // Ensure status is always an array
   const status =
     typeof searchParams.status === "string"
@@ -48,16 +48,53 @@ export default async function CustomerPage({
   );
 
   const custormerName = searchParams?.tab;
-  const categoryRequest = getCategories();
 
   // Await both requests
-  const [customer, categories] = await Promise.all([
+  const [customer] = await Promise.all([
     customerRequest,
-    categoryRequest,
   ]);
 
   const detail = (customer?.customer?.fname && customer?.customer?.fname?.length) && (customer?.customer?.lname && customer?.customer?.lname?.length) ?` ${customer?.customer?.fname} ${customer?.customer?.lname}` : customer?.customer?.email
 
+  const customer2 = await db.user.findUnique({
+    where: {
+      id: customerId,
+    },
+    select: {
+      email: true,
+      phone: true,
+      fname: true,
+      lname: true,
+      bookings: {
+        select: {
+          id: true,
+          totalPrice: true,
+          events: {
+            select: {
+              id: true,
+              images: true,
+              title: true,
+              price: true,
+              endDate: true,
+              startDate: true,
+              EventBooking: {
+                select: {
+                  eventId: true,
+                  // weight: true,
+                },
+              },
+            },
+          },
+          
+          createdAt: true,
+          status: true,
+          eventId: true,
+        },
+      },
+    },
+  });
+
+  
 
   return (
     <div className="p-4">
@@ -73,7 +110,7 @@ export default async function CustomerPage({
               href: "/dashboard/customers",
             },
             {
-              text: detail,
+              text: detail || "",
               href: "",
             },
           ]}
@@ -82,11 +119,11 @@ export default async function CustomerPage({
       
       <ViewCustomer customer={customer?.customer} />
       <CustomerComponent
-        categories={categories}
         customerName={custormerName ? custormerName : "Details"}
         customer={customer.customer}
         searchParams={searchParams}
         totalPages={customer.totalItems}
+        data={customer2}
       />
     </div>
   );

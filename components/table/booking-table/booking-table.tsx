@@ -66,6 +66,9 @@ export default function BookingTable({
         filter
         search
         more
+        calender
+        calenderTxt="Booking date range"
+        placeholder="Search by Event name, Booking no"
       />
       <div className="rounded-b-2xl border-t-0 bg-white scrollbar-hide  border border-[#DDEEE5]">
         <Table className=''>

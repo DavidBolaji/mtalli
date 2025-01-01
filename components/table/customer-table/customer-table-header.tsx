@@ -17,8 +17,8 @@ const headerList = [
   { key: "fname", title: "Customer name", hasSort: true },
   { key: "email", title: "Email", hasSort: true },
   { key: "phone", title: "Phone no", hasSort: true },
-  { key: "totalOrders", title: "Total orders", hasSort: true },
-  { key: "lastOrderDate", title: "Last order date", hasSort: true },
+  { key: "totalBookings", title: "Total orders", hasSort: true },
+  { key: "lastBookingDate", title: "Last order date", hasSort: true },
   { key: "status", title: "status", hasSort: true },
   { key: "actions", title: "", hasSort: false },
 ];

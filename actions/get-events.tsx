@@ -2,7 +2,7 @@
 
 import { IEvent } from "@/components/table/event-table/types";
 import db from "@/db/db"
-import { Prisma } from "@prisma/client";
+import { Event, Image, Prisma, Promotion } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 interface GetEventsParams {
@@ -32,12 +32,11 @@ export const getDashboardEvent = async ({
         // Filter users by orders created within the date range (if provided)
         ...(startDate || endDate
             ? {
-                createdAt:
-                    startDate && endDate
-                        ? { gte: startDate, lte: endDate }
-                        : startDate
-                            ? { gte: startDate }
-                            : { lte: endDate },
+                
+                startDate: {
+                    ...(startDate ? { gte: startDate } : {}),
+                    ...(endDate ? { lte: endDate } : {}),
+                }
             }
             : {}),
 
@@ -69,6 +68,7 @@ export const getDashboardEvent = async ({
                 status: true,
                 startDate: true,
                 endDate: true,
+                rules: true,
                 totalSlots: true,
                 leftSlot: true,
                 serviceFee: true,
@@ -83,6 +83,7 @@ export const getDashboardEvent = async ({
                         discount: true,
                         startDate: true,
                         endDate: true,
+                        code: true,
                         id: true
                     }
                 }
@@ -142,7 +143,7 @@ export const filterEvent = (
 
     // Generate the final query string
     const queryString = params.toString();
-    const destinationPath = path ? path : "/dashboard/Bookings";
+    const destinationPath = path ? path : "/dashboard/events";
 
     // Redirect to the new URL with updated parameters
     redirect(queryString ? `${destinationPath}?${queryString}` : destinationPath);
@@ -204,3 +205,90 @@ export const deleteEvents = async (data: Set<string>) => {
         }
     })
 }
+
+export async function fetchEvents(page: number = 1, limit: number = 15): Promise<{
+  items: (Event & {promotion: Promotion[]} & {images: Image[]})[]
+  hasMore: boolean
+}> {
+
+  const skip = (page - 1) * limit
+  const totalItems = await db.event.count()
+
+  const events = await db.event.findMany({
+    skip,
+    take: limit,
+    orderBy: { createdAt: "desc"},
+    include: {
+        promotion: true,
+        images: true
+    }
+  })
+
+  const hasMore = skip + events.length < totalItems;
+  // Simulate database fetch with pagination
+
+  const finalEvents = events.map((event) => {
+    const eventPromotions = event.promotion || [];
+    const allPromotions = [...eventPromotions];
+
+    return {
+      ...event,
+      promotion: allPromotions,
+    };
+  });
+
+  return { items: finalEvents, hasMore };
+
+}
+
+export const fetchMoreEvent = (page: number) => {
+    redirect(`/?page=${page}`)
+  }
+
+export const getEventsByQuery = async (
+    search: string
+  ): Promise<IEvent[]> => {
+    try {
+      const events = await db.event.findMany({
+        where: {
+          title: {
+            contains: search,
+          },
+        },
+        select: {
+            id: true,
+            title: true,
+            price: true,
+            description: true,
+            location: true,
+            info: true,
+            policy: true,
+            status: true,
+            startDate: true,
+            rules: true,
+            endDate: true,
+            totalSlots: true,
+            leftSlot: true,
+            serviceFee: true,
+            images: {
+                select: {
+                    url: true,
+                },
+            },
+            promotion: {
+                select: {
+                    name: true,
+                    discount: true,
+                    startDate: true,
+                    endDate: true,
+                    id: true
+                }
+            }
+        },
+      });
+      return events;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  };
+  

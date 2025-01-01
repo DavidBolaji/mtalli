@@ -34,7 +34,7 @@ const NormalInput: React.FC<InputProps> = ({
 
   // Optimize input style classes with classNames utility.
   const inputStyle = classNames(
-    "w-full h-12 pl-4 font-satoshi placeholder:font-medium placeholder:black-300 placeholder:leading-4 bg-transparent flex items-center focus:outline-none",
+    "w-full h-12 pl-4 font-onest placeholder:font-medium placeholder:black-300 placeholder:leading-4 bg-transparent flex items-center focus:outline-none",
     {
       "pl-8 -translate-0.5": leftIcon,
       "pl-3": !leftIcon,
@@ -74,7 +74,7 @@ const NormalInput: React.FC<InputProps> = ({
 
       {/* Input Field */}
       {naira && (
-        <div className="absolute z-20 bg-black border h-[51.01px] rounded-s-2xl border-black flex items-center justify-center font-satoshi text-white top-1/2 w-10 transform -translate-y-1/2">
+        <div className="absolute z-20 bg-black border h-[51.01px] rounded-s-2xl border-black flex items-center justify-center font-onest text-white top-1/2 w-10 transform -translate-y-1/2">
           ₦
         </div>
       )}

@@ -1,15 +1,15 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button as ShadBtn } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Customer } from "./types";
-import { Button } from "@/components/button/button";
-import { formatDate } from "@/utils/helper";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Avatar } from "@/components/avatar/avatar";
+import { formatDate } from "@/utils/helper";
 
 interface CustomerTableRowProps {
   customer: Customer;
@@ -57,10 +57,10 @@ export default function CustomerTableRow({
         {customer?.phone ? customer.phone : "-"}
       </TableCell>
       <TableCell className="pl-6 flex justify-center items-center font-bold text-sm black-100">
-        <div className={selectedItems.has(customer.id) ? "" : "-translate-y-1"}>{customer?.totalOrders}</div>
+        <div>{customer?.totalBookings}</div>
       </TableCell>
       <TableCell className="pl-6 font-bold text-sm black-100">
-        {customer?.lastOrderDate.toLocaleDateString() === "1/1/1970" ? "-" : formatDate(customer?.lastOrderDate.toLocaleDateString())}
+        {!customer?.lastBookingDate?.toLocaleString() ? "-" : formatDate(customer?.lastBookingDate.toLocaleDateString())}
       </TableCell>
       <TableCell className="pl-6 py-3 font-bold text-sm black-100">
         <Badge variant="outline" className={cn("capitalize rounded-full")}>
@@ -68,15 +68,12 @@ export default function CustomerTableRow({
         </Badge>
       </TableCell>
       <TableCell className="py-3">
-        <div className="flex">
-          <Button
-            onClick={() => router.push(`/dashboard/customers/${customer?.id}`)}
-            color="light"
-            size="lg"
-            className="border-0 bg-black-600 h-7 flex items-center justify-center"
-          >
+      <div className="flex">
+          <ShadBtn 
+           onClick={() => router.push(`/dashboard/customers/${customer?.id}`)}
+          variant={'ghost'} className="bg-black-400 rounded-full font-onest">
             View
-          </Button>
+          </ShadBtn>
         </div>
       </TableCell>
     </TableRow>

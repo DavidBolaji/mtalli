@@ -3,16 +3,17 @@
 
 import * as React from "react";
 
-import { CustomerOrders, CustomerOrdersTableProps } from "./types";
+import { CustomerOrdersTableProps } from "./types";
 
 import { Table, TableBody } from "@/components/ui/table";
 import { useTable } from "@/hooks/use-table";
 import { MainHeader } from "../main-header";
 import CustomerOrdersTableHeader from "./customer-orders-table-header";
 import CustomerordersTableRow from "./customer-orders-table-row";
-import { filterCustomerOrder } from "@/actions/get-customers";
+import { CustomerBooking, filterCustomerBooking } from "@/actions/get-customers";
 import { Empty } from "antd";
 import Pagination from "../pagination";
+
 
 export default function CustomerOrdersTable({
   initialOrders,
@@ -31,13 +32,12 @@ export default function CustomerOrdersTable({
     setShowFilters,
     ref,
     loading
-  } = useTable<CustomerOrders>({
-    initialItems: initialOrders as CustomerOrders[],
-
+  } = useTable<CustomerBooking>({
+    initialItems: initialOrders as CustomerBooking[],
     onSort,
     onFilter(form, params) {
       alert(params)
-      filterCustomerOrder(
+      filterCustomerBooking(
         form,
         params,
         `/dashboard/customers/${id}?tab=Order+History`
@@ -52,7 +52,7 @@ export default function CustomerOrdersTable({
         setShowFilters={setShowFilters}
         showFilters={showFilters}
         onFilter={(form, params) =>
-          filterCustomerOrder(
+          filterCustomerBooking(
             form,
             params,
             `/dashboard/customers/${id}?tab=Order+History`
@@ -70,7 +70,7 @@ export default function CustomerOrdersTable({
             sortColumn={sortColumn}
           />
           <TableBody>
-            {items.map((orders: CustomerOrders) => (
+            {items.map((orders: CustomerBooking) => (
               <CustomerordersTableRow key={orders.id} orders={orders} />
             ))}
           </TableBody>
@@ -88,7 +88,7 @@ export default function CustomerOrdersTable({
         totalPages={totalPages ?? 0}
         page={page ?? 1}
         itemsPerPage={itemsPerPage ?? 10}
-        onFilter={filterCustomerOrder}
+        onFilter={filterCustomerBooking}
       />
     </div>
   );

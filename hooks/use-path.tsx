@@ -20,7 +20,7 @@ const usePath = () => {
         ? "/dashboard/events"
         : pathname === "/dashboard/events/add"
         ? "/dashboard/events"
-        : pathname === `/dashboard/events/edit/${eventId}`
+        : pathname === `/dashboard/events/${eventId}/edit`
         ? "/dashboard/events"
         : pathname === "/dashboard/customers"
         ? "/dashboard/customers"

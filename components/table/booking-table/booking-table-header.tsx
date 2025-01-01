@@ -18,7 +18,7 @@ interface BookingTableHeaderProps {
 const headerList = [
   { key: "title", title: "Event name", hasSort: true },
   { key: "fname", title: "Booked by", hasSort: true },
-  { key: "totalSlots", title: "Guests", hasSort: true },
+  { key: "bookingCount", title: "Guests", hasSort: true },
   { key: "orderNo", title: "Booking no", hasSort: true },
   { key: "date", title: "Date", hasSort: true },
   { key: "actions", title: "", hasSort: false },

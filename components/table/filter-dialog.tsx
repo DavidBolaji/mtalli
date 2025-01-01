@@ -125,7 +125,7 @@ export default function FilterDialog({
     <div className="flex items-start justify-center pt-12">
       <div className="bg-white rounded-lg shadow-lg px-6 w-[372px]">
         <div className="flex items-center pb-2 justify-between pt-6">
-          <h2 className="font-semibold pl-0.5">Manage Filters</h2>
+          <h2 className="font-semibold pl-0.5 font-onest">Manage Filters</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
@@ -149,7 +149,7 @@ export default function FilterDialog({
                           ]?.map((status) => (
                             <div
                               key={status.id}
-                              className="flex items-center space-x-2"
+                              className="flex items-center space-x-2 font-onest"
                             >
                               <Checkbox
                                 id={status.name.toLowerCase()}

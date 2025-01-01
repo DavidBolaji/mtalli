@@ -3,6 +3,12 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Onest } from 'next/font/google';
 import dynamic from "next/dynamic";
 import "./globals.css";
+import { NotificationDrawer } from "@/components/drawer/notification-drawer/notification-drawer";
+import { Overlay } from "@/components/overlay/overlay";
+import { DeleteModal } from "@/components/modal/delete-modal/delete-modal";
+import BookDrawer from "@/components/drawer/book-drawer/book-drawer";
+import { ItemCategoryDrawer } from "@/components/drawer/promotion-drawer/item-promotion-drawer";
+import Loading from "@/components/loading";
 
 
 export const metadata: Metadata = {
@@ -31,13 +37,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" 
-    className={onest.variable}
+    <html lang="en"
+      className={onest.variable}
     >
       <body>
         <AntdRegistry>
           <TanstackProvider>
+            <Loading />
             {children}
+            <NotificationDrawer />
+            <DeleteModal />
+            <Overlay />
+            <BookDrawer />
+            <ItemCategoryDrawer />
           </TanstackProvider>
         </AntdRegistry>
       </body>

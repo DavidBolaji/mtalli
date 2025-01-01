@@ -24,9 +24,9 @@ export const promotionSchema = Yup.object().shape({
     endTime: Yup.array().optional(),
 });
 
-const initial = (promotion?:Promotion) => ({
+const initial = (promotion?: IPromotion) => ({
     name: promotion?.name ?? "",
-    type: promotion?.promotionType === "CATEGORY" ? "Category" : "Item",
+    type: "Item",
     code: promotion?.code ?? "",
     discount: String(promotion?.discount) ?? "",
     startDate: format(promotion?.startDate ?? "", "yyyy-MM-dd") ?? "", 
@@ -94,26 +94,7 @@ export const EditPromotionForm: React.FC<{
                         </div>
                     </div>
                     <div className=" w-full space-y-4">
-                        <Typography as="p" size="s1" align="left" className="black-300">
-                            Promotion Type
-                        </Typography>
-                        <Field
-                            name="type"
-                            as={FormikRadioInput}
-                            value={values.type}
-                            options={[
-                                {
-                                    id: "category",
-                                    name: "On category",
-                                    value: "Category",
-                                },
-                                {
-                                    id: "item",
-                                    name: "item",
-                                    value: "Item",
-                                },
-                            ]}
-                        />
+
                         <Field
                             as={FormikNormalInput}
                             name="name"

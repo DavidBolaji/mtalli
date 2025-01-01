@@ -1,16 +1,23 @@
 "use client";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import React, { useState } from "react";
-import FormikNormalInput from "../input/formik-normal-input";
-import { ICON } from "@/constants/icon";
+import React from "react";
 import { Button } from "../button/button";
 import * as Yup from "yup";
 import { useNotification } from "@/hooks/use-notification";
 import { useUser } from "@/hooks/use-user";
-import { useLoginModal } from "@/hooks/use-login-modal";
 import { Spinner } from "../spinner";
+import FormikNormalInput2 from "../input/formik-normal-input2";
+
 
 export const RegisterValidation = Yup.object({
+  email: Yup.string()
+    .matches(
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
+      "Please enter a valid email address"
+    )
+    .required("Email is required"),
+  fname: Yup.string().required("First name is required"),
+  lname: Yup.string().required("Last name is required"),
   password: Yup.string().required("Password is required"),
   confirm_password: Yup.string()
     .oneOf([Yup.ref("password"), undefined], "Passwords must match")
@@ -19,26 +26,16 @@ export const RegisterValidation = Yup.object({
 
 interface IRegister {
   email: string;
+  fname: string;
+  lname: string;
   password: string;
   confirm_password: string;
 }
 
-export const RegisterForm = () => {
+export const RegisterForm: React.FC<{ btnTxt?: string }> = ({ btnTxt }) => {
   const { toggleNotification } = useNotification();
-  const { toggleModal } = useLoginModal();
   const { register } = useUser();
 
-  const [type, setType] = useState<"password" | "text">("password");
-  const [type2, setType2] = useState<"password" | "text">("password");
-  const togglePassword = () => {
-    if (type === "password") return setType("text");
-    setType("password");
-  };
-
-  const togglePassword2 = () => {
-    if (type2 === "password") return setType2("text");
-    setType2("password");
-  };
 
   const onSubmit = async (
     values: IRegister,
@@ -46,9 +43,10 @@ export const RegisterForm = () => {
   ) => {
     setSubmitting(true);
     await new Promise(resolve => setTimeout(resolve, 1000))
+
     RegisterValidation.validate(values)
       .then(() => {
-        register({ email: values.email, password: values.password });
+        register({ data: {email: values.email, password: values.password, fname: values.fname, lname: values.lname}, redirect: btnTxt ? false : true });
       })
       .catch((reason) => {
         toggleNotification({
@@ -57,80 +55,84 @@ export const RegisterForm = () => {
           message: reason.message,
           show: true,
         });
-        toggleModal(false, "LOGIN_MODAL");
       })
-      .finally(() => setSubmitting(false));
+      .finally(() => {
+        setSubmitting(false);
+      });
+
+
   };
 
   return (
     <Formik
       initialValues={{
         email: "",
+        fname: "",
+        lname: "",
         password: "",
         confirm_password: "",
       }}
       onSubmit={onSubmit}
       enableReinitialize
       validateOnChange
-      
+
     >
       {({ isSubmitting }) => (
-        <Form className="space-y-6 lg:w-[328px] w-full mx-auto pb-6">
+        <Form className="space-y-6 w-full">
           <Field
-            as={FormikNormalInput}
+            as={FormikNormalInput2}
             name="email"
             placeholder="Your Email"
-            leftIcon={<ICON.MailIcon size="14" />}
-            className="w-full bg-red"
-            align={-3}
-            y={-14}
+            label={'Email'}
+            className="w-full"
           />
+
+          <div className="flex w-full gap-x-4">
+            <div className="w-full">
+              <Field
+                as={FormikNormalInput2}
+                name="fname"
+                placeholder="First name"
+                label={'First name'}
+                className="w-full"
+              />
+            </div>
+            <div className="w-full">
+              <Field
+                as={FormikNormalInput2}
+                name="lname"
+                placeholder="Last name"
+                label={'Last name'}
+                className="w-full"
+              />
+            </div>
+          </div>
+
           <Field
-            as={FormikNormalInput}
+            as={FormikNormalInput2}
             name="password"
             placeholder="Password"
-            type={type}
-            leftIcon={<ICON.KeyIcon size="14" />}
-            rightIcon={
-              <div onClick={togglePassword}>
-                {type === "password" ? (
-                  <ICON.EyeOffIcon size="14" />
-                ) : (
-                  <ICON.EyeIcon />
-                )}
-              </div>
-            }
-            align={-2}
-            y={-14}
+            type={'password'}
+            label={'Password'}
+
           />
           <Field
-            as={FormikNormalInput}
+            as={FormikNormalInput2}
             name="confirm_password"
-            placeholder="Confirm password"
-            type={type2}
-            leftIcon={<ICON.KeyIcon size="14" />}
-            rightIcon={
-              <div onClick={togglePassword2}>
-                {type2 === "password" ? (
-                  <ICON.EyeOffIcon size="14" />
-                ) : (
-                  <ICON.EyeIcon />
-                )}
-              </div>
-            }
-            iconL={ICON.MailIcon}
-            align={-8}
-            y={-14}
+            placeholder="Confirm Password"
+            type={'password'}
+            label={'Password'}
+
           />
           <Button
             size="lg"
             color={isSubmitting ? "light" : "dark"}
             type="submit"
-            className={`w-full`}
-            disabled={isSubmitting}
+            className="w-full translate-y-5"
           >
-            {isSubmitting ? <Spinner /> : "Create An Account"}
+            {isSubmitting ? <Spinner /> : btnTxt ? btnTxt : "Sign Up"}
           </Button>
+
         </Form>
       )}
     </Formik>

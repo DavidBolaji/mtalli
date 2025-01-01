@@ -432,4 +432,47 @@ export const deletePromotions = async (data: Set<string>) => {
   });
 };
 
+export const getSinglePromotion = async (id: string) => {
+  try {
+    // Fetch the promotion
+    const promotion = await db.promotion.findUnique({
+      where: { id },
+    });
+
+    if (!promotion) {
+      throw new Error(`Promotion with ID "${id}" not found.`);
+    }
+
+    // Fetch products or categories linked to the promotion
+    const promotionEvents = await db.promotion.findMany({
+      where: { code: promotion.code },
+      select: { eventId: true},
+    });
+
+    const eventIds = promotionEvents
+      .filter((prod) => prod.eventId)
+      .map((prod) => prod.eventId!);
+
+    // Fetch related products and categories in bulk
+    const allEvents = eventIds.length > 0
+      ? await db.event.findMany({
+        where: { id: { in: eventIds } },
+        include: {
+          images: true
+        }
+      })
+      : [];
+
+
+    // Attach products and categories to the promotion object
+    return {
+      ...promotion,
+      event: allEvents.length > 0 ? allEvents : null,
+    };
+  } catch (error) {
+    console.error(`Error fetching promotion: ${(error as Error).message}`);
+    throw new Error(`Failed to fetch promotion: ${(error as Error).message}`);
+  }
+};
+
 

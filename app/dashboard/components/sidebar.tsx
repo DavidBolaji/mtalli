@@ -82,7 +82,7 @@ export const Sidebar = () => {
             return true;
           })}
         />
-         <div className="absolute bottom-6  px-5 -translate-x-2 cursor-pointer gap-3 font-bold font-satoshi pl-12 flex items-center red-100"
+         <div className="absolute bottom-6  px-5 -translate-x-2 cursor-pointer gap-3 font-bold font-onest pl-12 flex items-center red-100"
          onClick={() => logout(true)}
          >
           <LogOut size={16} />

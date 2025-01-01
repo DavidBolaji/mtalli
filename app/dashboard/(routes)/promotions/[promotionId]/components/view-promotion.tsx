@@ -1,9 +1,9 @@
 "use client";
 
-import { IProduct } from "@/actions/get-products";
 import { Button } from "@/components/button/button";
 import { allPromotionSchema } from "@/components/form/promotion-schema";
 import { Spinner } from "@/components/spinner";
+import { IEvent } from "@/components/table/event-table/types";
 import { useAxios } from "@/hooks/use-axios";
 import { useNotification } from "@/hooks/use-notification";
 import { errorMessage } from "@/utils/helper";
@@ -52,7 +52,7 @@ export default function ViewPromotion({ promotion, edit = false }: { promotion: 
       } else {
         const catData = queryClient.getQueryData([
           "SELECT_ITEM",
-        ]) as (IProduct & {
+        ]) as (IEvent & {
           weight: number;
         })[];
 
@@ -108,17 +108,17 @@ export default function ViewPromotion({ promotion, edit = false }: { promotion: 
     <div className="container mx-auto mt-6 overflow-hidden">
       {/* Header */}
       <div className="flex lg:flex-row flex-col lg:items-center justify-between mb-8 bg-white px-4 py-[19px] rounded-2xl border border-[#DDEEE5]">
-        <h1 className="text-2xl font-semibold text-left lg:mb-0 mb-4">
+        <h1 className="text-2xl font-semibold text-left font-onest  lg:mb-0 mb-4">
           {promotion?.name}
         </h1>
         <div className="flex gap-3">
-          <Button size="lg" color="light" className="h-9">
+          <Button size="lg" color="light" className="h-9 font-onest text-sm flex items-center">
             Stop Promotion
           </Button>
           <div className="w-auto">
-            {!loading ? <Button size="lg" color="dark" className="h-9" onClick={handleClick}>
+            {!loading ? <Button size="lg" color="dark" className="h-9 font-onest text-sm flex items-center" onClick={handleClick}>
               {edit ? "Update" : "Edit Promotion"}
-            </Button> : <Button disabled size="lg" color="dark" className="h-9 w-28 flex justify-center items-center">
+            </Button> : <Button disabled size="lg" color="dark" className="h-9 w-28 flex justify-center items-center text-sm font-onest">
               <Spinner />
             </Button>}
 
