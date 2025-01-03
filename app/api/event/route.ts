@@ -17,7 +17,7 @@ async function handler(req: Request) {
 
 
     try {
-        const { info, rules, policy, title, description, location, price, totalSlots, startDate, endDate, promotion, serviceFee, images } = await req.json();
+        const { info, rules, policy, title, status, description, location, price, totalSlots, startDate, endDate, promotion, serviceFee, images } = await req.json();
 
 
         if (!title || !info || !images || !description || !totalSlots || !policy || !rules || !info || !startDate || !endDate || !images || !serviceFee || !location) {

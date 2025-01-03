@@ -57,6 +57,7 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
     mutationKey: [key],
     mutationFn: async () => {
       setLoading(true)
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       const event = queryClient.getQueryData([key]);
       allEventSchema.validate(event).then(async () => {
         if (isEdit) {
@@ -84,7 +85,7 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
         });
       })
     },
-    onSuccess: () => {
+    onSettled: () => {
       setLoading(false)
     },
   });
