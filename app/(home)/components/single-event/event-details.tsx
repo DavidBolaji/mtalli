@@ -11,7 +11,7 @@ const EventDetails = ({ event }: { event?: IEvent | null }) => {
                     {event?.title}
                 </Typography>
             <Typography align='left' size='h5' as='h5' className='font-bold text-xl pb-4 border-b border-[#ABD0E4]'>
-                {event?.totalSlots} Slots Available
+                {event?.leftSlot} Slots Available
             </Typography>
             <div>
                 <Typography align='left' size='h5' as='h5' className='font-medium font-onest black-100 text-xl pt-4 '>

@@ -14,17 +14,18 @@ import { Typography } from "../typography/typography";
 import { useQueryClient } from "@tanstack/react-query";
 import { IEvent } from "../table/event-table/types";
 import { getEventsByQuery } from "@/actions/get-events";
+import EventCard from "../card/event-card";
 // import { EmptyCart } from "../empty/empty-cart";
 export const PromotionItemForm = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [events, setProducts] = useState<IEvent[] | null>(null);
   const queryClient = useQueryClient()
-  
-  const cachedSelectedCategories = queryClient.getQueryData<{key: string; label: string; value: string}[]>([
+
+  const cachedSelectedCategories = queryClient.getQueryData<{ key: string; label: string; value: string }[]>([
     "SELECT_ITEM",
   ]);
-  
+
   const [selectedIds, setSelectedIds] = useState<string[]>(
     cachedSelectedCategories?.map((cat) => cat.value) || []
   );
@@ -61,26 +62,26 @@ export const PromotionItemForm = () => {
   }, [search, debouncedQueryProducts]);
 
   useEffect(() => {
-    const fetch = async  () => {
+    const fetch = async () => {
       const events = await getEventsByQuery("");
       setProducts(events);
     }
     fetch()
   }, []);
 
- const handleData = (id: string) => {
-  const included = selectedIds.includes(id)
-  if(included) {
-    queryClient.setQueryData(['SELECT_ITEM'], (old:IEvent[]) => {
-      return old.filter(prev => prev.id !== id)
-    })
-  } else {
-    const event = events?.find((prod) => prod.id === id);
-    queryClient.setQueryData(['SELECT_ITEM'], (old:IEvent[]) => {
-      return old ? [...old, event]: [event]
-    })
+  const handleData = (id: string) => {
+    const included = selectedIds.includes(id)
+    if (included) {
+      queryClient.setQueryData(['SELECT_ITEM'], (old: IEvent[]) => {
+        return old.filter(prev => prev.id !== id)
+      })
+    } else {
+      const event = events?.find((prod) => prod.id === id);
+      queryClient.setQueryData(['SELECT_ITEM'], (old: IEvent[]) => {
+        return old ? [...old, event] : [event]
+      })
+    }
   }
- }
 
   const handleCheckboxChange = (id: string) => {
     handleData(id);
@@ -97,12 +98,12 @@ export const PromotionItemForm = () => {
         initialValues={{
           search: "",
         }}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
         validateOnBlur
         validateOnChange
         enableReinitialize
       >
-        {({ setFieldValue, values }) => (
+        {({ setFieldValue }) => (
           <Form className="space-y-4 px-10 pt-6">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-6 w-6 text-muted-foreground" />
@@ -120,40 +121,27 @@ export const PromotionItemForm = () => {
         )}
       </Formik>
 
-      <div className="space-y-4 mt-6 ml-1 px-10">
+      <div className="mt-6 ml-1 pl-10">
         {events &&
           !loading &&
           events?.map((event) => (
-            <div key={event.id} className="flex items-center space-x-2 h-14">
+            <div key={event.id} className="flex items-center w-full">
               <Checkbox
                 id={event.id}
                 onClick={() => handleCheckboxChange(event.id)}
                 checked={selectedIds.includes(event.id)}
                 onChange={() => handleCheckboxChange(event.id)}
+                className="mr-4 -mt-12"
               />
-              <label
-                htmlFor={event.title}
-                className="text-sm leading-5 font-medium"
-              >
-                <Image
-                  src={event.images[0].url}
-                  alt={event.title}
-                  width={60}
-                  height={60}
-                  priority
-                  className="p-1 mr-2 inline-block"
-                />
-                <span>
-                  <Typography
-                    size="s1"
-                    as="p"
-                    align="left"
-                    className="black-300 font-onest font-bold text-[16px] leading-6 inline-block"
-                  >
-                    {event.title}
-                  </Typography>
-                </span>
-              </label>
+              <div className="w-full mr-10">
+              <EventCard
+                thumbnailUrl={event.images[0].url || ""}
+                startDate={event?.startDate || new Date()}
+                endDate={event?.endDate || new Date()}
+                tripName={event?.title || ""}
+                basePrice={event?.price || 0}
+              />
+              </div>
             </div>
           ))}
         {!loading && !events?.length && <Empty />}

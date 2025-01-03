@@ -11,7 +11,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { Toggle } from "../input/toggle";
 import { Promotion } from "../table/promotions-table/types";
-import FormikRadioInput from "../input/formik-radio-input";
 import { IPromotion } from "@/app/dashboard/(routes)/promotions/[promotionId]/components/types";
 import { format } from "date-fns";
 export const promotionSchema = Yup.object().shape({

@@ -32,6 +32,7 @@ interface BookingCardProps {
     maxGuests?: number
     currency?: string
     mobile?: boolean
+    discount?: number 
 }
 
 export function BookingCard({
@@ -43,20 +44,22 @@ export function BookingCard({
     onBooking,
     maxGuests = 10,
     currency = "₦",
-    mobile = false
+    mobile = false,
+    discount = 0
 }: BookingCardProps) {
     const params = useSearchParams()
     const isEdit = !isEmpty(params.get("count"))
     let guest = params.get("count") || 2
     const [guests, setGuests] = useState(+guest)
-    const [agreed, setAgreed] = useState(isEdit || false )
+    const [agreed, setAgreed] = useState(isEdit || false)
 
     const formatPrice = (amount: number) => {
         return `${currency}${amount.toLocaleString()}`
     }
 
+    const waver = pricePerPerson * discount * 0.01;
 
-    const total = (pricePerPerson * guests) + serviceFee + otherFee
+    const total = ((pricePerPerson - waver) * guests) + serviceFee + otherFee;
 
     return (
         <Card className={`w-full rounded-3xl px-4 border-[#ABD0E4] ${mobile ? '': 'max-w-md'}`}>
@@ -127,6 +130,23 @@ export function BookingCard({
                                 </TooltipProvider>
                             </div>
                             <div className='font-onest black-100 font-semibold'>{formatPrice(otherFee)}</div>
+                        </div>
+
+                        <div className="flex justify-between items-center pb-4 font-medium gap-2 font-onest black-100">
+                            <div className="flex items-center gap-2 underline">
+                                Discount
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger>
+                                            <Info className="h-4 w-4 text-muted-foreground" />
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>{discount}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </div>
+                            <div className='font-onest black-100 font-semibold'>{discount}%</div>
                         </div>
 
                         <div className="flex justify-between items-center py-6 border-y border-[#ABD0E4]">

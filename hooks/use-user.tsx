@@ -26,9 +26,6 @@ export const useUser = () => {
   const Axios = useAxios();
   const { toggleNotification } = useNotification();
 
-  // const { signIn } = useSignIn();
-  // const { signUp } = useSignUp();
-  // const { isSignedIn, session } = useSession();
   const router = usePathname();
   const route = useRouter();
 
@@ -84,15 +81,46 @@ export const useUser = () => {
     [queryClient, debouncedRefetch, toggleNotification]
   );
 
+
+  const deleteUser = useCallback(
+    async (showNotification = true) => {
+      try {
+        // if (isSignedIn) await session.end();
+        await Axios.delete("/user");
+        await Axios.post("/user/logout");
+        queryClient.setQueryData(["USER"], null);
+        debouncedRefetch(); // Use debounced version
+
+        if (showNotification) {
+          toggleNotification({
+            show: true,
+            type: "success",
+            title: "Account Deletion Success",
+            message: "Your account has been deleted successfully",
+          });
+        }
+      } catch (error) {
+        console.error("Logout Error:", error);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [queryClient, debouncedRefetch, toggleNotification]
+  );
+
   // Handle login with email/password
   const login = useMutation({
     mutationKey: ["LOGIN"],
-    mutationFn: async (data: { email: string; password: string }) => {
-      const response = await Axios.post("/user/login", data);
+    mutationFn: async ({ data, redirect }: { data: {email: string, password: string}; redirect?: boolean }) => {
+      const response = await Axios.post("/user/login", {email: data.email, password: data.password});
       return response.data.user;
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       debouncedRefetch(); // Use debounced version
+      const goTo = variables?.redirect ? variables?.redirect : true;
+      debouncedRefetch()
+      if (goTo) {
+        route.push('/')
+      }
       toggleNotification({
         show: true,
         type: "success",
@@ -172,51 +200,11 @@ export const useUser = () => {
     onSettled: () => { },
   });
 
-  // Handle Google login or signup
-  // const handleGoogleAuth = useCallback(
-  //   async (action: "login" | "signup") => {
-  //     queryClient.setQueryData(["GOOGLE_ACTION"], action);
-
-  //     try {
-  //       const method = action === "login" ? signIn : signUp;
-  //       await method?.authenticateWithRedirect({
-  //         strategy: "oauth_google",
-  //         redirectUrl: "/",
-  //         redirectUrlComplete: "/",
-  //       });
-  //       close();
-  //     } catch (error) {
-  //       const title =
-  //         action === "login" ? "Google Login Error" : "Google Sign-Up Error";
-  //       toggleNotification({
-  //         show: true,
-  //         type: "error",
-  //         title,
-  //         message:
-  //           "Failed to authenticate with Google." + (error as Error).message,
-  //       });
-  //     }
-  //   },
-  //   [signIn, signUp, queryClient, toggleNotification, close]
-  // );
-
-  // Handle user session for Google login/signup
-  // const createOrRegister = useMutation({
-  //   mutationKey: ["CREATE_OR_REGISTER"],
-  //   mutationFn: async (data: unknown) => {
-  //     const response = await Axios.post("/user/google", data);
-  //     return response.data.user;
-  //   },
-  //   onSuccess: (data) => {
-  //     queryClient.setQueryData(["USER"], data);
-  //     debouncedRefetch(); // Use debounced version
-  //   },
-  // });
 
   // Handle update
   const update = useMutation({
     mutationKey: ["UPDATE_USER"],
-    mutationFn: async (data: UserType) => {
+    mutationFn: async (data: Partial<UserType>) => {
       const response = await Axios.patch("/user", data);
       return response.data;
     },
@@ -243,16 +231,8 @@ export const useUser = () => {
     login.isPending ||
     register.isPending ||
     update.isPending ||
-    // createOrRegister.isPending ||
     adminLogin.isPending;
 
-  // useEffect(() => {
-  //   if (isSignedIn) {
-  //     createOrRegister.mutate(session.publicUserData);
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isSignedIn]);
 
   // Refetch user data on route change with debounce
   useEffect(() => {
@@ -284,8 +264,7 @@ export const useUser = () => {
     adminLogin: adminLogin.mutate,
     update: update.mutate,
     isLoggedIn,
-    // googleLogin: () => handleGoogleAuth("login"),
-    // googleSignUP: () => handleGoogleAuth("signup"),
+    deleteUser: deleteUser,
     loading
   };
 };

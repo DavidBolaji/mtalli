@@ -9,6 +9,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import useEmblaCarousel from "embla-carousel-react"
 import { useRouter } from "next/navigation"
+import { useBookmark } from "@/hooks/use-bookmark"
 
 interface TravelCardProps {
   id?: string;
@@ -35,7 +36,7 @@ export default function TravelCard({
   currency = "₦",
   className,
 }: TravelCardProps) {
-  const [liked, setLiked] = React.useState(false)
+  const { isBookmarked, addEvent, deleteEvent } = useBookmark()
   const [emblaRef, emblaApi] = useEmblaCarousel()
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const router = useRouter();
@@ -69,15 +70,15 @@ export default function TravelCard({
   React.useEffect(() => {
     router.prefetch(`/event/${id}`)
   }, [id])
-  
+
   return (
-    <Card onClick={handleClick} className={cn("w-full overflow-hidden h-[376px] border-0 shadow-none", className)}>
+    <Card className={cn("w-full overflow-hidden h-[376px] border-0 shadow-none", className)}>
       <CardHeader className="p-0 relative group">
         {discount && discount > 0 ? (
           <Badge variant="secondary" className="absolute top-6 left-3 z-10 bg-yellow-100 font-onest rounded-full">
             {discount}
           </Badge>
-        ): null}
+        ) : null}
         <div className="relative" ref={emblaRef}>
           <div className="flex">
             {displayImages.map((image, index) => (
@@ -127,21 +128,26 @@ export default function TravelCard({
           </div>
         </div>
 
-        <div 
-         onClick={() => setLiked(!liked)}
-        className="absolute top-3 right-4 cursor-pointer z-10 backdrop-blur-sm">
+        <div
+          onClick={() => {
+            if(!id) return;
+            console.log('passed')
+            console.log(isBookmarked(id))
+            if(!isBookmarked(id)) return addEvent({ id })
+              deleteEvent(id)
+          }}
+          className="absolute top-3 right-4 cursor-pointer z-10 backdrop-blur-sm">
 
           <HeartIcon
-           
             className={cn(
               "transition-colors w-7 h-6 stroke-8",
-              liked ? "fill-red-500 stroke-red-500" : "stroke-[#ABD0E4] fill-white"
+              isBookmarked(id ? id: "") ? "fill-red-500 stroke-red-500" : "stroke-[#ABD0E4] fill-white"
             )}
 
           />
         </div>
       </CardHeader>
-      <CardContent className="px-0 pt-1">
+      <CardContent onClick={handleClick} className="px-0 pt-1 cursor-pointer">
         <h2 className="text-sm font-bold mb-2 font-onest black-100 text-nowrap w-56 truncate text-ellipsis">{title}</h2>
         <p className="text-sm black-200 font-medium font-onest mb-2">
           {slots} slots available

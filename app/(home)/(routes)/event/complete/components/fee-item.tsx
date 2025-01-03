@@ -17,7 +17,6 @@ interface FeeItemProps {
 
 export function FeeItem({ label, amount, tooltip, className }: FeeItemProps) {
 
-
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <div className={`flex items-center black-100 gap-2 font-onest ${label === "Total" ? "font-bold text-2xl": "underline font-medium text-base"}`}>
@@ -37,7 +36,7 @@ export function FeeItem({ label, amount, tooltip, className }: FeeItemProps) {
           </TooltipProvider>
         )}
       </div>
-      <span className={`font-bold black-100 font-onest pr-6 ${label === "Total" ? "text-2xl font-bold": "text-base font-medium"}`}>{formatToNaira(amount)}</span>
+      <span className={`font-bold black-100 font-onest pr-6 ${label === "Total" ? "text-2xl font-bold": "text-base font-medium"}`}>{label === "Discount" ? amount + "%" :formatToNaira(amount)}</span>
     </div>
   )
 }

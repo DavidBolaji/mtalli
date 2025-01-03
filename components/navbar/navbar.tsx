@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, LogIn, UserPlus, HelpCircle, Map, BarChart2, User, Heart, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,12 +8,18 @@ import { Images } from '@/constants/image';
 import { Avatar } from '../avatar/avatar';
 import { AnimatePresence } from 'framer-motion';
 import { UserType, useUser } from '@/hooks/use-user';
+import { useRouter } from 'next/navigation';
 
 
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { user, logout } = useUser();
+    const router = useRouter()
+
+    useEffect(() => {
+        setIsOpen(false)
+    }, [router])
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -32,27 +38,27 @@ const Navbar = () => {
         onClick?: () => void
     }[] => {
         const guestLinks = [
-          { name: 'Log In', href: '/auth/login', icon: LogIn },
-          { name: 'Sign Up', href: '/auth/register', icon: UserPlus },
+            { name: 'Log In', href: '/auth/login', icon: LogIn },
+            { name: 'Sign Up', href: '/auth/register', icon: UserPlus },
         ];
-      
+
         const userLinks = [
-          { name: 'Your Profile', href: '/profile', icon: User },
-          { name: 'Booking History', href: '/history', icon: Map },
-          { name: 'Saved', href: '/request', icon: Heart },
-          { name: 'Sign Out', href: '/sign-out', icon: LogOut, onClick: logout },
+            { name: 'Your Profile', href: '/profile', icon: User },
+            { name: 'Booking History', href: '/history', icon: Map },
+            { name: 'Saved', href: '/request', icon: Heart },
+            { name: 'Sign Out', href: '/sign-out', icon: LogOut, onClick: logout },
         ];
-      
+
         const commonLinks = [
-          { name: 'Help Center', href: '/help', icon: HelpCircle },
-          { name: 'Request a Destination', href: '/request', icon: Map },
+            { name: 'Help Center', href: '/help', icon: HelpCircle },
+            { name: 'Request a Destination', href: '/request', icon: Map },
         ];
-      
+
         return user ? [...userLinks, ...commonLinks] : [...guestLinks, ...commonLinks];
-      };
+    };
 
     return (
-        <nav className="w-full bg-white shadow-sm h-24 sticky top-0 z-[9999999]">
+        <nav className="w-full bg-white shadow-sm h-24 sticky top-0 z-[999]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
                 <div className="flex justify-between items-center h-24">
                     {/* Logo */}
@@ -69,7 +75,7 @@ const Navbar = () => {
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className="text-gray-700 font-onest hover:bg-gray-100 rounded-md px-3 py-2 text-sm font-medium"
+                                    className="text-gray-700 font-onest cursor-pointer hover:bg-gray-100 rounded-md px-3 py-2 text-sm font-medium"
                                 >
                                     {link.name}
                                 </Link>
@@ -82,7 +88,7 @@ const Navbar = () => {
                                 <button
                                     className="p-2 rounded-full focus:outline-none"
                                 >
-                                    <Avatar size='lg' className='w-9 h-9' />
+                                    {user?.pic ? <Avatar src={user?.pic} size='lg' className='w-9 h-9' /> : <Avatar size='lg' className='w-9 h-9' />}
                                 </button>
 
                                 {/* Dropdown Menu */}
@@ -93,18 +99,18 @@ const Navbar = () => {
                                                 <div key={link.name} className='p-0 m-0'>
                                                     {link.name === "Sign Out" ? <span
                                                         onClick={link.onClick}
-                                                        className="flex transition-colors duration-300 items-center px-4 py-3 text-sm text-gray-700 font-onest hover:bg-gray-100"
+                                                        className="flex transition-colors cursor-pointer duration-300 items-center px-4 py-3 text-sm text-gray-700 font-onest hover:bg-gray-100"
                                                     >
                                                         <link.icon size={'28'} color='black' className="h-4 w-4 mr-3 black-100" />
                                                         {link.name}
-                                                    </span>:
-                                                    <Link
-                                                    href={link.href}
-                                                    className="flex transition-colors duration-300 items-center px-4 py-3 text-sm text-gray-700 font-onest hover:bg-gray-100"
-                                                >
-                                                    <link.icon size={'28'} color='black' className="h-4 w-4 mr-3 black-100" />
-                                                    {link.name}
-                                                </Link>
+                                                    </span> :
+                                                        <Link
+                                                            href={link.href}
+                                                            className="flex transition-colors cursor-pointer duration-300 items-center px-4 py-3 text-sm text-gray-700 font-onest hover:bg-gray-100"
+                                                        >
+                                                            <link.icon size={'28'} color='black' className="h-4 w-4 mr-3 black-100" />
+                                                            {link.name}
+                                                        </Link>
                                                     }
                                                     {ind + 1 === 2 ? <hr className='my-2' /> : null}
                                                 </div>

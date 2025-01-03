@@ -22,7 +22,7 @@ export const ItemCategoryDrawer = () => {
           width={485}
           footer={null}
         >
-          <div className="w-full h-24 sticky top-0 z-10 bg-grey-200 flex items-center justify-between pl-10 pr-9">
+          <div className="w-full h-24 bg-white sticky top-0 z-10 bg-grey-200 flex items-center justify-between pl-10 pr-9">
             <div className="flex items-center">
               
               <span className="inline-block pl-2.5 text-h5 font-bold text-2xl black-100">

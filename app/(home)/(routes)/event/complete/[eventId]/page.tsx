@@ -32,6 +32,7 @@ export default async function ConfirmBookingPage({
         serviceFee={event?.serviceFee}
         otherFee={0}
         thumbnailUrl={event.images[0].url}
+        discount={event?.promotion[0]?.discount || 0}
       />
     </div>
   )

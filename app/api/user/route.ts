@@ -151,8 +151,35 @@ async function updateHandler(userId: string, req: NextRequest) {
   }
 }
 
+async function deleteHandler(userId: string) {
+  try {
+
+    await db.user.delete({
+      where: {
+        id: userId as string,
+      },
+    });
+
+    // Prepare the response with cookies for access and refresh tokens
+    const response = NextResponse.json({
+      message: "User deleted successfully",
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return NextResponse.json({ message: "Internal error" }, { status: 500 });
+  }
+}
+
 export async function PATCH(req: NextRequest) {
   return authMiddleware(req, async (userId) => {
     return updateHandler(userId, req);
+  });
+}
+
+export async function DELETE(req: NextRequest) {
+  return authMiddleware(req, async (userId) => {
+    return deleteHandler(userId);
   });
 }

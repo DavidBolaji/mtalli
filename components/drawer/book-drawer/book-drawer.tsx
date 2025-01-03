@@ -43,6 +43,7 @@ const BookDrawer = () => {
                     toggleOverlay(false)
                     router.push(`/event/complete/${data?.id}?count=${guests}`)
                 }}
+                discount={data?.promotion[0]?.discount || 0}
                 mobile
             />
         </StyledMobileDrawer>

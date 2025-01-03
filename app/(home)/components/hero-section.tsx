@@ -20,21 +20,7 @@ export default function HeroSection() {
                 />
             </div>
 
-            {/* Desktop Navigation */}
-           
-
-            {/* Mobile Search */}
-            <div className="relative z-10 p-4 lg:hidden">
-                <div className="relative">
-                    <input
-                        type="text"
-                        placeholder="Search for an experience"
-                        className="w-full rounded-full border bg-white px-12 py-3 shadow-lg"
-                    />
-                    <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-                </div>
-            </div>
-
+          
             <div className="relative z-10 mx-auto py-12 md:py-12">
                 <div className="grid gap-12 md:grid-cols-2">
                     {/* Left Content */}

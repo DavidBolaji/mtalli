@@ -4,5 +4,5 @@ import React from "react";
 
 export const Overlay = () => {
   const { overlay } = useOverlay();
-  return overlay ?  <div className="fixed inset-0 bg-black/40" />: null;
+  return overlay ?  <div className=" inset-0 bg-black/40" />: null;
 };

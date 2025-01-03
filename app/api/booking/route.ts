@@ -89,7 +89,7 @@ async function handler(req: Request, userId: string) {
 
 async function updateHandler(req: Request, userId: string) {
     try {
-        const { status, id} = await req.json() as Booking & { promotion?: string };
+        const { status, id } = await req.json() as Booking & { promotion?: string };
         // Use a transaction for atomic operations
         const result = await db.$transaction(async (tx) => {
             // Create the booking
@@ -116,13 +116,48 @@ async function updateHandler(req: Request, userId: string) {
     }
 }
 
+async function getHandler(req: Request, userId: string) {
+    try {
+
+        const bookings = await db.booking.findMany({
+            where: {
+                userId
+            },
+            select: {
+                id: true,
+                orderNo: true,
+                bookingCount: true,
+                events: {
+                    select: {
+                        id: true,
+                        title: true,
+                        images: true,
+                        totalSlots: true,
+                        startDate: true,
+                        endDate: true,
+                        price: true
+                    },
+                },
+                createdAt: true,
+            },
+        })
+
+        // Success response
+        return NextResponse.json({
+            message: `Booking fetch successfully`,
+            bookings,
+        });
+    } catch (error) {
+        console.error("Error creating booking:", error);
+        return new NextResponse(`Internal server error: ${(error as Error).message}`, { status: 500 });
+    }
+}
 
 export async function POST(req: NextRequest) {
     return authMiddleware(req, async (userId: string) => {
         return handler(req, userId);
     });
 }
-
 
 export async function PUT(req: NextRequest) {
     return authMiddleware(req, async (userId: string) => {
@@ -142,5 +177,11 @@ export async function PUT(req: NextRequest) {
             return NextResponse.json({ message: "Only admin can update booking" }, { status: 401 });
         }
         return updateHandler(req, userId);
+    });
+}
+
+export async function GET(req: NextRequest) {
+    return authMiddleware(req, async (userId: string) => {
+        return getHandler(req, userId);
     });
 }

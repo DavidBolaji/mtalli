@@ -12,6 +12,7 @@ import FormikSelectInput from "@/components/input/formik-select-input";
 
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import useCountry from "@/hooks/useCountry";
 
 dayjs.extend(customParseFormat);
 
@@ -24,6 +25,7 @@ export const EventDetailsForm: React.FC<{
 }> = ({ btnRef, event, keyz }) => {
   const queryClient = useQueryClient();
   const { promotions } = usePromotions();
+  const {countries} = useCountry()
 
   const init = {
     title: event?.title ?? "",
@@ -75,11 +77,12 @@ export const EventDetailsForm: React.FC<{
             />
 
             <Field
-              as={FormikNormalInput}
+              as={FormikSelectInput}
+              options={countries ?? []}
               name="location"
               placeholder="Location"
               align={-5}
-              y={-14}
+              y={7}
               required
             />
 
@@ -117,14 +120,14 @@ export const EventDetailsForm: React.FC<{
                 as={DateInput}
                 picker="date"
                 placeholder="Start Date"
-                defaultValue={dayjs(values.startDate.toLocaleString())}
+                defaultValue={values.startDate ? dayjs(values.startDate.toLocaleString()): null}
               />
               <Field
                 name="endDate"
                 as={DateInput}
                 picker="date"
                 placeholder="End date"
-                defaultValue={dayjs(values.endDate.toLocaleString())}
+                defaultValue={values.endDate ? dayjs(values.endDate.toLocaleString()): null}
               />
             </span>
             <Field

@@ -32,7 +32,7 @@ export const LoginForm:React.FC<{btnTxt?: string}> = ({btnTxt}) => {
     await new Promise(resolve => setTimeout(resolve, 1000))
     LoginValidation.validate(values)
     .then(() => {
-      login({ email: values.email, password: values.password });
+      login({ data: {email: values.email, password: values.password }, redirect: btnTxt ? false : true });
     })
     .catch((reason) => {
       toggleNotification({

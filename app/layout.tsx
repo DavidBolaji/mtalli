@@ -9,6 +9,7 @@ import { DeleteModal } from "@/components/modal/delete-modal/delete-modal";
 import BookDrawer from "@/components/drawer/book-drawer/book-drawer";
 import { ItemCategoryDrawer } from "@/components/drawer/promotion-drawer/item-promotion-drawer";
 import Loading from "@/components/loading";
+import FilterDrawer from "@/components/drawer/filter-drawer/filter-drawer";
 
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default function RootLayout({
             <DeleteModal />
             <Overlay />
             <BookDrawer />
+            <FilterDrawer />
             <ItemCategoryDrawer />
           </TanstackProvider>
         </AntdRegistry>

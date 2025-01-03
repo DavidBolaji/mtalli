@@ -28,7 +28,7 @@ const destinations = [
 
 export default function TravellerPage() {
     return (
-        <div className="min-h-screen md:-translate-y-6  relative -translate-y-64 px-4 py-10 md:px-8">
+        <div className="min-h-screen md:-translate-y-36 relative -translate-y-80 px-4 py-10 md:px-8">
 
             <div className="mx-auto max-w-7xl">
                 <h2 className="text-[41px] font-extrabold bg-transparent mb-14 font-onest black-100 text-center "> For the Curious Traveller</h2>

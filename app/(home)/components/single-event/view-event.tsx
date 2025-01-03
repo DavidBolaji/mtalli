@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 
 const ViewEvent = ({ event }: { event?: IEvent | null }) => {
     const router = useRouter()
+    
     return (
         <div className='px-0 relative'>
             <ImageGallery images={event?.images.map(el => el.url)} />
@@ -17,6 +18,7 @@ const ViewEvent = ({ event }: { event?: IEvent | null }) => {
                 </div>
                 <div className='col-span-4 lg:block hidden'>
                     <BookingCard
+                        discount={event?.promotion[0]?.discount || 0}
                         pricePerPerson={event?.price || 0}
                         serviceFee={event?.serviceFee || 0}
                         otherFee={0}

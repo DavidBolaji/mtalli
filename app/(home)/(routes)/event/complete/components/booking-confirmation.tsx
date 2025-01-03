@@ -30,6 +30,7 @@ interface BookingConfirmationProps {
   serviceFee: number
   otherFee: number
   thumbnailUrl: string
+  discount: number
 }
 
 export function BookingConfirmation({
@@ -40,7 +41,8 @@ export function BookingConfirmation({
   guestCount,
   serviceFee,
   otherFee,
-  thumbnailUrl
+  thumbnailUrl,
+  discount
 }: BookingConfirmationProps) {
   const router = useRouter()
   const params = useParams()
@@ -53,9 +55,9 @@ export function BookingConfirmation({
     key: 'LOGIN'
   })
 
-
-  const tripFee = basePrice * guestCount
-  const total = tripFee + serviceFee + otherFee
+  const waver = basePrice * discount * 0.01;
+  const tripFee = (basePrice - waver) * guestCount
+  const total = tripFee + serviceFee + otherFee;
 
   const data = {
     totalPrice: total,
@@ -244,6 +246,14 @@ export function BookingConfirmation({
                     label="Other fee"
                     amount={otherFee}
                     tooltip="Additional charges including taxes and processing fees."
+                  />
+                </div>
+                <div className="pl-6">
+                  <FeeItem
+                    label="Discount"
+                    amount={discount}
+                    tooltip="Additional charges including taxes and processing fees."
+                    className="mt-4"
                   />
                 </div>
               </div>
