@@ -103,7 +103,7 @@ export function BookingConfirmation({
           onClick={onBack}
           className="rounded-full"
         >
-          <CaretLeftIcon className="w-10 h-10" />
+          <CaretLeftIcon  className="w-10 h-10 text-lg" />
         </ShadBtn>
         <h4 className="md:text-[40px] text-2xl font-onest font-extrabold black-100">Complete booking</h4>
       </div>
@@ -117,9 +117,9 @@ export function BookingConfirmation({
                 <Image
                   src={thumbnailUrl}
                   alt={tripName}
-                  width={100}
-                  height={100}
-                  className="rounded-3xl object-cover"
+                  width={140}
+                  height={140}
+                  className="rounded-3xl h-full bg-red-400 object-cover"
                 />
                 <div className="space-y-1">
                   <h2 className="font-onest text-sm font-bold black-100 mb-2">{tripName}</h2>

@@ -22,8 +22,8 @@ const EventCard = ({ thumbnailUrl, tripName, startDate, endDate, basePrice, gues
                     <Image
                         src={thumbnailUrl}
                         alt={tripName}
-                        width={100}
-                        height={100}
+                        width={140}
+                        height={140}
                         className="rounded-3xl object-cover"
                     />
                     <div className="space-y-1">

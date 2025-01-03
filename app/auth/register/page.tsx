@@ -14,7 +14,7 @@ export default async function RegisterPage() {
                 <div className='grid lg:grid-cols-12 grid-cols-6'>
                     <div className='col-span-6'>
                         <div className='flex md:items-center md:px-12 flex-col justify-center w-full h-full'>
-                            <Typography align='left' size='h3' as='h3' className='mb-6 md:text-[48px] md:mt-0 mt-8 text-[23px] text-nowrap'>
+                            <Typography align='left' size='h3' as='h3' className='mb-6 md:text-[48px] md:mt-0 mt-8 text-xl lg:text-nowrap'>
                             Welcome to Mtalii
                             </Typography>
 
