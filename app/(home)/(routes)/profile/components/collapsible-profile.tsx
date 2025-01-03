@@ -11,7 +11,6 @@ import {
 import { cn } from "@/lib/utils"
 import { useSearchParams } from "next/navigation"
 import { redirectProfile } from "@/actions/get-events"
-import { useRouter } from "next/navigation"
 
 interface NavItem {
   id: string
@@ -43,7 +42,6 @@ export function CollapsibleProfileNav() {
   const [isOpen, setIsOpen] = React.useState(false)
   const searchParams = useSearchParams();
   const active = searchParams.get("active") || "details";
-  const router = useRouter()
 
   React.useEffect(() => {
     setIsOpen(false)

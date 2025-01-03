@@ -172,8 +172,6 @@ export async function PUT(req: Request) {
       where: { id: promoId },
       select: { code: true }
     })
-    // Determine promotion type
-    const promotionType = type.toLowerCase() === "item" ? "ITEM" : "CATEGORY";
 
     db.$transaction(async (tx) => {
 

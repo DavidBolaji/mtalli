@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/button/button'
 import { Images } from '@/constants/image'
-import { Search } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 

@@ -49,13 +49,13 @@ export const DeleteModal = () => {
                             align="center"
                             size="h6"
                             as="h6"
-                            className="font-bold mb-4"
+                            className="font-bold mb-4 font-onest text-xl"
                         >
                             Are you sure you want to delete??
                         </Typography>
                         <div className="gap-x-2 flex">
-                            <Button disabled={isPending} size="lg" color="light" onClick={close} className="h-9 w-24">No</Button>
-                            <Button disabled={isPending} size="lg" color="dark" onClick={deleteAll} className="h-9 w-24">{isPending ? <Spinner /> : "Yes"}</Button>
+                            <Button disabled={isPending} size="lg" color="light" onClick={close} className="h-9 w-24 flex items-center justify-center text-sm">No</Button>
+                            <Button disabled={isPending} size="lg" color="dark" onClick={deleteAll} className="h-9 w-24 flex items-center justify-center text-sm">{isPending ? <Spinner /> : "Yes"}</Button>
 
                         </div>
                     </div>
@@ -83,13 +83,13 @@ export const DeleteModal = () => {
                             align="center"
                             size="h6"
                             as="h6"
-                            className="font-bold mb-4"
+                            className="font-bold mb-4 font-onest text-xl"
                         >
                             Are you sure you want to delete??
                         </Typography>
                         <div className="gap-x-2 flex">
-                            <Button size="lg" color="light" onClick={close} className="h-9 w-24">No</Button>
-                            <Button size="lg" color="dark" onClick={deleteAll} className="h-9 w-24">Yes</Button>
+                            <Button size="lg" color="light" onClick={close} className="h-9 w-24 items-center justify-center text-sm">No</Button>
+                            <Button size="lg" color="dark" onClick={deleteAll} className="h-9 w-24 items-center justify-center text-sm">Yes</Button>
 
                         </div>
                     </div>

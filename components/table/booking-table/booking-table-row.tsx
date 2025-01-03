@@ -22,7 +22,7 @@ export default function BookingTableRow({
   booking,
   selectedItems,
   toggleSelectItem,
-  deleteOne
+
 }: BookingTableRowProps) {
 
   const item = booking?.events;

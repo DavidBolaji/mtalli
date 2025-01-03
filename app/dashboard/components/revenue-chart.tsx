@@ -42,7 +42,7 @@ const CustomizedDot = (props: any) => {
 };
 
 export default function RevenueChart({monthlyRevenue}:{monthlyRevenue: {month: string, revenue: number}[]}) {
-  const [filter, setFilter] = useState("This Year");
+  const [filter] = useState("This Year");
   const chartRef = useRef(null);
   const [chartHeight, setChartHeight] = useState(0);
 

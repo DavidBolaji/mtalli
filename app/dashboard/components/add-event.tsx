@@ -46,7 +46,7 @@ export default function AddEvent({ event }: { event?: IEvent | null }) {
         endDate: event?.endDate,
         price: event?.price,
         serviceFee: event?.serviceFee,
-        status: event?.status === "ACTIVE" ?? false,
+        status: event?.status === "ACTIVE" || false,
         images: urls
       }));
     }

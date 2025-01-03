@@ -15,7 +15,7 @@ import FilterDrawer from "@/components/drawer/filter-drawer/filter-drawer";
 export const metadata: Metadata = {
   title: "Mtalli",
   description:
-    "",
+    "We're here to make planning your next adventure as delightful as the journey itself.",
 };
 
 const onest = Onest({

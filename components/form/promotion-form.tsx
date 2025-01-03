@@ -79,7 +79,7 @@ export const PromotionForm: React.FC<{
       enableReinitialize
       key={user?.id}
     >
-      {({ values }) => (
+      {({ }) => (
         <Form className="w-full bg-white rounded-2xl p-6">
           <div className="flex justify-between">
             <Typography

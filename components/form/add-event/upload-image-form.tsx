@@ -14,7 +14,7 @@ type UploadImageFormProps<T> = {
   urls?: string[];
   count?: number;
   keyz: string;
-  // type: keyzof T; // Dynamic keyz based on the provided type
+  type?: keyof T; // Dynamic keyz based on the provided type
 };
 
 export const UploadImageForm = <T extends Record<string, any>>({

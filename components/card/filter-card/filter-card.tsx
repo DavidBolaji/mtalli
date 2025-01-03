@@ -34,7 +34,7 @@ export default function FilterCard({mobile = false}: {mobile?: boolean}) {
             <h3 className="text-xl font-bold font-onest">Destination</h3>
             <ChevronDown className="h-5 w-5 text-muted-foreground" />
           </div>
-          {/* @ts-ignore */}
+      
           <form onSubmit={(e) => {
             e.preventDefault()
             const f = new FormData(e.currentTarget)

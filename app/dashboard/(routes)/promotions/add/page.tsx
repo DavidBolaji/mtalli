@@ -1,7 +1,6 @@
 import React from "react";
 import { Crumb } from "@/components/crumb/crumb";
 import AddPromotions from "@/app/dashboard/components/add-promotion";
-// import AddOrders from "@/app/dashboard/components/add-orders";
 
 export const revalidate = 0;
 

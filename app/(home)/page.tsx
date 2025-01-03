@@ -3,7 +3,6 @@ import HeroSection from "./components/hero-section";
 import TravelPage from "./components/travel-page";
 import TravellerPage from "./components/travellers";
 import Footer from "@/components/footer/footer";
-import { Search } from "lucide-react";
 import SearchBar from "@/components/search-bar/search-bar";
 
 

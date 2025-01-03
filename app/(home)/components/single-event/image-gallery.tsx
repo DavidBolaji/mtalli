@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Image, { StaticImageData } from "next/image"
-import { ChevronLeft, ChevronRight, HeartIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import useEmblaCarousel from "embla-carousel-react"

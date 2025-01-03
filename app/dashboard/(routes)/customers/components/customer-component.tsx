@@ -4,9 +4,7 @@
 import React from "react";
 import { SelectedCustomerButtons } from "./select-customer-buttons";
 import { IUser } from "@/actions/get-customers";
-import { Category } from "@prisma/client";
 import { DetailComponent } from "./detail-section/detail-component";
-import CustomerOrdersTable from "@/components/table/customer-order-table/customer-orders-table";
 import EventCard from "@/components/card/event-card";
 
 interface ICustomerComponent {
@@ -20,12 +18,9 @@ interface ICustomerComponent {
 export const CustomerComponent: React.FC<ICustomerComponent> = ({
   customerName,
   customer,
-  searchParams,
-  totalPages,
   data
 }) => {
-  const page = parseInt(searchParams?.page as string) || 1;
-  const limit = parseInt(searchParams?.limit as string) || 10;
+
 
   return (
     <div className="">

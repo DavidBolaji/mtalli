@@ -18,17 +18,12 @@ export default function Loading() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-
-    NProgress.start()
-
-    setTimeout(() => {
-
+    NProgress.start();
+    
+    const timeout = setTimeout(() => {
       NProgress.done();
-    }, 100); // Small delay to ensure smooth transition
-   
+    }, 10); // Small delay to ensure smooth transition
 
     return () => {
       clearTimeout(timeout);

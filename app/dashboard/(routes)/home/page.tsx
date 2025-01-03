@@ -6,8 +6,8 @@ import { endOfDay, startOfYear } from "date-fns";
 import { RenderDashboardcards } from "../../components/render-dashboard-cards";
 import db from "@/db/db";
 import { RenderRevenueBooking } from "../../components/render-revenue-booking";
-import { MeatCard, SideCards } from "../../components/side-cards";
-import FilterComponent from "../../components/filter-component";
+import { SideCards } from "../../components/side-cards";
+
 import { Empty } from "antd";
 import Link from "next/link";
 import { Plus } from "lucide-react";
@@ -15,17 +15,9 @@ import { Button } from "@/components/button/button";
 import EventCard from "@/components/card/event-card";
 
 
-interface DashboardSearchParams {
-  [key: string]: string;
-}
 
-export default async function Dashboard({
-  searchParams,
-}: {
-  searchParams: DashboardSearchParams;
-}) {
-  const sort = searchParams.sort || "createdAt";
-  const sortOrder = searchParams.sortOrder || "asc";
+
+export default async function Dashboard() {
   const startOfCurrentYear = startOfYear(new Date());
   const todayEndOfDay = endOfDay(new Date());
 
@@ -101,6 +93,7 @@ export default async function Dashboard({
   return (
     <div className="bg-grey-200 p-4">
       <RenderDashboardcards data={dashboardCard(data)} />
+
       <RenderRevenueBooking />
       <div className="col-span-12 my-6">
         <SideCards

@@ -4,7 +4,6 @@ import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { CheckboxMinus } from "@/components/ui/checkboxminus";
-import { Event } from "@prisma/client";
 import { IEvent } from "./types";
 
 interface ProductTableHeaderProps {

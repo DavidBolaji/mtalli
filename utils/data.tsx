@@ -1,5 +1,6 @@
 
 
+import { deleteBookings } from "@/actions/get-bookings";
 import { deleteEvents } from "@/actions/get-events";
 import { ICON } from "@/constants/icon";
 import { FacebookIcon } from "@/constants/icons/facebook";
@@ -1162,6 +1163,6 @@ export const toolbar = {
 
 export const deleteHash = {
   "DELETE_EVENTS": deleteEvents,
-  // "DELETE_BOOKINGS": deleteOrders,
+  "DELETE_BOOKINGS": deleteBookings,
   // "DELETE_PROMOTIONS": deletePromotions,
 }

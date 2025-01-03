@@ -4,8 +4,7 @@ import { IcreateEvent, IEvent } from "@/components/table/event-table/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { Field, Form, Formik } from "formik";
 import React from "react";
-// import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
+
 import DateInput from "@/components/input/date/date-input";
 import { usePromotions } from "@/hooks/use-promotion";
 import FormikSelectInput from "@/components/input/formik-select-input";

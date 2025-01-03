@@ -28,27 +28,18 @@ const DateInput: FC<DateInputProps> = ({
   placeholder,
   className,
   defaultValue,
-  ...rest
 }) => {
   const { getFieldProps, setFieldTouched, setFieldValue, } = useFormikContext();
 
   const fieldProps = getFieldProps(name);
   const hasValue = !isEmpty(fieldProps?.value)
 
-  // const [hasValue, setHasValue] = useState(!!rest.defaultValue);
-
-  // useEffect(() => {
-  //   setHasValue(!!fieldProps.value);
-  // }, [fieldProps.value]);
-
   if (!fieldProps) {
     return null;
   }
 
   const handleChange: DatePickerProps['onChange'] = (date, dateString) => {
-    // console.log(date, dateString);
     setFieldValue(name, dateString);
-    //  setHasValue(!!dateString);
   };
 
   return (

@@ -1,5 +1,4 @@
 import { Typography } from "@/components/typography/typography";
-import classNames from "classnames";
 import React from "react";
 import { IPromotion } from "./types";
 import EventCard from "@/components/card/event-card";

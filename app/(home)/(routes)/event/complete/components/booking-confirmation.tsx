@@ -170,7 +170,7 @@ export function BookingConfirmation({
                         <>
                           <LoginForm btnTxt={'Continue'} />
                           <div className="font-onest w-full text-center font-medium text-sm mt-10 black-100">
-                            Don't have an account? <ShadBtn variant={'link'} className="underline  capitalize font-onest font-bold text-sm black-200"
+                            Don&apos;t have an account? <ShadBtn variant={'link'} className="underline  capitalize font-onest font-bold text-sm black-200"
                             onClick={() => {
                               setOpen({
                                 shown: true,

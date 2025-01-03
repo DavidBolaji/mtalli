@@ -14,7 +14,6 @@ interface CustomerPageSearchParams {
 
 export default async function EventEditPage({
     params,
-    searchParams,
 }: CustomerPageSearchParams) {
     const eventId = params.eventId;
     const eventRequest = getEvent(eventId);

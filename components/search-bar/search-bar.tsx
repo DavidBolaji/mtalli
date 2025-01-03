@@ -7,7 +7,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 
-const SearchBar:React.FC<{filter?: boolean}> = ({filter}) => {
+const SearchBar:React.FC<{filter?: boolean}> = ({}) => {
     const params = useSearchParams()
     const router = useRouter()
     const [where, setWhere] = useState("")

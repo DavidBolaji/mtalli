@@ -1,6 +1,5 @@
 import Image from "next/image"
 import { Card } from "@/components/ui/card"
-import { Typography } from "@/components/typography/typography"
 import { Images } from "@/constants/image"
 
 const destinations = [

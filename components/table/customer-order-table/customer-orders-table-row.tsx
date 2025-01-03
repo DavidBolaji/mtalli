@@ -7,8 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 import Link from "next/link";
-import { format } from "date-fns";
-import { CustomerBooking, IBooking } from "@/actions/get-customers";
+import { CustomerBooking } from "@/actions/get-customers";
 
 interface CustomerOrdersTableRowProps {
   orders: CustomerBooking;

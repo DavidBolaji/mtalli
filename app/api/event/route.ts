@@ -13,7 +13,7 @@ export async function OPTIONS() {
     return NextResponse.json({}, { headers: corsHeaders });
 }
 
-async function handler(req: Request, userId: string) {
+async function handler(req: Request) {
 
 
     try {
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
         if (!exist) {
             return NextResponse.json({ message: "Only admin can create event" }, { status: 401 });
         }
-        return handler(req, userId);
+        return handler(req);
     });
 }
 

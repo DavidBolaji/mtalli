@@ -19,7 +19,7 @@ export default async function LoginPage() {
 
                             <LoginForm  />
                             <span className='mt-12 font-onest black-200 text-center'>
-                                Don't have an account? {" "}
+                                Don&apos;t have an account? {" "}
                                 <Link href="/auth/register" className='underline'>Create an account.</Link>
                             </span>
                         </div>

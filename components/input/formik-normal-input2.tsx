@@ -1,6 +1,6 @@
 // formik-normal-input.tsx
 
-import React, { InputHTMLAttributes, FocusEvent } from "react";
+import React, { InputHTMLAttributes } from "react";
 import { useField } from "formik";
 import NormalInput2 from "./normal-input2";
 

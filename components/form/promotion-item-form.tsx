@@ -9,13 +9,11 @@ import { Input } from "../ui/input";
 
 import { Empty } from "antd";
 import { Checkbox } from "../ui/checkbox";
-import Image from "next/image";
-import { Typography } from "../typography/typography";
 import { useQueryClient } from "@tanstack/react-query";
 import { IEvent } from "../table/event-table/types";
 import { getEventsByQuery } from "@/actions/get-events";
 import EventCard from "../card/event-card";
-// import { EmptyCart } from "../empty/empty-cart";
+
 export const PromotionItemForm = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);

@@ -87,7 +87,7 @@ async function handler(req: Request, userId: string) {
     }
 }
 
-async function updateHandler(req: Request, userId: string) {
+async function updateHandler(req: Request) {
     try {
         const { status, id } = await req.json() as Booking & { promotion?: string };
         // Use a transaction for atomic operations
@@ -176,7 +176,7 @@ export async function PUT(req: NextRequest) {
         if (!exist) {
             return NextResponse.json({ message: "Only admin can update booking" }, { status: 401 });
         }
-        return updateHandler(req, userId);
+        return updateHandler(req);
     });
 }
 

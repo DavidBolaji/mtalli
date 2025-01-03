@@ -19,7 +19,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Button } from '../button/button'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { isEmpty } from 'lodash'
 
 interface BookingCardProps {
@@ -49,7 +49,7 @@ export function BookingCard({
 }: BookingCardProps) {
     const params = useSearchParams()
     const isEdit = !isEmpty(params.get("count"))
-    let guest = params.get("count") || 2
+    const guest = params.get("count") || 2
     const [guests, setGuests] = useState(+guest)
     const [agreed, setAgreed] = useState(isEdit || false)
 

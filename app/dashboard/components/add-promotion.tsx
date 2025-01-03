@@ -105,7 +105,6 @@ export default function AddPromotions() {
     };
 
   const open = () => {
-    const path = getPath();
     return toggleItemDrawer(true);
   };
 

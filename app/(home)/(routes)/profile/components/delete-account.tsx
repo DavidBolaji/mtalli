@@ -21,7 +21,7 @@ const DeleteAccount = () => {
             </ul>
             <p className='font-onest text-sm mt-2 font-normal black-100 '>
 
-                If you're sure you want to delete your account, please confirm below. For other options, such as temporary deactivation, please contact our support team.
+                If you&apos;re sure you want to delete your account, please confirm below. For other options, such as temporary deactivation, please contact our support team.
             </p>
             <div className='mt-6'>
                 <DeleteForm />

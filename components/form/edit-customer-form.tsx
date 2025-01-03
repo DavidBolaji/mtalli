@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import FormikNormalInput from "../input/formik-normal-input";
 import { Field,  Form, Formik } from "formik";
 import { IUser } from "@/actions/get-customers";
@@ -11,7 +11,7 @@ export const EditCustomerForm: React.FC<{
   order?: boolean,
   reset?: number,
   customer?: boolean
-}> = ({ user, disabled = false, order = false, reset, customer = true }) => {
+}> = ({ user, disabled = false, reset }) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {

@@ -16,7 +16,6 @@ type WYSIWYGFormProps<T> = {
 };
 
 export const WYSIWYGForm = <T extends Record<string, any>>({
-  btnRef,
   text,
   keyz,
   types,

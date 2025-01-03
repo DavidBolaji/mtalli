@@ -104,9 +104,7 @@ async function updateHandler(userId: string, req: NextRequest) {
       );
     }
 
-    const { id, fname, lname, phone, pic, address, 
-      // orderAddress 
-    } = await req.json();
+    const { id, fname, lname, phone, pic } = await req.json();
 
     // Update user details
     await db.user.update({

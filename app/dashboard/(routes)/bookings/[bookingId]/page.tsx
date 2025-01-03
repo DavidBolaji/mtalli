@@ -5,7 +5,7 @@ import { Crumb } from "@/components/crumb/crumb";
 
 import React from "react";
 import ViewOrder from "./components/view-booking";
-import { getSinglebooking, IBook, ISingleBooking } from "@/actions/get-bookings";
+import { getSinglebooking, ISingleBooking } from "@/actions/get-bookings";
 import { BookingComponent } from "./components/booking-component";
 
 
@@ -38,7 +38,7 @@ export default async function BookingPage({
               href: "/dashboard/bookings",
             },
             {
-              text: user,
+              text: user || "",
               href: "",
             },
           ]}

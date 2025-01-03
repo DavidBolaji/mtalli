@@ -5,6 +5,7 @@ import { useNotification } from "./use-notification";
 
 import { useSearchParams } from "next/navigation";
 import { filterEvent } from "@/actions/get-events";
+import { filterBooking } from "@/actions/get-bookings";
 
 
 export const useDeleteModal = () => {
@@ -83,6 +84,7 @@ export const useDeleteModal = () => {
             })
 
             if (item.key === "DELETE_EVENTS") return filterEvent(formData, params)
+            if (item.key === "DELETE_BOOKINGS") return filterBooking(formData, params)
             //    if (item.key === "DELETE_ORDERS") return filterOrder(formData, params)
             //    if (item.key === "DELETE_PROMOTIONS") return filterPromotions(formData, params)
             //    if (item.key === "DELETE_BLOGS") return filterContent(formData, params)
