@@ -8,9 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'We\'re here to make planning your next adventure as delightful as the journey itself.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#000000',
-    // theme_color: '#7DBA00',
-    theme_color: '#ffffff',
+    background_color: '#ffffff',
+    theme_color: '#000000',
     icons: [
       {
         src: '/logo.png',

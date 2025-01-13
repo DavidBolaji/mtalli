@@ -47,8 +47,8 @@ const EventDetails = ({ event }: { event?: IEvent | null }) => {
                     <SafeHTML content={event?.rules ?? ""} />
                 </div>
             </div>
-            <div>
-                <div className='bg-black-400 rounded-xl black-100 p-4 font-onest font-semibold'>
+            <div className='lg:mb-20'>
+                <div className='bg-black-400 rounded-xl black-100  p-4 font-onest font-semibold'>
                     Cancellation Policy
                 </div>
                 <div className='p-4'>

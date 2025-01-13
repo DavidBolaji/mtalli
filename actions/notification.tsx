@@ -5,7 +5,7 @@ import webpush from 'web-push'
 
 
 webpush.setVapidDetails(
-    'https://gomtalli.com',
+    'https://gomtalii.com',
     process.env.NEXT_PUBLIC_VAPID_KEY!,
     process.env.VAPID_PRIVATE_KEY!
 )
@@ -23,7 +23,7 @@ export const sendNotification = async (
     }
 
     webpush.setVapidDetails(
-        "https://gomtlli.com",
+        "https://gomtalii.com",
         vapidKeys.publicKey,
         vapidKeys.privateKey
     );

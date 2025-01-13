@@ -4,6 +4,7 @@ import FilterCard from "@/components/card/filter-card/filter-card";
 import React from "react";
 import TravelPage from "../../components/travel-page";
 import SearchBar from "@/components/search-bar/search-bar";
+import { Empty } from "antd";
 
 export const revalidate = 0;
 
@@ -40,11 +41,11 @@ export default async function SearchPage({
         <div>
             <SearchBar />
             <div className="relative grid grid-cols-12 max-w-6xl mx-auto md:mt-8 mt-56">
-                <div className="col-span-4 lg:block hidden">
+                <div className="col-span-4 lg:block lg:mb-20 hidden">
                     <FilterCard />
                 </div>
                 <div className="lg:col-span-8 col-span-12 md:mt-16">
-                    <TravelPage events={result} search />
+                    {result?.items?.length ? <TravelPage events={result} search /> : <Empty />}
                 </div>
             </div>
         </div>
