@@ -6,9 +6,9 @@ import { Grid } from "antd";
 import { Typography } from "@/components/typography/typography";
 import { useNotification } from "@/hooks/use-notification";
 import { AnimatePresence, motion } from "framer-motion";
-import { Button } from "@/components/button/button";
-import { ICON } from "@/constants/icon";
 import classNames from "classnames";
+import Image from "next/image";
+import { Images } from "@/constants/image";
 
 const { useBreakpoint } = Grid;
 
@@ -30,7 +30,7 @@ export const NotificationDrawer = () => {
   );
 
   const notificationStyleMobile = classNames(
-    "border-b-4 bg-white w-11/12 z-40 shadow-2xl rounded-e-sm h-[152px] p-4 flex gap-4 items-start relative",
+    "border-b-4 bg-white w-11/12 z-40 shadow-2xl rounded-e-sm h-[102px] p-4 flex gap-4 items-start relative",
     {
       "border-b-[#E83B3B]": notificationDrawer?.type === "error",
     },
@@ -67,8 +67,8 @@ export const NotificationDrawer = () => {
           >
             <CloseIcon size="24" color="#92B09F" />
           </div>
-          <div className="w-10 h-10 flex items-center justify-center rounded-full bg-grey-200">
-            <ICON.ExclamationIcon />
+          <div className="w-10 h-10 flex items-center justify-center relative rounded-full bg-grey-200">
+            <Image fill src={Images.IconFav} alt="mtalli favlogo" className="w-5 h-5 scale-50 absolute" />
           </div>
           <div>
             <Typography
@@ -87,14 +87,14 @@ export const NotificationDrawer = () => {
             >
               {notificationDrawer.message}
             </Typography>
-            <Button
+            {/* <Button
               onClick={close}
               color="light"
               size="lg"
               className="border-0 font-onest bg-black-400 p-2 h-8 flex items-center justify-center"
             >
               Button
-            </Button>
+            </Button> */}
           </div>
         </motion.div>
       )}
@@ -123,8 +123,8 @@ export const NotificationDrawer = () => {
             >
               <CloseIcon size="24" color="#92B09F" />
             </div>
-            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-grey-200">
-              <ICON.ExclamationIcon />
+            <div className="w-10 h-10 relative flex items-center justify-center rounded-full bg-grey-200">
+              <Image fill src={Images.IconFav} alt="mtalli favlogo" className="w-5 h-5 scale-50 absolute" />
             </div>
             <div>
               <Typography
@@ -143,14 +143,14 @@ export const NotificationDrawer = () => {
               >
                 {notificationDrawer.message}
               </Typography>
-              <Button
+              {/* <Button
                 onClick={close}
                 color="light"
                 size="lg"
                 className="border-0 font-onest bg-black-400 p-2 h-8 flex items-center justify-center"
               >
                 Button
-              </Button>
+              </Button> */}
             </div>
           </motion.div>
         </div>

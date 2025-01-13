@@ -39,15 +39,15 @@ enum EVENTSTATUS {
 }
 
 model Booking {
-  id           String  @id @default(uuid())
+  id           String        @id @default(uuid())
   userId       String?
-  User         User?   @relation(fields: [userId], references: [id])
+  User         User?         @relation(fields: [userId], references: [id])
   eventId      String?
-  events       Event?  @relation(fields: [eventId], references: [id])
+  events       Event?        @relation(fields: [eventId], references: [id])
   orderNo      String
   bookingCount Int
   totalPrice   Int
-  status       BookingStatus   @default(ACTIVE)
+  status       BookingStatus @default(ACTIVE)
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
@@ -62,7 +62,7 @@ model Booking {
 
 model Event {
   id          String      @id @default(uuid())
-  title        String
+  title       String
   description String
   price       Float
   serviceFee  Float
@@ -150,8 +150,21 @@ model User {
   status   USERSTATUS @default(ACTIVE)
   role     Role       @default(USER)
 
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Notifications Notifications[]
+
+  @@index([email])
+}
+
+model Notifications {
+  id           String @id @default(uuid())
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
+  notification String @db.LongText()
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([email])
+  @@index([userId])
 }
