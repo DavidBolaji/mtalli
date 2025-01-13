@@ -67,7 +67,7 @@ export const NotificationDrawer = () => {
           >
             <CloseIcon size="24" color="#92B09F" />
           </div>
-          <div className="w-10 h-10 flex items-center justify-center relative rounded-full bg-grey-200">
+          <div className="w-10 h-10 bg-black flex items-center justify-center relative rounded-full bg-grey-200">
             <Image fill src={Images.IconFav} alt="mtalli favlogo" className="w-5 h-5 scale-50 absolute" />
           </div>
           <div>
@@ -123,7 +123,7 @@ export const NotificationDrawer = () => {
             >
               <CloseIcon size="24" color="#92B09F" />
             </div>
-            <div className="w-10 h-10 relative flex items-center justify-center rounded-full bg-grey-200">
+            <div className="w-10 h-10 relative bg-black flex items-center justify-center rounded-full bg-grey-200">
               <Image fill src={Images.IconFav} alt="mtalli favlogo" className="w-5 h-5 scale-50 absolute" />
             </div>
             <div>

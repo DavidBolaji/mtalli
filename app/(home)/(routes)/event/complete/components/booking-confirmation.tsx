@@ -57,7 +57,7 @@ export function BookingConfirmation({
 
   const waver = basePrice * discount * 0.01;
   const tripFee = (basePrice - waver) * guestCount
-  const total = tripFee + serviceFee + otherFee;
+  const total = (tripFee + serviceFee + otherFee) || 1;
 
   const data = {
     totalPrice: total,
@@ -71,6 +71,7 @@ export function BookingConfirmation({
   }
 
   const onComplete = async () => {
+    alert('clicked')
     queryClient.setQueryData(["PAYSTACK_MODAL"], () => ({
       amount: 0 * 100,
       email: "",
@@ -79,7 +80,15 @@ export function BookingConfirmation({
       reference: Date.now().toString(),
     }));
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 4000));
+    console.log('[DAT]',data)
+    console.log('[DAT]',{
+      amount: total * 100,
+      email: user?.email,
+      shown: true,
+      publicKey: paystackKey,
+      reference: Date.now().toString(),
+    })
 
     queryClient.setQueryData(["PAYSTACK_MODAL"], () => ({
       amount: total * 100,
