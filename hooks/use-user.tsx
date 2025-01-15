@@ -1,7 +1,7 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import { useAxios } from "./use-axios";
 // import { useNotification } from "./use-notification";
@@ -25,6 +25,7 @@ export const useUser = () => {
   const queryClient = useQueryClient();
   const Axios = useAxios();
   const { toggleNotification } = useNotification();
+  const [load, setLoading] = useState(false)
 
   const router = usePathname();
   const route = useRouter();
@@ -111,6 +112,7 @@ export const useUser = () => {
   const login = useMutation({
     mutationKey: ["LOGIN"],
     mutationFn: async ({ data, redirect }: { data: {email: string, password: string}; redirect?: boolean }) => {
+      setLoading(true)
       const response = await Axios.post("/user/login", {email: data.email, password: data.password});
       return response.data.user;
     },
@@ -136,7 +138,7 @@ export const useUser = () => {
         message: error.response?.data?.message || "Something went wrong",
       });
     },
-    onSettled: () => { },
+    onSettled: () => {setLoading(false) },
   });
 
 
@@ -173,6 +175,7 @@ export const useUser = () => {
   const register = useMutation({
     mutationKey: ["REGISTER"],
     mutationFn: async ({ data, redirect }: { data: unknown; redirect?: boolean }) => {
+      setLoading(true)
       const response = await Axios.post("/user", data);
       return response.data.user;
     },
@@ -197,7 +200,7 @@ export const useUser = () => {
         message: error?.response?.data?.message || "Something went wrong",
       });
     },
-    onSettled: () => { },
+    onSettled: () => {setLoading(false) },
   });
 
 
@@ -231,7 +234,7 @@ export const useUser = () => {
     login.isPending ||
     register.isPending ||
     update.isPending ||
-    adminLogin.isPending;
+    adminLogin.isPending || load;
 
 
   // Refetch user data on route change with debounce

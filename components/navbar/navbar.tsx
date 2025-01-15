@@ -187,6 +187,55 @@ const Navbar = () => {
                                 </div>
                             ))}
                         </div>
+                        <div className="flex items-center space-x-6 ml-3">
+                            {/* Language Dropdown */}
+                            <div className="relative">
+                                <button
+                                    className="flex items-center space-x-2 p-2 border border-gray-300 rounded-md focus:outline-none hover:bg-gray-100"
+                                    onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                                >
+                                    <Image
+                                        src={language === "en" ? enFlag : frFlag}
+                                        alt="Language Flag"
+                                        width={24}
+                                        height={16}
+                                        className="rounded"
+                                    />
+                                    <span className="text-sm text-gray-700">
+                                        {language === "en" ? "English" : "French"}
+                                    </span>
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                <AnimatePresence>
+                                    {isLanguageDropdownOpen && (
+                                        <div className="absolute top-16 right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg w-40">
+                                            {languageOptions.map((option) => (
+                                                <div
+                                                    key={option.code}
+                                                    onClick={() => {
+                                                        toggleLanguage(option.code as 'en' | 'fr')
+                                                        setIsLanguageDropdownOpen(false)
+                                                    }}
+                                                    className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                                >
+                                                    <Image
+                                                        src={option.flag}
+                                                        alt={`${option.name} Flag`}
+                                                        width={24}
+                                                        height={16}
+                                                        className="rounded mr-2"
+                                                    />
+                                                    <span className="text-sm text-gray-700">
+                                                        {option.name}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        </div>
 
                         {/* Profile and Mobile Menu Buttons */}
                         <div className="flex items-center">
@@ -208,7 +257,7 @@ const Navbar = () => {
                             {/* Dropdown Menu */}
                             <AnimatePresence mode="wait">
                                 {isOpen && (
-                                    <div className="absolute top-20 right-44 mt-6 py-4 w-72 z-[999] bg-white rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5">
+                                    <div className="absolute top-20 lg:right-20 right-6 mt-6 py-4 w-72 z-[999] bg-white rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5">
                                         {dropdownLinks(user, language as 'fr' | 'en').map((link, ind) => (
                                             <div key={link.name} className="p-0 m-0" onClick={handleLinkClick}>
                                                 {link.name === (language === 'fr' ? 'Déconnexion' : 'Sign Out') ? (
@@ -259,55 +308,7 @@ const Navbar = () => {
                             </button>
                         </div>
 
-                        <div className="flex items-center space-x-6 ml-3">
-                            {/* Language Dropdown */}
-                            <div className="relative">
-                                <button
-                                    className="flex items-center space-x-2 p-2 border border-gray-300 rounded-md focus:outline-none hover:bg-gray-100"
-                                    onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
-                                >
-                                    <Image
-                                        src={language === "en" ? enFlag : frFlag}
-                                        alt="Language Flag"
-                                        width={24}
-                                        height={16}
-                                        className="rounded"
-                                    />
-                                    <span className="text-sm text-gray-700">
-                                        {language === "en" ? "English" : "French"}
-                                    </span>
-                                </button>
 
-                                {/* Dropdown Menu */}
-                                <AnimatePresence>
-                                    {isLanguageDropdownOpen && (
-                                        <div className="absolute top-16 right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg w-40">
-                                            {languageOptions.map((option) => (
-                                                <div
-                                                    key={option.code}
-                                                    onClick={() => {
-                                                        toggleLanguage(option.code as 'en' | 'fr')
-                                                        setIsLanguageDropdownOpen(false)
-                                                    }}
-                                                    className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                                >
-                                                    <Image
-                                                        src={option.flag}
-                                                        alt={`${option.name} Flag`}
-                                                        width={24}
-                                                        height={16}
-                                                        className="rounded mr-2"
-                                                    />
-                                                    <span className="text-sm text-gray-700">
-                                                        {option.name}
-                                                    </span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

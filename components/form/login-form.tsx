@@ -22,7 +22,7 @@ const LoginValidation = Yup.object().shape({
 });
 
 export const LoginForm:React.FC<{btnTxt?: string}> = ({btnTxt}) => {
-  const { login } = useUser();
+  const { login, loading } = useUser();
   const { toggleNotification } = useNotification();
 
   const onSubmit = async (
@@ -82,7 +82,7 @@ export const LoginForm:React.FC<{btnTxt?: string}> = ({btnTxt}) => {
               type="submit"
               className="w-full translate-y-5"
             >
-              {isSubmitting ? <Spinner /> : btnTxt ? 
+              {isSubmitting || loading ? <Spinner /> : btnTxt ? 
               <FormattedMessage id={btnTxt} />
              : <FormattedMessage id={"Log in"} />}
             </Button>

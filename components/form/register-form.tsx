@@ -34,7 +34,7 @@ interface IRegister {
 
 export const RegisterForm: React.FC<{ btnTxt?: string }> = ({ btnTxt }) => {
   const { toggleNotification } = useNotification();
-  const { register } = useUser();
+  const { register, loading } = useUser();
 
 
   const onSubmit = async (
@@ -45,8 +45,9 @@ export const RegisterForm: React.FC<{ btnTxt?: string }> = ({ btnTxt }) => {
     await new Promise(resolve => setTimeout(resolve, 1000))
 
     RegisterValidation.validate(values)
-      .then(() => {
+      .then(async () => {
         register({ data: {email: values.email, password: values.password, fname: values.fname, lname: values.lname}, redirect: btnTxt ? false : true });
+        setSubmitting(false);
       })
       .catch((reason) => {
         toggleNotification({
@@ -55,12 +56,8 @@ export const RegisterForm: React.FC<{ btnTxt?: string }> = ({ btnTxt }) => {
           message: reason.message,
           show: true,
         });
-      })
-      .finally(() => {
         setSubmitting(false);
-      });
-
-
+      })
   };
 
   return (
@@ -130,7 +127,7 @@ export const RegisterForm: React.FC<{ btnTxt?: string }> = ({ btnTxt }) => {
             type="submit"
             className="w-full translate-y-5"
           >
-            {isSubmitting ? <Spinner /> : btnTxt ? btnTxt : "Sign Up"}
+            {isSubmitting || loading ? <Spinner /> : btnTxt ? btnTxt : "Sign Up"}
           </Button>
 
         </Form>
