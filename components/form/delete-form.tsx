@@ -9,6 +9,7 @@ import { useNotification } from "@/hooks/use-notification";
 
 import { Spinner } from "../spinner";
 import FormikNormalInput2 from "../input/formik-normal-input2";
+import { FormattedMessage } from "react-intl";
 
 const DeleteValidation = Yup.object().shape({
     text: Yup.string()
@@ -62,7 +63,7 @@ export const DeleteForm = () => {
                     <Field
                         as={FormikNormalInput2}
                         name="text"
-                        label={"Type 'DELETE' to delete account"}
+                        label={<FormattedMessage id="Type 'DELETE' to delete account" />}
                         className="w-full"
                     />
 
@@ -71,9 +72,9 @@ export const DeleteForm = () => {
                             size="lg"
                             color={isSubmitting ? "light" : "dark"}
                             type="submit"
-                            className="w-full translate-y-5"
+                            className="w-full translate-y-5 text-sm"
                         >
-                            {isSubmitting ? <Spinner /> : "Confirm Account Deletion"}
+                            {isSubmitting ? <Spinner /> : <FormattedMessage id="Confirm Account Deletion" />}
                         </Button>
                     </div>
                 </Form>

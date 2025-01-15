@@ -19,6 +19,7 @@ import { Spinner } from "@/components/spinner"
 import PaymentComponent from "@/components/paystack/paystack"
 import { useQueryClient } from "@tanstack/react-query"
 import { paystackKey } from "@/hooks/use-paystack"
+import { FormattedMessage } from "react-intl"
 
 
 interface BookingConfirmationProps {
@@ -71,7 +72,6 @@ export function BookingConfirmation({
   }
 
   const onComplete = async () => {
-    alert('clicked')
     queryClient.setQueryData(["PAYSTACK_MODAL"], () => ({
       amount: 0 * 100,
       email: "",
@@ -80,15 +80,7 @@ export function BookingConfirmation({
       reference: Date.now().toString(),
     }));
 
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-    console.log('[DAT]',data)
-    console.log('[DAT]',{
-      amount: total * 100,
-      email: user?.email,
-      shown: true,
-      publicKey: paystackKey,
-      reference: Date.now().toString(),
-    })
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     queryClient.setQueryData(["PAYSTACK_MODAL"], () => ({
       amount: total * 100,
@@ -112,15 +104,17 @@ export function BookingConfirmation({
           onClick={onBack}
           className="rounded-full"
         >
-          <CaretLeftIcon  className="w-10 h-10 text-lg" />
+          <CaretLeftIcon className="w-10 h-10 text-lg" />
         </ShadBtn>
-        <h4 className="md:text-[40px] text-2xl font-onest font-extrabold black-100">Complete booking</h4>
+        <h4 className="md:text-[40px] text-2xl font-onest font-extrabold black-100">
+          <FormattedMessage id="Complete booking" />
+        </h4>
       </div>
 
       <div className="grid md:grid-cols-12 grid-cols-7 gap-6">
         {/* Left Column - Trip Details */}
         <div className="space-y-6 col-span-7 md:pr-16">
-          <Card className="border border-[#ABD0E4] rounded-[32px] mb-10">
+          <Card className="border border-orange-300 rounded-[32px] mb-10">
             <CardHeader className="p-2">
               <div className="flex gap-4 items-center">
                 <Image
@@ -128,7 +122,8 @@ export function BookingConfirmation({
                   alt={tripName}
                   width={140}
                   height={140}
-                  className="rounded-3xl h-full bg-red-400 object-cover"
+                  priority
+                  className="rounded-3xl h-full object-cover"
                 />
                 <div className="space-y-1">
                   <h2 className="font-onest text-sm font-bold black-100 mb-2">{tripName}</h2>
@@ -147,24 +142,28 @@ export function BookingConfirmation({
             <CardContent className="p-0 space-y-4">
               <div className="flex justify-between items-center">
                 <div className="w-full">
-                  <h3 className="font-medium font-onest black-100">Guests</h3>
-                  <div className="flex text-base w-full pb-4 justify-between items-center border-b border-[#ABD0E4] font-onest">
+                  <h3 className="font-medium font-onest black-100">
+                  <FormattedMessage id="Guests" />
+                  </h3>
+                  <div className="flex text-base w-full pb-4 justify-between items-center border-b border-orange-300 font-onest">
                     <p className="text-base black-200">
-                      {guestCount} guests
+                      {guestCount} {" "}
+                      <FormattedMessage id="guest" />(s)
                     </p>
                     <ShadBtn
                       variant="link"
                       onClick={onChangeGuests}
                       className="font-onest underline black-100"
                     >
-                      Change
+                      <FormattedMessage id="Change" />
+                      
                     </ShadBtn>
 
                   </div>
                 </div>
               </div>
 
-              <div className="border-b border-[#ABD0E4] pb-2">
+              <div className="border-b border-orange-300 pb-2">
                 <h3 className="font-medium font-onest black-100 mb-2">Date</h3>
                 <p className="flex text-base w-full pb-4 justify-between items-center  font-onest black-200">
                   {formatDateDShort(startDate)} - {formatDateDShort(endDate)}
@@ -173,35 +172,43 @@ export function BookingConfirmation({
               <div className="pt-10">
                 {!user ?
                   <>
-                    <h2 className="font-onest font-medium text-2xl black-100 mb-4">Log in or sign up to continue booking</h2>
+                    <h2 className="font-onest font-medium text-2xl black-100 mb-4">
+                      <FormattedMessage id="instruction" />
+                    </h2>
                     {
                       open.shown ? open.key === "LOGIN" ?
                         <>
                           <LoginForm btnTxt={'Continue'} />
                           <div className="font-onest w-full text-center font-medium text-sm mt-10 black-100">
-                            Don&apos;t have an account? <ShadBtn variant={'link'} className="underline  capitalize font-onest font-bold text-sm black-200"
-                            onClick={() => {
-                              setOpen({
-                                shown: true,
-                                key: "REGISTER"
-                              })
-                            }}
-                            >sign up</ShadBtn>
+                            <FormattedMessage id="Don't have an account?" />
+                             {" "} <ShadBtn variant={'link'} className="underline  capitalize font-onest font-bold text-sm black-200"
+                              onClick={() => {
+                                setOpen({
+                                  shown: true,
+                                  key: "REGISTER"
+                                })
+                              }}
+                            >
+                              <FormattedMessage id="Sign up" />
+                            </ShadBtn>
                           </div>
                         </>
                         :
                         <>
                           <RegisterForm btnTxt="Continue" />
                           <div className="font-onest w-full text-center font-medium text-sm mt-10 black-100">
-                            Already have an account
+                          <FormattedMessage id="Already have an account" />
+                            
                             <ShadBtn variant={'link'} className="underline  capitalize font-onest font-bold text-sm black-200"
-                             onClick={() => {
-                              setOpen({
-                                shown: true,
-                                key: "LOGIN"
-                              })
-                            }}
-                            >Log in</ShadBtn>
+                              onClick={() => {
+                                setOpen({
+                                  shown: true,
+                                  key: "LOGIN"
+                                })
+                              }}
+                            >
+                              <FormattedMessage id="Log in" />
+                            </ShadBtn>
                           </div>
                         </>
                         : null
@@ -214,7 +221,7 @@ export function BookingConfirmation({
                       color="dark"
                       onClick={onComplete}
                     >
-                      {load ? <Spinner /> : "Complete Booking" }
+                      {load ? <Spinner /> : "Complete Booking"}
                     </Button>
                   </>
                 }
@@ -228,21 +235,23 @@ export function BookingConfirmation({
 
         {/* Right Column - Pricing Details */}
         <div className="md:col-span-5 col-span-7 md:order-last order-first w-full">
-          <Card className="border border-[#ABD0E4] rounded-3xl">
+          <Card className="border border-orange-300 rounded-3xl">
             <CardContent className="w-full px-0">
-              <div className="pt-10 pb-8 border-b border-[#ABD0E4] w-full">
+              <div className="pt-10 pb-8 border-b border-orange-300 w-full">
                 <div className={`flex  items-center justify-between`}>
                   <div className="flex items-center pl-6 gap-2 font-onest">
-                    <span className="font-onest black-100 font-medium text-base">Trip fee</span>
+                    <span className="font-onest black-100 font-medium text-base">
+                      <FormattedMessage id="Trip fee" />
+                    </span>
                     <span className="font-onest black-200 font-medium text-base">
                       x {guestCount}
-                      {" "} guest(s)
+                      {" "} <FormattedMessage id="guest" />(s)
                     </span>
                   </div>
                   <span className="font-bold text-base font-onest pr-6">{formatToNaira(basePrice)}</span>
                 </div>
               </div>
-              <div className="py-8 border-b border-[#ABD0E4]">
+              <div className="py-8 border-b border-orange-300">
                 <div className="pl-6 mb-4">
                   <FeeItem
                     label="Service fee"
@@ -280,7 +289,7 @@ export function BookingConfirmation({
       <PaymentComponent
         onSuccess={async () => {
           createBooking(data)
-        
+
           queryClient.setQueryData(["PAYSTACK_MODAL"], () => ({
             amount: 0 * 100,
             email: "",

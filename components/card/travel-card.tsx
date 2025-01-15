@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import useEmblaCarousel from "embla-carousel-react"
 import { useRouter } from "next/navigation"
 import { useBookmark } from "@/hooks/use-bookmark"
+import { FormattedMessage } from "react-intl"
 
 interface TravelCardProps {
   id?: string;
@@ -150,7 +151,7 @@ export default function TravelCard({
       <CardContent onClick={handleClick} className="px-0 pt-1 cursor-pointer">
         <h2 className="text-sm font-bold mb-2 font-onest black-100 text-nowrap w-56 truncate text-ellipsis">{title}</h2>
         <p className="text-sm black-200 font-medium font-onest mb-2">
-          {slots} slots available
+          {slots} <FormattedMessage id="eventCardPara" />
         </p>
         <p className="text-sm text-muted-foreground black-200 font-medium font-onest">
           {formatDate(startDate)} - {formatDate(endDate)}
@@ -160,7 +161,9 @@ export default function TravelCard({
         <div className="flex flex-col">
           <div className="flex items-baseline gap-1">
             <span className="text-xl black-100 font-bold">{currency}{formatPrice(price)}</span>
-            <span className="text-[13.5px] black-200 font-onest font-medium">per person</span>
+            <span className="text-[13.5px] black-200 font-onest font-medium">
+            <FormattedMessage id="eventCardPrice" />
+            </span>
           </div>
           {/* {originalPrice && (
             <span className="text-sm text-muted-foreground line-through">

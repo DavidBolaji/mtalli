@@ -21,6 +21,7 @@ import {
 import { Button } from '../button/button'
 import { useSearchParams } from 'next/navigation'
 import { isEmpty } from 'lodash'
+import { FormattedMessage } from 'react-intl'
 
 interface BookingCardProps {
     pricePerPerson: number
@@ -32,7 +33,7 @@ interface BookingCardProps {
     maxGuests?: number
     currency?: string
     mobile?: boolean
-    discount?: number 
+    discount?: number
 }
 
 export function BookingCard({
@@ -62,25 +63,28 @@ export function BookingCard({
     const total = ((pricePerPerson - waver) * guests) + serviceFee + otherFee;
 
     return (
-        <Card className={`w-full rounded-3xl px-4 border-[#ABD0E4] ${mobile ? '': 'max-w-md'}`}>
+        <Card className={`w-full rounded-3xl px-4 border-orange-300 ${mobile ? '' : 'max-w-md'}`}>
             <CardContent className="p-6 space-y-6 mt-10">
                 <div className="space-y-2">
                     <div className="text-2xl font-bold font-onest black-100 mb-8">
-                        {formatPrice(pricePerPerson)}
-                        <span className="text-sm font-medium black-200 font-onest"> per person</span>
+                        {formatPrice(pricePerPerson)} {" "}
+                        <span className="text-sm font-medium black-200 fontb-onest">
+                            <FormattedMessage id="eventCardPrice" />
+                        </span>
                     </div>
 
                     <div className="w-full pb-4">
                         <Select
                             value={guests.toString()}
                             onValueChange={(value) => setGuests(parseInt(value))}
-                            
                         >
-                            <SelectTrigger className="w-full relative rounded-xl h-14 px-4 font-onest black-200 border-[#4D7890]">
-                                <h2 className='absolute top-1 left-4 black-100 font-onest font-semibold'>Guest</h2>
+                            <SelectTrigger className="w-full relative rounded-xl h-14 px-4 font-onest black-200 border-orange-300">
+                                <h2 className='absolute top-1 left-4 black-100 font-onest font-semibold'>
+                                    <FormattedMessage id="Guest" />
+                                </h2>
                                 <SelectValue placeholder="Select guests">
                                     <span className='mt-4 inline-block text-xs font-onest'>
-                                        {guests} {guests === 1 ? 'Guest' : 'Guests'}
+                                        {guests} {guests === 1 ? <FormattedMessage id="Guest" /> : <FormattedMessage id="Guests" />}
 
                                     </span>
                                 </SelectValue>
@@ -88,18 +92,18 @@ export function BookingCard({
                             <SelectContent className='absolute top-0 z-[9999]'>
                                 {Array.from({ length: maxGuests }, (_, i) => i + 1).map((num) => (
                                     <SelectItem key={num} value={num.toString()} className='font-onest black-200 text-xs'>
-                                        {num} {num === 1 ? 'Guest' : 'Guests'}
+                                        {num} {num === 1 ? <FormattedMessage id="Guest" /> : <FormattedMessage id="Guests" />}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
                     </div>
 
-                    <div className="space-y-2 py-4 border-t border-[#ABD0E4]">
+                    <div className="space-y-2 py-4 border-t border-orange-300">
                         <div className="flex justify-between items-center my-4">
                             <div className="flex items-center font-medium gap-2 font-onest black-100">
                                 <span className='underline'>
-                                    Service fee
+                                    <FormattedMessage id="Service fee" />
                                 </span>
                                 <TooltipProvider>
                                     <Tooltip>
@@ -117,7 +121,8 @@ export function BookingCard({
 
                         <div className="flex justify-between items-center pb-4 font-medium gap-2 font-onest black-100">
                             <div className="flex items-center gap-2 underline">
-                                Other fee
+                                <FormattedMessage id="Other fee" />
+
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger>
@@ -134,7 +139,8 @@ export function BookingCard({
 
                         <div className="flex justify-between items-center pb-4 font-medium gap-2 font-onest black-100">
                             <div className="flex items-center gap-2 underline">
-                                Discount
+                                <FormattedMessage id="Discount" />
+
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger>
@@ -149,8 +155,10 @@ export function BookingCard({
                             <div className='font-onest black-100 font-semibold'>{discount}%</div>
                         </div>
 
-                        <div className="flex justify-between items-center py-6 border-y border-[#ABD0E4]">
-                            <div className="font-bold black-100 font-onest text-2xl">Total</div>
+                        <div className="flex justify-between items-center py-6 border-y border-orange-300">
+                            <div className="font-bold black-100 font-onest text-2xl">
+                                <FormattedMessage id="Total" />
+                            </div>
                             <div className="font-bold black-100 font-onest text-2xl">{formatPrice(total)}</div>
                         </div>
                     </div>
@@ -167,23 +175,24 @@ export function BookingCard({
                         htmlFor="terms"
                         className="text-sm black-100 font-onest leading-5"
                     >
-                        By booking with us, you agree to all travel rules and cancellation policies.
+                        <FormattedMessage id="agreement" />
                     </label>
                 </div>
             </CardContent>
 
             <CardFooter className="flex flex-col gap-4 px-6 ">
                 <Button
-                size='lg'
-                color='dark'
+                    size='lg'
+                    color='dark'
                     className="w-full"
                     disabled={!agreed}
                     onClick={() => onBooking?.(guests)}
                 >
-                    Book Experience
+                    <FormattedMessage id="Book Experience" />
+
                 </Button>
                 <ShadBtn variant="link" className="w-full">
-                    Need Help with your booking?
+                    <FormattedMessage id="help" />
                 </ShadBtn>
             </CardFooter>
         </Card>

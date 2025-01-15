@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { debounce } from 'lodash'
 
 import { filterEventSearch, getUniqueEventsByLocation, resetSearchFilter } from '@/actions/get-events'
 import { useSearchParams } from 'next/navigation'
@@ -10,12 +11,13 @@ const useFilter = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 789238])
   const searchParams = useSearchParams();
 
+
+
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
         const data = await getUniqueEventsByLocation();
         setSelectedDestinations(data.locations)
-        console.log(data)
         const min = searchParams.get("minPrice") || data?.lowestPricedEvent
         const max = searchParams.get("maxPrice") || data?.highestPricedEvent
         setPriceRange([+min, +max])
@@ -25,6 +27,12 @@ const useFilter = () => {
     }
     fetchDestinations()
   }, [])
+
+    // Debounced version of handlePriceChange
+    const debouncedFilterEventSearch = debounce((formData: FormData, params: URLSearchParams, values: number[]) => {
+      filterEventSearch(formData, params);
+      setPriceRange(values)
+    }, 200); // 500ms debounce delay
 
   const handlePriceChange = (values: number[]) => {
     const minPrice = values[0];
@@ -43,8 +51,10 @@ const useFilter = () => {
       formData.append("maxPrice", String(values[1]));
     }
 
-    filterEventSearch(formData, params)
-    setPriceRange(values)
+    // filterEventSearch(formData, params)
+    
+    debouncedFilterEventSearch(formData, params, values);
+    
   }
 
   const isChecked = (name: string, value: string) => {

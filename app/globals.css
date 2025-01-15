@@ -16,6 +16,7 @@
   }
 }
 
+
 * {
   scroll-behavior: smooth;
 }
@@ -36,17 +37,17 @@ body {
 
 /* Custom styles for NProgress */
 #nprogress .bar {
-  background: #4D7890 !important;
+  background: #ff9a68 !important;
   /* Blue color */
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px #4D7890, 0 0 5px #4D7890 !important;
+  box-shadow: 0 0 10px #ff9a68, 0 0 5px #ff9a68 !important;
 }
 
 #nprogress .spinner-icon {
-  border-top-color: #4D7890 !important;
-  border-left-color: #4D7890 !important;
+  border-top-color: #ff9a68 !important;
+  border-left-color: #ff9a68 !important;
 }
 
 /* Black color classes */
@@ -226,10 +227,11 @@ select:focus {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border ;
   }
 
   body {
     @apply bg-background text-foreground;
   }
 }
+

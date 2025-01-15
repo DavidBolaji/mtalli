@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { formatToNaira } from '@/utils/helper'
+import { FormattedMessage } from 'react-intl'
 
 interface FeeItemProps {
   label: string
@@ -20,7 +21,7 @@ export function FeeItem({ label, amount, tooltip, className }: FeeItemProps) {
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <div className={`flex items-center black-100 gap-2 font-onest ${label === "Total" ? "font-bold text-2xl": "underline font-medium text-base"}`}>
-        {label}
+        <FormattedMessage id={label} />
         {tooltip && (
           <TooltipProvider>
             <Tooltip>

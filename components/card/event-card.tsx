@@ -16,7 +16,7 @@ interface EventCardProps {
 
 const EventCard = ({ thumbnailUrl, tripName, startDate, endDate, basePrice, guestCount, dash = false }: EventCardProps) => {
     return (
-        <Card className={`border border-[#ABD0E4] rounded-[32px] ${dash ? "" : "mb-10"}`}>
+        <Card className={`border border-orange-300 rounded-[32px] ${dash ? "" : "mb-10"}`}>
             <CardHeader className="p-2">
                 <div className="flex gap-4 items-center">
                     <Image

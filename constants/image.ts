@@ -12,6 +12,7 @@ import Nigeria from "./images/nigeria.png";
 import SouthAfrica from "./images/south.png";
 import Union from "./images/Union.png";
 import WorldMap from "./images/World_map.png";
+import Waves from "./images/waves.png";
 import IconFav from "./images/icon-128x128.png";
 
 
@@ -32,4 +33,5 @@ export const Images = {
   Union,
   IconFav,
   WorldMap,
+  Waves
 };

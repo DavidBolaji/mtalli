@@ -16,9 +16,11 @@ const MAX_PRICE = 1000000
 export default function FilterCard({mobile = false}: {mobile?: boolean}) {
   const { selectedDestinations, priceRange, handlePriceChange, resetSearch, isChecked, handleFromInputChange, handleToInputChange } = useFilter()
 
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null)
+
   return (
-    <Card className={`w-full border rounded-2xl border-[#ABD0E4] ${mobile ? "w-full border-b-0 outline-0 shadow-none rounded-b-none": "max-w-sm"}`}>
-      <CardHeader className="flex flex-row items-center border-b border-[#ABD0E4] justify-between pb-2">
+    <Card className={`w-full border rounded-2xl border-orange-300 ${mobile ? "w-full border-b-0 outline-0 shadow-none rounded-b-none": "max-w-sm"}`}>
+      <CardHeader className="flex flex-row items-center border-b border-orange-300 justify-between pb-2">
         <CardTitle className="text-2xl font-bold font-onest">Filter</CardTitle>
         <Button
           variant="link"
@@ -40,13 +42,15 @@ export default function FilterCard({mobile = false}: {mobile?: boolean}) {
             const f = new FormData(e.currentTarget)
             filterEventSearch(f)
           }}
+          className="w-full"
           >
-            <div className="space-y-3">
+            <div className="space-y-3 w-full">
               {selectedDestinations.map((destination) => (
                 <button
-                  // type="submit"
+                  type="submit"
                   key={destination.id}
-                  className="flex items-center space-x-2 gap-1"
+                  className="flex items-center space-x-2 gap-1 w-full"
+                  ref={buttonRef}
                 >
                     <Checkbox
                       id={destination.label.trim()}
@@ -56,7 +60,10 @@ export default function FilterCard({mobile = false}: {mobile?: boolean}) {
                         `destinations`,
                         destination.label.trim()
                       )}
-
+                      onClick={async () => {
+                        await new Promise(resolve => setTimeout(resolve, 200))
+                        buttonRef.current?.click()
+                      }}
                     />
                     <label
                       htmlFor={destination.id}
@@ -74,7 +81,7 @@ export default function FilterCard({mobile = false}: {mobile?: boolean}) {
         <div className="space-y-4">
           <h3 className="text-xl font-bold font-onest">Price</h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2 flex items-center overflow-hidden h-12 pl-4 g border border-[#4D7890] rounded-2xl">
+            <div className="space-y-2 flex items-center overflow-hidden h-12 pl-4 g border border-orange-300 rounded-2xl">
               <label htmlFor="from" className="text-sm inline-block black-200 text-muted-foreground">
                 From:
               </label>
@@ -86,7 +93,7 @@ export default function FilterCard({mobile = false}: {mobile?: boolean}) {
 
               />
             </div>
-            <div className="space-y-2 w-full flex items-center h-12 pl-4 border border-[#4D7890] rounded-2xl">
+            <div className="space-y-2 w-full flex items-center h-12 pl-4 border border-orange-300 rounded-2xl">
               <label htmlFor="to" className="text-sm inline-block text-nowrap black-200 text-muted-foreground">
                 Up to:
               </label>

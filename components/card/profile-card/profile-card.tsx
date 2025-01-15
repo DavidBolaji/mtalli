@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useRouter, useSearchParams } from "next/navigation";
 import { redirectProfile } from "@/actions/get-events";
 import { useUser } from "@/hooks/use-user";
+import { FormattedMessage } from "react-intl";
 
 const commonLinks = [
     { name: 'Personal Details', key: 'details' },
@@ -26,14 +27,16 @@ export default function ProfileCard({ mobile = false }: { mobile?: boolean }) {
     }, [user])
 
     return (
-        <Card className={`w-full border rounded-2xl border-[#ABD0E4] ${mobile ? "w-full border-b-0 outline-0 shadow-none rounded-b-none" : "max-w-sm"}`}>
-            <CardHeader className="flex flex-row items-center border-b border-[#ABD0E4] justify-between pb-2">
+        <Card className={`w-full border rounded-2xl border-orange-300 ${mobile ? "w-full border-b-0 outline-0 shadow-none rounded-b-none" : "max-w-sm"}`}>
+            <CardHeader className="flex flex-row items-center border-b border-orange-300 justify-between pb-2">
                 <CardTitle className="text-2xl font-bold font-onest">Profile</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6 mt-6 px-0">
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-xs pl-6 black-200 uppercase font-bold font-onest">Personal Details</h3>
+                        <h3 className="text-xs pl-6 black-200 uppercase font-bold font-onest">
+                            <FormattedMessage id="Personal Details" />
+                        </h3>
                     </div>
 
                     <div
@@ -42,7 +45,7 @@ export default function ProfileCard({ mobile = false }: { mobile?: boolean }) {
                             {commonLinks.map((destination) => (
                                 <button
                                     key={destination.key}
-                                    className={`flex pl-6 transition-colors duration-300 items-center w-full h-12 hover:bg-[#CCE2EE] hover:border-r-4 hover:border-[#4D7890] ${active === destination?.key ? "bg-black-400 border-r-4 border-[#4D7890]" : null}`}
+                                    className={`flex pl-6 transition-colors duration-300 items-center w-full h-12 hover:bg-[#CCE2EE] hover:border-r-4 hover:border-orange-300 ${active === destination?.key ? "bg-orange-300 border-r-4 border-orange-500" : null}`}
                                     onClick={() => {
                                         const params = new URLSearchParams(searchParams);
                                         params.delete("active");
@@ -53,7 +56,8 @@ export default function ProfileCard({ mobile = false }: { mobile?: boolean }) {
                                         htmlFor={destination.key}
                                         className="text-base capitalize font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
                                     >
-                                        {destination.name.trim()}
+                                        <FormattedMessage id={destination.name.trim()} />
+                                        
                                     </label>
 
                                 </button>
@@ -63,7 +67,9 @@ export default function ProfileCard({ mobile = false }: { mobile?: boolean }) {
                 </div>
 
                 <div className="space-y-4">
-                    <h3 className="text-xs pl-6 black-200 uppercase font-bold font-onest">Account management</h3>
+                    <h3 className="text-xs pl-6 black-200 uppercase font-bold font-onest">
+                        <FormattedMessage id="Account management" />
+                    </h3>
                     <div
                     >
                         <div className="space-y-1">
@@ -81,7 +87,7 @@ export default function ProfileCard({ mobile = false }: { mobile?: boolean }) {
                                         htmlFor={destination.key}
                                         className="text-base capitalize font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 red-100"
                                     >
-                                        {destination.name.trim()}
+                                       <FormattedMessage id={destination.name.trim()} />
                                     </label>
 
                                 </button>

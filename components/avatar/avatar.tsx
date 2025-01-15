@@ -17,7 +17,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   className,
 }) => {
   const avatarClassnames = classNames(
-    "rounded-full object-cover bg-black-100",
+    "rounded-full object-cover bg-orange-400",
     {
       "w-14 h-14": size === "lg",
       "w-10 h-10": size === "sm",

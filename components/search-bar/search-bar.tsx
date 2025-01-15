@@ -6,11 +6,13 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
+import { FormattedMessage, useIntl } from 'react-intl'
 
 const SearchBar:React.FC<{filter?: boolean}> = ({}) => {
     const params = useSearchParams()
     const router = useRouter()
     const [where, setWhere] = useState("")
+    const { formatMessage } = useIntl();
     const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
     const [startDate, endDate] = dateRange
     const location = params.get("location") || ""
@@ -65,19 +67,23 @@ const SearchBar:React.FC<{filter?: boolean}> = ({}) => {
         <>
         <div className="sticky bg-transparent top-20 hidden lg:block max-w-[787px] mx-auto z-[99]">
             <div className="mx-auto max-w-7xl px-4 py-6">
-                <div className="flex items-center gap-4 rounded-full border border-[#ABD0E4] bg-white p-2 shadow-lg">
+                <div className="flex items-center gap-4 rounded-full border border-orange-300 bg-white p-2 shadow-lg">
                     <div className="flex-1 px-4">
-                        <label className="text-sm black-100 font-onest">Location</label>
+                        <label className="text-sm black-100 font-onest font-bold">
+                            <FormattedMessage id={"Location"} />
+                        </label>
                         <input
                             type="text"
                             value={where}
                             onChange={handleChange}
-                            placeholder="Where do you want to go?"
-                            className="w-full border-none bg-transparent text-sm outline-none placeholder:font-onest placeholder:text-[#4D7890]"
+                            placeholder={formatMessage({ id: 'placeholder.whereToGo', defaultMessage: 'Where do you want to go?' })}
+                            className="w-full border-none bg-transparent text-sm outline-none placeholder:font-onest placeholder:text-orange-300"
                         />
                     </div>
-                    <div className="flex-1 border-l border-[#ABD0E4] px-4">
-                        <label className="text-sm black-100 font-onest">When</label>
+                    <div className="flex-1 border-l border-orange-300 px-4">
+                        <label className="text-sm black-100 font-onest font-bold">
+                        <FormattedMessage id={"When"} />
+                        </label>
                         <DatePicker
                             selectsRange={true}
                             startDate={startDate || undefined}
@@ -86,21 +92,24 @@ const SearchBar:React.FC<{filter?: boolean}> = ({}) => {
                                 setDateRange(update)
                             }}
                             // isClearable={true}
-                            placeholderText="Select date range"
-                            className="w-full border-none bg-transparent text-sm outline-none placeholder:font-onest placeholder:text-[#4D7890]"
+                            placeholderText={formatMessage({ id: 'placeholder.whenToGo', defaultMessage: 'Select date range' })}
+                            
+                            className="w-full border-none bg-transparent text-sm outline-none placeholder:font-onest placeholder:text-orange-300"
                         />
                     </div>
-                    <div className="flex-1 border-l border-[#ABD0E4] px-4">
-                        <label className="text-sm black-100 font-onest">Who</label>
+                    <div className="flex-1 border-l border-orange-300 px-4">
+                        <label className="text-sm black-100 font-onest font-bold">
+                        <FormattedMessage id={"Who"} />
+                        </label>
                         <input
                             type="text"
-                            placeholder="Who are you going with?"
-                            className="w-full border-none bg-transparent text-sm outline-none placeholder:font-onest placeholder:text-[#4D7890]"
+                            placeholder={formatMessage({ id: 'placeholder.whoToGo', defaultMessage: 'Who are you going with?' })}
+                            className="w-full border-none bg-transparent text-sm outline-none placeholder:font-onest placeholder:text-orange-300"
                         />
                     </div>
                     <button
                         onClick={handleClick}
-                        className="rounded-full bg-[#001F3F] p-4 text-white hover:bg-[#001F3F]/90 font-onest">
+                        className="rounded-full bg-orange-300 p-4 text-white hover:bg-orange-500/90 font-onest">
                         <Search className="h-6 w-6" />
                     </button>
                 </div>

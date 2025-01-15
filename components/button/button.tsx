@@ -35,8 +35,8 @@ export const Button: React.FC<ButtonProps> = ({
       "opacity-70 cursor-not-allowed": props.disabled
     },
     {
-      "bg-black-100 text-white": color === "dark",
-      "bg-white black-100 border border-black-100": color === "light",
+      "bg-orange-400 text-white font-bold": color === "dark",
+      "bg-white text-orange-400 border border-orange-400": color === "light",
     },
     IconL || IconR ? "gap-2 flex items-center" : null, // Add flex layout and gap if there's an icon
     "md:px-6 px-3",

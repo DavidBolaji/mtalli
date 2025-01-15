@@ -118,7 +118,7 @@ export const filterEvent = (
     const params = new URLSearchParams(currentParams);
 
     const page = (formData.get("page") as string) || params.get("page") || "1"; // Default to page 1
-    const sort = (formData.get("sort") as string) || params.get("sort") || "name"; // Default to "name"
+    const sort = (formData.get("sort") as string) || params.get("sort") || "title"; // Default to "name"
     const sortbooking =
         (formData.get("sortbooking") as string) || params.get("sortbooking") || "asc";
     const startDate = formData.get("dateFrom") as string;
@@ -363,15 +363,17 @@ export const filterEventSearch = (
     const minPrice = formData.get("minPrice") as string;
     const maxPrice = formData.get("maxPrice") as string;
 
+    console.log(destinations)
+
     params.delete("destinations");
     if (destinations.length > 0) {
         destinations.forEach((destination) => params.append("destinations", destination));
     } else {
-        if (dest) {
-            (dest as string[]).forEach((el) =>
-                params.append("destinations", el as string)
-            )
-        }
+        // if (dest) {
+        //     (dest as string[]).forEach((el) =>
+        //         params.append("destinations", el as string)
+        //     )
+        // }
     }
 
     if (minPrice) {

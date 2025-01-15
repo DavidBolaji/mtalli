@@ -17,7 +17,7 @@ export const NotificationDrawer = () => {
   const screen = useBreakpoint();
 
   const notificationStyle = classNames(
-    "border-b-4 bg-white relative z-40 shadow-2xl rounded-e-sm md:w-[600px] h-[152px] p-4 flex gap-4 items-start relative",
+    "border-b-4 bg-white relative z-40 shadow-2xl rounded-e-sm md:w-[600px] h-[102px] p-4 flex gap-4 items-start relative",
     {
       "border-b-[#E83B3B]": notificationDrawer?.type === "error",
     },
@@ -83,7 +83,7 @@ export const NotificationDrawer = () => {
               size="s1"
               as="p"
               align="left"
-              className="black-200 text-[15px] font-onest leading-5 mb-4 max-w-[472px]"
+              className="black-200 text-sm font-onest leading-5 mb-4 max-w-[472px]"
             >
               {notificationDrawer.message}
             </Typography>
@@ -139,7 +139,7 @@ export const NotificationDrawer = () => {
                 size="s1"
                 as="p"
                 align="left"
-                className="black-300 font-medium text-[15px] leading-5 mb-3 max-w-[472px]"
+                className="black-300 font-medium font-onest text-sm leading-5 mb-3 max-w-[472px]"
               >
                 {notificationDrawer.message}
               </Typography>

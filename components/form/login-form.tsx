@@ -9,6 +9,7 @@ import { useNotification } from "@/hooks/use-notification";
 
 import { Spinner } from "../spinner";
 import FormikNormalInput2 from "../input/formik-normal-input2";
+import { FormattedMessage } from "react-intl";
 
 const LoginValidation = Yup.object().shape({
   email: Yup.string()
@@ -81,7 +82,9 @@ export const LoginForm:React.FC<{btnTxt?: string}> = ({btnTxt}) => {
               type="submit"
               className="w-full translate-y-5"
             >
-              {isSubmitting ? <Spinner /> : btnTxt ? btnTxt : "Log in"}
+              {isSubmitting ? <Spinner /> : btnTxt ? 
+              <FormattedMessage id={btnTxt} />
+             : <FormattedMessage id={"Log in"} />}
             </Button>
          
         </Form>

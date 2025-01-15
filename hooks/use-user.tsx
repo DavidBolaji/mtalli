@@ -116,7 +116,7 @@ export const useUser = () => {
     },
     onSuccess: (_, variables) => {
       debouncedRefetch(); // Use debounced version
-      const goTo = variables?.redirect ? variables?.redirect : true;
+      const goTo = variables?.redirect ? variables?.redirect : false;
       debouncedRefetch()
       if (goTo) {
         route.push('/')
@@ -177,7 +177,7 @@ export const useUser = () => {
       return response.data.user;
     },
     onSuccess: (_, variables) => {
-      const goTo = variables?.redirect ? variables?.redirect : true;
+      const goTo = variables?.redirect ? variables?.redirect : false;
       debouncedRefetch()
       if (goTo) {
         route.push('/')

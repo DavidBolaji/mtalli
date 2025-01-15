@@ -8,6 +8,7 @@ import { Spinner } from "@/components/spinner";
 import { Event, Image, Promotion } from "@prisma/client";
 import { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 
 
 export interface TravelPackage {
@@ -68,7 +69,9 @@ export default function TravelPage({ events: initialEvents, search = false }: Tr
     <div className="pb-16 md:-mt-24 -mt-60 px-8 pt-8">
       <div id="travel" />
       <div className="max-w-[1400px] mx-auto">
-        {!search ? <h2 className="text-[42px] font-bold mb-8 font-onest black-100">Upcoming Experiences</h2>: null}
+        {!search ? <h2 className="text-[42px]  md:leading-none leading-10 font-bold mb-8 font-onest black-100">
+          <FormattedMessage id="eventTitle" />
+        </h2>: null}
 
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${!search ? "lg:grid-cols-5" : "lg:grid-cols-3" }`}>
           {events.items.map((pkg: DatabaseEvent) => (

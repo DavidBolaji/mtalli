@@ -10,6 +10,8 @@ import BookDrawer from "@/components/drawer/book-drawer/book-drawer";
 import { ItemCategoryDrawer } from "@/components/drawer/promotion-drawer/item-promotion-drawer";
 import Loading from "@/components/loading";
 import FilterDrawer from "@/components/drawer/filter-drawer/filter-drawer";
+import RequestModal from "@/components/modal/request-modal/request-modal";
+import IntlProviderWrapper from "@/intl/intl-provider";
 
 const defaultUrl = process.env.NEXT_PUBLIC_ENV === 'prod'
   ? `https://${process.env.NEXT_PUBLIC_FRONT}`
@@ -201,14 +203,15 @@ export const metadata = {
     ],
   },
 }
- 
- 
+
+
 export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false
 }
 const onest = Onest({
-  subsets: ['latin'],
+  // subsets: ['latin'],
+  subsets: ['cyrillic'],
   variable: '--font-onest', // Define a CSS variable
   display: 'swap', // Optimize for performance
 });
@@ -221,6 +224,7 @@ const TanstackProvider = dynamic(
   }
 );
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -231,18 +235,21 @@ export default function RootLayout({
       className={onest.variable}
     >
       <body>
-        <AntdRegistry>
-          <TanstackProvider>
-            <Loading />
-            {children}
-            <NotificationDrawer />
-            <DeleteModal />
-            <Overlay />
-            <BookDrawer />
-            <FilterDrawer />
-            <ItemCategoryDrawer />
-          </TanstackProvider>
-        </AntdRegistry>
+        <TanstackProvider>
+          <IntlProviderWrapper>
+            <AntdRegistry>
+              <Loading />
+              {children}
+              <RequestModal />
+              <NotificationDrawer />
+              <DeleteModal />
+              <Overlay />
+              <BookDrawer />
+              <FilterDrawer />
+              <ItemCategoryDrawer />
+            </AntdRegistry>
+          </IntlProviderWrapper>
+        </TanstackProvider>
       </body>
     </html>
   );
