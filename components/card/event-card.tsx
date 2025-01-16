@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardHeader } from '../ui/card'
 import Image from 'next/image'
-import { formatDateRange } from '@/utils/helper'
+import { formatDateRange, formatToNaira } from '@/utils/helper'
 
 interface EventCardProps {
     tripName: string
@@ -32,7 +32,8 @@ const EventCard = ({ thumbnailUrl, tripName, startDate, endDate, basePrice, gues
                             {formatDateRange(startDate, endDate)}
                         </p>
                         <p className="font-onest font-bold text-xl">
-                            ₦{basePrice.toLocaleString()} 
+                            {/* ₦{basePrice.toLocaleString()}  */}
+                            {formatToNaira(basePrice)}
                            {guestCount && guestCount > 0 ?<span className='text-xs black-200 font-onest ml-1'>({guestCount} slot booked)</span>: null}
                         </p>
                     </div>

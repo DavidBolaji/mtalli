@@ -78,9 +78,10 @@ export function BookingConfirmation({
       shown: false,
       publicKey: paystackKey,
       reference: Date.now().toString(),
+      // currency: "USD"
     }));
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     queryClient.setQueryData(["PAYSTACK_MODAL"], () => ({
       amount: total * 100,
@@ -88,6 +89,7 @@ export function BookingConfirmation({
       shown: true,
       publicKey: paystackKey,
       reference: Date.now().toString(),
+      // currency: "USD",
     }));
   }
 
@@ -296,6 +298,7 @@ export function BookingConfirmation({
             shown: false,
             publicKey: paystackKey,
             reference: Date.now().toString(),
+            // "currency": "USD",  
           }));
         }}
       />

@@ -69,7 +69,7 @@ export default function TravelPage({ events: initialEvents, search = false }: Tr
     <div className="pb-16 md:-mt-24 -mt-52 px-8 pt-8">
       <div id="travel" />
       <div className="max-w-[1400px] mx-auto">
-        {!search ? <h2 className="text-[42px]  md:leading-none leading-10 font-bold mb-8 font-onest black-100">
+        {!search ? <h2 className="lg:text-[42px] text-3xl md:leading-none leading-10 font-bold mb-8 font-onest black-100">
           <FormattedMessage id="eventTitle" />
         </h2>: null}
 

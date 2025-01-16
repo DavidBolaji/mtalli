@@ -22,6 +22,7 @@ import { Button } from '../button/button'
 import { useSearchParams } from 'next/navigation'
 import { isEmpty } from 'lodash'
 import { FormattedMessage } from 'react-intl'
+import { formatToNaira } from '@/utils/helper'
 
 interface BookingCardProps {
     pricePerPerson: number
@@ -44,7 +45,7 @@ export function BookingCard({
     otherFeeTooltip = "Additional charges",
     onBooking,
     maxGuests = 10,
-    currency = "₦",
+    // currency = "₦",
     mobile = false,
     discount = 0
 }: BookingCardProps) {
@@ -53,10 +54,6 @@ export function BookingCard({
     const guest = params.get("count") || 2
     const [guests, setGuests] = useState(+guest)
     const [agreed, setAgreed] = useState(isEdit || false)
-
-    const formatPrice = (amount: number) => {
-        return `${currency}${amount.toLocaleString()}`
-    }
 
     const waver = pricePerPerson * discount * 0.01;
 
@@ -67,7 +64,7 @@ export function BookingCard({
             <CardContent className="p-6 space-y-6 mt-10">
                 <div className="space-y-2">
                     <div className="text-2xl font-bold font-onest black-100 mb-8">
-                        {formatPrice(pricePerPerson)} {" "}
+                        {formatToNaira(pricePerPerson)} {" "}
                         <span className="text-sm font-medium black-200 fontb-onest">
                             <FormattedMessage id="eventCardPrice" />
                         </span>
@@ -116,7 +113,7 @@ export function BookingCard({
                                     </Tooltip>
                                 </TooltipProvider>
                             </div>
-                            <div className='font-onest black-100 font-semibold'>{formatPrice(serviceFee)}</div>
+                            <div className='font-onest black-100 font-semibold'>{formatToNaira(serviceFee)}</div>
                         </div>
 
                         <div className="flex justify-between items-center pb-4 font-medium gap-2 font-onest black-100">
@@ -134,7 +131,7 @@ export function BookingCard({
                                     </Tooltip>
                                 </TooltipProvider>
                             </div>
-                            <div className='font-onest black-100 font-semibold'>{formatPrice(otherFee)}</div>
+                            <div className='font-onest black-100 font-semibold'>{formatToNaira(otherFee)}</div>
                         </div>
 
                         <div className="flex justify-between items-center pb-4 font-medium gap-2 font-onest black-100">
@@ -159,7 +156,7 @@ export function BookingCard({
                             <div className="font-bold black-100 font-onest text-2xl">
                                 <FormattedMessage id="Total" />
                             </div>
-                            <div className="font-bold black-100 font-onest text-2xl">{formatPrice(total)}</div>
+                            <div className="font-bold black-100 font-onest text-2xl">{formatToNaira(total)}</div>
                         </div>
                     </div>
                 </div>

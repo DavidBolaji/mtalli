@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { parse, format, isSameMonth, isSameYear } from "date-fns";
+import { UserType } from "@/hooks/use-user";
+import { LogIn, LogOut, Map, User, UserPlus } from "lucide-react";
 // import { Order } from "@/components/table/orders-table/types";
 
 export function generateSixDigitCode() {
@@ -19,7 +21,8 @@ export const getQueryCategoryParams = (url: string) => {
 export const formatToNaira = (amount: number, dp?: number) => {
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
-    currency: "NGN",
+    currencyDisplay: "narrowSymbol",
+    currency: "USD",
     minimumFractionDigits: dp ?? 0,
   }).format(amount);
 };
@@ -99,3 +102,55 @@ export function formatDateRange(startDate?: Date, endDate?: Date): string {
     return `${startMonth} ${startDay}, ${startYear} - ${endMonth} ${endDay}, ${year}`;
   }
 }
+
+// Dropdown links for users
+export const dropdownLinks = (
+  user: UserType | null | undefined,
+  language: 'en' | 'fr',
+  logout?: () => void
+): { name: string; href: string; icon: any; onClick?: () => void }[] => {
+  // Text for guest links
+  const guestLinks = [
+    {
+      name: language === 'fr' ? 'Se Connecter' : 'Log In',
+      href: '/auth/login',
+      icon: LogIn,
+    },
+    {
+      name: language === 'fr' ? "S'inscrire" : 'Sign Up',
+      href: '/auth/register',
+      icon: UserPlus,
+    },
+  ];
+
+  // Text for user links
+  const userLinks = [
+    {
+      name: language === 'fr' ? 'Votre Profil' : 'Your Profile',
+      href: '/profile',
+      icon: User,
+    },
+    {
+      name: language === 'fr' ? 'Historique des Réservations' : 'Booking History',
+      href: '/history',
+      icon: Map,
+    },
+    {
+      name: language === 'fr' ? 'Déconnexion' : 'Sign Out',
+      href: '/sign-out',
+      icon: LogOut,
+      onClick: logout,
+    },
+  ];
+
+  // Text for common links
+  const commonLinks = [
+    {
+      name: language === 'fr' ? 'Demander une Destination' : 'Request a Destination',
+      href: '#',
+      icon: Map,
+    },
+  ];
+
+  return user ? [...userLinks, ...commonLinks] : [...guestLinks, ...commonLinks];
+};

@@ -11,6 +11,7 @@ import useEmblaCarousel from "embla-carousel-react"
 import { useRouter } from "next/navigation"
 import { useBookmark } from "@/hooks/use-bookmark"
 import { FormattedMessage } from "react-intl"
+import { formatToNaira } from "@/utils/helper"
 
 interface TravelCardProps {
   id?: string;
@@ -34,7 +35,7 @@ export default function TravelCard({
   endDate = new Date(),
   price = 0,
   discount,
-  currency = "₦",
+  // currency = "₦",
   className,
 }: TravelCardProps) {
   const { isBookmarked, addEvent, deleteEvent } = useBookmark()
@@ -57,9 +58,6 @@ export default function TravelCard({
     }).format(date)
   }
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US').format(price)
-  }
 
   const defaultImages = ["/placeholder.svg?height=300&width=400"]
   const displayImages = images.length > 0 ? images : defaultImages
@@ -160,7 +158,7 @@ export default function TravelCard({
       <CardFooter className="px-0 pt-0 -mt-4">
         <div className="flex flex-col">
           <div className="flex items-baseline gap-1">
-            <span className="text-xl black-100 font-bold">{currency}{formatPrice(price)}</span>
+            <span className="text-xl black-100 font-bold">{formatToNaira(price)}</span>
             <span className="text-[13.5px] black-200 font-onest font-medium">
             <FormattedMessage id="eventCardPrice" />
             </span>

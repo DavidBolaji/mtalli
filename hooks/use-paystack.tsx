@@ -14,6 +14,7 @@ export interface IPaystack {
   email: string;
   amount: number;
   publicKey: string;
+  currency: "USD" | "NGN"
 }
 
 export const usePaystack = () => {
@@ -26,7 +27,8 @@ export const usePaystack = () => {
       reference: Date.now().toString(),
       email: "",
       amount: 0 * 100,
-      publicKey: paystackKey
+      publicKey: paystackKey,
+      // currency: "USD",  
     });
   }
 

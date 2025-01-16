@@ -16,6 +16,7 @@ const PaymentComponent = ({onSuccess}: {onSuccess: () => void}) => {
   return (
     <PaystackConsumer
       amount={paystackModal?.amount || 0}
+      currency={paystackModal?.currency || "NGN"}
       email={paystackModal?.email || ""}
       publicKey={paystackModal?.publicKey || ""}
       reference={paystackModal?.reference || ""}

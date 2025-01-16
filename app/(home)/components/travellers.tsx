@@ -13,7 +13,7 @@ const destinations = [
 
 export default function TravellerPage() {
     return (
-        <div className="relative min-h-screen px-4 py-10 md:px-8 lg:-translate-y-40 -translate-y-72">
+        <div className="relative min-h-screen px-4 py-10 md:px-8 lg:-translate-y-40 -translate-y-80">
             {/* Wavy Background */}
             <div className="bg-gradient-to-t absolute left-0 h-full lg:h-[405px] w-full from-[#ff9a68] to-transparent" />
             <div className="absolute inset-x-0 lg:-bottom-40 -bottom-32 -z-10 transform rotate-180 ">
@@ -31,7 +31,7 @@ export default function TravellerPage() {
             </div>
 
             <div className="mx-auto max-w-7xl">
-                <h2 className="text-[41px] font-extrabold bg-transparent mb-14 md:leading-none leading-10 font-onest black-100 text-center">
+                <h2 className="lg:text-[41px] text-3xl font-extrabold bg-transparent mb-14 md:leading-none leading-10 font-onest black-100 text-center">
                 <FormattedMessage id="travellerTitle" />
                 </h2>
 
