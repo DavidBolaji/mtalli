@@ -1,25 +1,35 @@
 "use client";
 
 import { useField } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ToggleProps
   extends Omit<React.InputHTMLAttributes<HTMLButtonElement>, "type"> {
   name: string;
   label?: string;
+  valuez?: boolean;
 }
 
-export const Toggle: React.FC<ToggleProps> = ({ name, label }) => {
+export const Toggle: React.FC<ToggleProps> = ({ name, label, valuez }) => {
   const [, , helpers] = useField(name);
-  const [isEditing, setIsEditing] = useState<boolean>(true);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const handleSlide = () => {
     setIsEditing((prev: boolean) => {
-      console.log(!prev)
+      console.log(!prev);
       helpers.setValue(!prev);
       return !prev;
     });
   };
+
+  useEffect(() => {
+    console.log(valuez || true);
+    if (valuez) {
+      setIsEditing(valuez);
+    } else {
+      setIsEditing(false);
+    }
+  }, [valuez]);
 
   return (
     <div className="flex items-center space-x-2">

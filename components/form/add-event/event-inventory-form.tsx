@@ -1,4 +1,3 @@
-
 import { Toggle } from "@/components/input/toggle";
 import { IEvent } from "@/components/table/event-table/types";
 import { useQueryClient } from "@tanstack/react-query";
@@ -6,19 +5,20 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 
-type EventInventoryFormProps<T> = { 
-  btnRef?: React.RefObject<HTMLButtonElement>, 
-  event: IEvent | null | undefined,
-  keyz: string,
+type EventInventoryFormProps<T> = {
+  btnRef?: React.RefObject<HTMLButtonElement>;
+  event: IEvent | null | undefined;
+  keyz: string;
   type?: keyof T;
-}
+};
 
+export const EventInventoryForm = <T extends Record<string, any>>({
+  btnRef,
+  event,
+  keyz,
+}: EventInventoryFormProps<T>) => {
+  const queryClient = useQueryClient();
 
-export const EventInventoryForm = <T extends Record<string, any>>({btnRef, event, keyz}:
-  EventInventoryFormProps<T>
-) => {
-  const queryClient = useQueryClient()
- 
   return (
     <Formik
       initialValues={{
@@ -27,9 +27,9 @@ export const EventInventoryForm = <T extends Record<string, any>>({btnRef, event
       validate={(values: { status: boolean }) => {
         const errors = {};
         const { status } = values;
-      
+
         const obj = {
-          status
+          status,
         };
 
         queryClient.setQueryData([keyz], (old: T) =>
@@ -48,19 +48,29 @@ export const EventInventoryForm = <T extends Record<string, any>>({btnRef, event
       onSubmit={() => {}}
       enableReinitialize
     >
-      {({resetForm}) => (
+      {({ resetForm, values }) => (
         <Form className="">
           <div className="mb-6">
-            <Field as={Toggle} name="status" label="In active" />
+            <Field
+              as={Toggle}
+              name="status"
+              valuez={values.status}
+              label={values?.status ? "Active" : "Inactive"}
+            />
           </div>
-         
-          <button type="button" onClick={() => {
-            resetForm({
-              values: {
-                status: true
-              }
-            })
-          }} ref={btnRef} className="hidden"></button>
+
+          <button
+            type="button"
+            onClick={() => {
+              resetForm({
+                values: {
+                  status: true,
+                },
+              });
+            }}
+            ref={btnRef}
+            className="hidden"
+          ></button>
         </Form>
       )}
     </Formik>

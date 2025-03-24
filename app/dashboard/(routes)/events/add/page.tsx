@@ -1,7 +1,8 @@
-
 import AddEvent from "@/app/dashboard/components/add-event";
 import { Crumb } from "@/components/crumb/crumb";
 import React from "react";
+
+export const revalidate = 0;
 
 export default async function AddProductPage() {
   return (
