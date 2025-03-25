@@ -172,7 +172,7 @@ async function updateHandler(req: Request) {
   try {
     let eventz;
     let returnEvent;
-    db.$transaction(
+    await db.$transaction(
       async (tx) => {
         console.log("STARTED_DELETNG");
         // Delete existing images first
