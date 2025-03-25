@@ -251,7 +251,7 @@ async function updateHandler(req: Request) {
         }
         returnEvent = await getEvent(eventz.id);
       },
-      { timeout: 20000 }
+      { timeout: 50000 }
     );
 
     return NextResponse.json({
